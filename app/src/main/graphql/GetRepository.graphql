@@ -1,0 +1,7 @@
+mutation Mutation($data: UserLoginInput) {
+  armsLogin(data: $data) {
+    refresh_token
+    success
+    token
+  }
+}
