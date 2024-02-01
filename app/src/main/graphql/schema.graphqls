@@ -1,0 +1,7758 @@
+type AccessLevel {
+  id: ID
+  name: String
+  description: String
+  access_type: AccessLevelType
+  access_type_id: ID
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  deleted: Boolean
+  created_by: ID
+  updated_by: ID
+  deleted_by: ID
+  createdBy: User
+  updatedBy: User
+  deletedBy: User
+  permissions: JSON
+  assigned_employees: [User]
+}
+
+type AccessLevelType {
+  name: String!
+  description: String
+  access_levels: [AccessLevel]
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  deleted: Boolean
+  created_by: ID
+  updated_by: ID
+  deleted_by: ID
+}
+
+type AccruedDaysResponse {
+  totalAccumulated: Float
+  leaveDaysUsed: Float
+  activeAccrual: AccruedHistory
+  detailedAccrual: [AccruedHistory]
+  hr_addition: Float
+  hr_deduction: Float
+  carry_over_days: Float
+  on_leave: Boolean
+  active_policy: LeavePolicy
+  debt: Float
+  deductions: Float
+  type_count: [DaysUsedOnType]
+}
+
+type AccruedHistory {
+  leaveDaysAccrued: Float
+  leaveDaysUsed: Float
+  max_accrual: Float
+  position_id: ID
+  position: Position
+}
+
+type AccruedLeaves {
+  id: ID!
+  user_id: ID
+  accrued_days: Float
+  carry_over_days: Float
+  annual_days_used: Float
+  leave_policy: LeavePolicy
+  leave_policy_id: ID
+  hr_addition: Float
+  hr_deduction: Float
+  on_leave: Boolean
+  leave_types_used: [TypesUsed]!
+  updated_at: DateTime
+  is_carryover_executed: Boolean
+  user: User
+}
+
+input activateArmsUserInput {
+  user_id: Int
+  position: ID
+  department: String
+  user_type: String
+  comment: String
+  rehire_date: DateTime
+}
+
+input activateBioUserInput {
+  user_id: ID!
+  deleted: Boolean
+  delete_reason: String
+  delete_comment: String
+  deleted_date: String
+}
+
+type activity_goal {
+  temp_id: String
+  improvement_goals: improvement_goals
+  activity: String
+  how_to_accomplish: String
+  start_date: String
+  projected_completion_date: String
+}
+
+input activityGoalInput {
+  temp_id: String
+  improvement_goals: improvementGoalsInput
+  activity: String
+  how_to_accomplish: String
+  start_date: String
+  projected_completion_date: String
+}
+
+input addedUserToAccessInput {
+  id: ID!
+  assigned_employees: [Int]
+}
+
+input addedUserToEmployeeAccessInput {
+  id: ID!
+  assigned_employees: [Int!]
+}
+
+input addLeaveApprovalInput {
+  request_id: ID!
+  approval: Approval!
+  comments: String
+  approved_by: ID!
+}
+
+input AddLeaveCommentInput {
+  booked_leave_id: ID!
+  user_id: ID!
+  message: String!
+}
+
+input addMoreStaffToProjectInput {
+  project_id: Int
+  staff_id: Int
+  specialization_id: Int
+  seniority_level_id: Int
+}
+
+input addOrSubtractLeaveDaysInput {
+  user_id: ID!
+  hr_change: Float!
+  comment: String
+  addition: Boolean!
+}
+
+input AddSpecializationInput {
+  name: String
+  archive: Boolean
+  created_by: Int
+  skip: Int
+  take: Int
+}
+
+input AllAssessmentPagination {
+  take: Int
+  skip: Int
+}
+
+type AllClockItProjects {
+  page_count: Int
+  project_data: [ClockItProjects]
+}
+
+input allProjectClocksInput {
+  project_id: [Int]
+  start_date: String
+  end_date: String
+}
+
+type AllProjectStaffs {
+  page_count: Int
+  employee_data: [ClockItEmployeeBio]
+}
+
+type AppraisalResponse implements ResponseObject {
+  code: Int!
+  success: Boolean
+  message: String!
+}
+
+enum Approval {
+  APPROVED
+  PENDING
+  DENIED
+  DRAFT
+}
+
+type ApprovalFormat {
+  id: String
+  name: String
+  user_role: String
+  content: String
+  hours: String
+  approve_status: String
+  assessed_by: TimeTracker
+  billability_status: String
+}
+
+input ApproveLoanInput {
+  """comment"""
+  comment: String!
+
+  """signature string"""
+  signature: String!
+}
+
+type Approver {
+  """the order of Approvers"""
+  order: Int!
+  user_id: Int!
+
+  """Get the user"""
+  user: User
+  created_at: String
+  updated_at: String
+}
+
+type ApproverDetails {
+  order: ID
+  user: User!
+}
+
+input ApproveRequisitionRequestInput {
+  """The id of the user approving the request"""
+  user_id: Int!
+
+  """The id of the request"""
+  requisition_id: Int!
+
+  """comment"""
+  comment: String!
+
+  """signature"""
+  signature: String
+
+  """user Id of the HOP"""
+  hop_id: Int!
+}
+
+type Approvers {
+  id: ID
+  user_id: Int
+  user: User
+}
+
+input ApproversInput {
+  """The updated approver if the approval type is user based"""
+  user_id: ID
+
+  """The updated ordinal number of the approver"""
+  order: ID!
+  created_at: String
+  updated_at: String
+}
+
+input ArchiveAreasOfImprovementInput {
+  id: Int
+}
+
+input ArchiveInput {
+  id: ID!
+  updated_by: Int
+  archive: Boolean!
+}
+
+type AreasOfImprovement {
+  id: Int
+  user_id: Int
+  goals: String
+  strength: String
+  created_by: Int
+  created_at: String
+  deleted: Boolean
+  updated_at: String
+  updated_by: Int
+}
+
+type Arms {
+  name: String
+  email: String
+  status: String
+  encrypted_id: String
+  trainee__image: String
+  photo: String
+}
+
+input armsCreateNewPasswordInput {
+  email: String!
+  password: String!
+  old_password: String!
+}
+
+enum Assessment_Cycle {
+  One_Month
+  Two_Months
+  Three_Months
+  Six_Months
+}
+
+input assessment_group_type {
+  assessment_name: String
+  questionnaire_group_id: Int
+}
+
+type AssessmentCycle {
+  id: Int
+  assessment_cycle_name: String
+  assessment_description: String
+  assessment_status: Boolean
+  user_group: [UserGroup]
+  timelines: String
+  assessment_type: [AssessmentType]
+  updated_at: String
+  created_at: String
+  deleted_at: String
+  created_by: Int
+  updated_by: Int
+  deleted: Boolean
+}
+
+type AssessmentName {
+  assessment_name: String
+  user_id: Int
+  employees: [EmployeeDetails]
+}
+
+input AssessmentPagination {
+  take: Int
+  skip: Int
+  deleted: Boolean
+}
+
+type assessmentPeerDirectResultView {
+  employee_assessment_id: Int
+  peer: [employeeAssessmentPeerResultData]
+  direct: [employeeAssessmentPeerResultData]
+}
+
+type assessmentResultView {
+  employee: employeeAssessmentResultData
+  manager: managerAssessmentResultData
+}
+
+type AssessmentType {
+  id: Int
+  assessment_cycle_id: Int
+  assessment_type_name: String
+  peers: String
+  user_list: String
+  questionnaire_group_id: Int
+  checked: Boolean
+}
+
+type AssessmentTypeQuestionGroup {
+  id: Int
+  assessment_name: String
+  questionnaire_group_id: Int
+  new_msg: Boolean
+  employee_assessment_id: Int
+  date: String
+  status: Boolean
+  percentage: Int
+  employees: [EmployeeDetails]
+}
+
+input AssignedBillingOrganizationInput {
+  id: ID!
+  assigned_client_ids: [Int!]
+}
+
+type AssignedInvoiceClient {
+  _client: Client
+  id: ID!
+  name: String
+  logo: String
+  contract_type: ContractType!
+  invoice_aggregate: InvoiceAggregate!
+  status: InvoiceClientStatus
+  projects: [Project!]
+  number_of_projects: Int!
+  website: String
+  contact_person: [ClientContactPerson]
+  bank: ClientBank
+  address: ClientAddress
+}
+
+type AssignedInvoiceOrganization {
+  _organization: Client
+  id: ID!
+  name: String
+  logo: String
+  assigned_clients: [AssignedInvoiceClient!]
+  number_of_assigned_clients: Int
+  invoice_aggregate: InvoiceAggregate
+}
+
+type Attachment {
+  """Autogenerated id"""
+  id: Int!
+
+  """The requisition the attachment belongs to"""
+  requisition_id: Int
+
+  """The name of the file"""
+  file_name: String
+
+  """The link to the file"""
+  file_url: String
+}
+
+input AttachmentInput {
+  """The name of the file"""
+  file_name: String
+
+  """The link to the file"""
+  file_url: String
+}
+
+type AuthSmokeTestResponse {
+  uptime: String
+  success: String
+}
+
+type AvailableSlot {
+  name: String
+  specialization_id: Int
+  totalEmployeesRequired: Int
+  staff_count: Int
+  seniority_level: [Seniority_level]
+}
+
+type BackPay {
+  id: ID
+  amount: Float
+  paid_date: DateTime
+  user_id: Int
+  comment: String
+  reason: String
+  create_at: DateTime
+  updated_at: DateTime
+}
+
+input BankDetailsInput {
+  user_id: ID!
+}
+
+type basicReporting {
+  page_count: Int
+  clock_data: [TimeTracker]
+}
+
+input basicReportingInput {
+  skip: Int
+  take: Int
+  user_id: [Int]
+  project_id: [Int]
+  category_id: [Int]
+  assessed_status: String
+  start_date: String
+  end_date: String
+}
+
+type BatchLeavesInfo {
+  users_list: [AccruedLeaves]
+  on_site_count: Int
+  on_leave_count: [OnLeaveCount]
+}
+
+enum Billability_Status {
+  Billable
+  Not_Billable
+}
+
+type BookedLeaves {
+  id: ID!
+  status: Approval
+  days_off: Float
+  leave_policy: LeavePolicy
+  leave_policy_id: Int
+  user_id: ID
+  user: User
+  manager_id: ID
+  manager_approved: Approval
+  manager: User
+  country: String
+  days: [DateTime]
+  year: Int
+  touch_point_comments: [LeaveComment]
+  employee_detail: String
+  file: String
+}
+
+input BookLeaveInput {
+  user_id: ID!
+  leave_type_id: ID!
+  dates: [DateTime]!
+  duration: Float!
+  comments: String
+  employee_detail: String
+  file: String
+  is_hr_approved: Boolean
+  created_by: ID!
+}
+
+enum BooleanUndefined {
+  True
+  False
+  undefined
+}
+
+enum BooleanUndefinedAssessment {
+  Completed
+  UnCompleted
+  undefined
+}
+
+input bulkStaffConfirmationInput {
+  confirmationDetails: [staffConfirmationInput]
+}
+
+type CapApprover {
+  """auto generated id"""
+  id: Int!
+
+  """The user id of the person creating cap approver"""
+  created_by: Int!
+
+  """The user id of the person updating cap approver"""
+  updated_by: Int
+
+  """The user id of the approver"""
+  user_id: Int!
+
+  """The details of the approver"""
+  user_info: EmployeeBio!
+
+  """The least threshold amount"""
+  lower_limit: String!
+
+  """The highest threshold amount"""
+  upper_limit: String!
+
+  """The description of the cap approver"""
+  description: String
+
+  """currency type/name"""
+  currency: String!
+
+  """the status of the cap approver"""
+  is_active: Boolean
+
+  """The date of creation of the approver"""
+  created_at: String!
+
+  """The date the approver details was modified"""
+  updated_at: String!
+
+  """The date the approver details was deleted"""
+  deleted_at: String
+}
+
+input CareerAssessmentPagination {
+  career_name: String
+  deleted: BooleanUndefined
+  skip: Int
+  take: Int
+}
+
+type CareerDevelopmentPlan {
+  id: Int
+  course_name: String
+  start_date: String
+  end_date: String
+  status: String
+  user_id: Int
+  updated_by: Int
+  created_by: Int
+  deleted: Boolean
+}
+
+type Categories {
+  id: Int
+  category_name: String
+  description: String
+  created_at: String
+  created_by: Int
+  updated_at: String
+  updated_by: Int
+  deleted: Boolean
+  deleted_at: String
+  deleted_by: Int
+  project_based: Boolean
+  clock_time_tracker: TimeTracker
+}
+
+type Category {
+  """auto generated id"""
+  id: Int!
+
+  """The name of the category"""
+  category_name: String!
+
+  """The date the category was created"""
+  created_at: String
+
+  """The date the category was updated"""
+  updated_at: String
+}
+
+type cdc_assessment_department_id {
+  id: Int
+  department_id_name: String
+}
+
+input cdc_assessment_department_id_input {
+  id: Int
+  department_id_name: String
+}
+
+type cdc_assessment_position_id {
+  id: Int
+  position_id_name: String
+}
+
+input cdc_assessment_position_id_input {
+  id: Int
+  position_id_name: String
+}
+
+type cdc_assessment_questionnaire_id {
+  id: Int
+  questionnaire_id_name: String
+}
+
+input cdc_assessment_questionnaire_id_input {
+  id: Int
+  questionnaire_id_name: String
+}
+
+type cdc_assessment_skills_id {
+  id: Int
+  skills_id_name: String
+}
+
+input cdc_assessment_skills_id_input {
+  id: Int
+  skills_id_name: String
+}
+
+type cdc_assessment_timeline_id {
+  id: Int
+  timeline_id_name: String
+}
+
+input cdc_assessment_timeline_id_input {
+  id: Int
+  timeline_id_name: String
+}
+
+type cdc_assessment_types {
+  id: Int
+  assessment_name: String
+  description: String
+  project_based: Boolean
+  timeline: cdc_assessment_timeline_id
+  department: [cdc_assessment_department_id]
+  position: [cdc_assessment_position_id]
+  skills: [cdc_assessment_skills_id]
+  questionnaire: cdc_assessment_questionnaire_id
+  created_by: Int
+  created_at: DateTime
+  updated_by: Int
+  updated_at: DateTime
+  deleted: Boolean
+}
+
+type cdc_timelines {
+  id: Int
+  timeline_name: String
+  description: String
+  assessment_date: String
+  timeline_type: Boolean
+  updated_by: Int
+  created_by: Int
+  updated_at: String
+  created_at: String
+  deleted: Boolean
+}
+
+input CDCAssessmentPagination {
+  assessment_name: String
+  deleted: BooleanUndefined
+  skip: Int
+  take: Int
+}
+
+input CDCRecommendationInput {
+  performance_result_id: Int!
+  summary_comment: FormattedText
+  client_ready: Boolean
+  promotion_type: String
+  cdc_promotion_type: String
+  user_update_cdc_id: Int
+}
+
+type Celebration {
+  user_id: Int
+  user: User
+  birthday: DateTime
+  anniversary: DateTime
+}
+
+input changePasswordInput {
+  token: String
+  email: String!
+  password: String!
+}
+
+type Client {
+  id: ID
+  logo: String
+  client_name: String
+  archive: Boolean
+  description: String
+  parent_id: Int
+  currency: String
+  website: String
+  isOrganization: Boolean
+  created_at: String
+  created_by: Int
+  created_by_user: User
+  updated_at: String
+  update_by: Int
+  updated_by_user: User
+  address: ClientAddress
+  bank: ClientBank
+  contact_person: [ClientContactPerson]
+  parent_client: Client
+  children_client: [Client]
+  projects: [Project]
+  offices: [Office]
+  business_manager_id: Int
+  business_manager: User
+  technical_manager_id: Int
+  technical_manager: User
+  activeClientProjectsCount: Int
+  totalStaffOnProject: Int
+  billableStaffOnProject: Int
+  availableSlots: Int
+  requiredStaff: Int
+}
+
+type client_assessment {
+  id: ID
+  assessment_cycle: Assessment_Cycle
+  client_review_options: Boolean
+  manager_assessment: Boolean
+  client_assessment: Boolean
+  peer_assessment: Boolean
+  manager_form_id: Int
+  client_form_id: Int
+  peer_form_id: Int
+  config_id: Int
+  created_at: String
+}
+
+type ClientAddress {
+  id: ID!
+  client_id: Int
+  country: String
+  state_region: String
+  city: String
+  street_address: String
+  zip_code: String
+  time_zone: String
+  client: Client
+}
+
+type ClientApprover {
+  id: Int
+  contract_id: Int
+  approved: Boolean
+  decline_comment: String
+  contract: Contract
+}
+
+type ClientBank {
+  id: ID
+  bank_name: String
+  account_name: String
+  account_number: String
+  branch: String
+  swift_key: String
+  client_id: Int
+  client: Client
+}
+
+type ClientContactPerson {
+  id: ID!
+  name: String
+  phone: String
+  email: String
+  client_id: Int
+  client: Client
+}
+
+input ClientInput {
+  id: ID
+  client_name: String
+  description: String
+  parent_id: Int
+  currency: String
+  time_zone: String
+  website: String
+  logo: String
+  isOrganization: Boolean
+  created_by: Int
+  update_by: Int
+  country: String
+  archive: Boolean
+  state_region: String
+  city: String
+  street_address: String
+  zip_code: String
+  bank_name: String
+  account_name: String
+  account_number: String
+  branch: String
+  swift_key: String
+  contact_person: [ContactPersonInput]
+  business_manager_id: Int
+  technical_manager_id: Int
+  skip: Int
+  take: Int
+  orderDirection: OrderDirection
+}
+
+type ClientWithCount {
+  client: [Client]
+  count: Int
+}
+
+type ClockConfiguration {
+  id: Int
+  working_days: JSON
+  working_start_time: String
+  working_end_time: String
+  working_capacity: String
+  overtime_capacity: Int
+  overtime_state: Boolean
+  lock_day: String
+  lunch_break: Int
+  created_at: String
+  created_by: Int
+  updated_at: String
+  updated_by: Int
+}
+
+input clockConfigurationInput {
+  id: Int!
+  working_days: JSON
+  working_start_time: String
+  working_end_time: String
+  lock_day: String
+  lunch_break: Int
+  working_capacity: String
+  overtime_capacity: Int
+  overtime_state: Boolean
+  updated_by: Int
+}
+
+type ClockItEmployeeBio {
+  id: Int
+  user_id: Int
+  first_name: String
+  last_name: String
+  other_name: String
+  full_name: String
+  profile_image: String
+  deleted: Boolean
+  created_at: String
+  created_by: Int
+  updated_at: String
+  updated_by: Int
+  employee_contacts: ClockItEmployeeContact
+  project_staffs: ClockItProjectStaffs
+}
+
+input clockItEmployeeBioInput {
+  skip: Int
+  take: Int
+  project_id: Int
+}
+
+type ClockItEmployeeContact {
+  id: Int
+  user_id: Int
+  work_email: String
+  phone_number_1: String
+}
+
+type ClockItEmployeeInfos {
+  id: Int
+  user_id: Int
+  position_id: Int
+  positions: ClockItEmployeePositions
+}
+
+type ClockItEmployeePositions {
+  id: Int
+  position_name: String
+}
+
+type ClockItProjects {
+  id: Int
+  name: String
+  client_id: Int
+  business_manager_id: Int
+  technical_manager_id: Int
+  project_confirmation_status: Boolean
+  project_status: String
+  project_staffing_status: String
+  start_date: String
+  end_date: String
+  archive: Boolean
+  created_at: String
+  archived_at: String
+  created_by: Int
+  updated_at: String
+  updated_by: Int
+}
+
+input clockItProjectsInput {
+  skip: Int
+  take: Int
+  project_status: String
+  start_date: String
+  end_date: String
+}
+
+type ClockItProjectStaffs {
+  id: Int
+  user_id: Int
+  project_id: Int
+  project_hours: Int
+  billability_status: String
+  confirmation_status: String
+  role: String
+  active: Boolean
+  project_start_date: String
+  project_end_date: String
+}
+
+type Competencies {
+  id: ID!
+  competency_name: String
+  competency_description: String
+  criteria: String
+  justify_minimum_value: Int
+  justify_maximum_value: Int
+  updated_at: String
+  created_at: String
+  created_by: ID
+  deleted: Boolean
+  updated_by: ID
+  competency_status: Boolean
+  deleted_at: String
+}
+
+input CompetencyAssessmentPagination {
+  assessment_competency_name: String
+  deleted: BooleanUndefined
+  skip: Int
+  take: Int
+}
+
+type CompletionStatus {
+  status: Boolean
+}
+
+enum Confirmation_Status {
+  Confirmed
+  Unconfirmed
+}
+
+input ContactPersonInput {
+  name: String
+  email: String
+  phone: String
+}
+
+type Contract {
+  id: ID
+  contract_id: String
+  organization_id: Int
+  organization_name: String
+  organization: Client
+  client_id: Int
+  client: Client
+  contract_name: String
+  effective_date: String
+  end_date: String
+  discount: Float
+  training_required: Boolean
+  training_discount: Float
+  training_duration: String
+  rate_type: String
+  rate_per_project: Float
+  status: ContractStatus
+  contract_skills: [Int]
+  created_at: String
+  created_by: Int
+  createdBy: User
+  updated_at: String
+  update_by: Int
+  UpdatedBy: User
+  archive: Boolean
+  archived_at: String
+  resources: [ContractResources]
+  training_skill: [ContractTrainingSkills]
+  ContractTemplates: ContractTemplate
+  ContractApprover: ContractApprover
+  ClientApprover: ClientApprover
+  supplier: Int
+  supplier_info: Client
+  contract_type: ContractType
+  contract_folder: [ContractFolder]
+}
+
+type ContractApprover {
+  id: ID
+  contract_id: Int
+  approved: Boolean
+  approved_by: Int
+  approvedBy: User
+  approved_at: String
+  decline_comment: String
+  contract: Contract
+}
+
+input ContractApproverInput {
+  contract_id: Int
+  approved: Boolean
+  approved_by: Int
+  approved_at: String
+  decline_comment: String
+  approver_signature: String
+  recipient_name: String
+  recipient_email: String
+  client_name: String
+  user_id: Int
+  approved_status: Boolean
+}
+
+type ContractByClient {
+  summary: ContractByClientSummary
+  contracts_data: [ContractByClientData]
+}
+
+type ContractByClientData {
+  client_id: Int
+  client: Client
+  organization_id: Int
+  organization: Client
+  number_of_contracts: Int
+  pending_contracts: Int
+  pending_internal_approval: Int
+  pending_client_approval: Int
+  draft_contracts: Int
+}
+
+type ContractByClientSummary {
+  confirmed: Int
+  unconfirmed: Int
+}
+
+type ContractComment {
+  id: ID!
+  contract_id: Int
+  contract: Contract
+  commenter_id: Int
+  commenter_info: User
+  comment: String
+}
+
+input ContractCommentInput {
+  contract_id: Int
+  commenter_id: Int
+  comment: String
+  recipient_mail: String
+  recipient_name: String
+}
+
+enum ContractFileType {
+  Statement_of_Work
+  Professional_Service_Agreement
+  Other_Files
+}
+
+type ContractFolder {
+  id: ID
+  folder_name: String
+  description: String
+  contract_id: Int
+  contract: Contract
+  files: [File]
+  created_at: String
+  updated_at: String
+}
+
+input ContractInput {
+  id: Int
+  contract_id: String
+  organization_id: Int
+  organization_name: String
+  client_id: Int
+  contract_name: String
+  effective_date: String
+  end_date: String
+  discount: Float
+  contract_type: ContractType
+  training_required: Boolean
+  training_discount: Float
+  training_duration: String
+  rate_type: String
+  rate_per_project: Float
+  status: ContractStatus
+  created_at: String
+  created_by: Int
+  updated_at: String
+  update_by: Int
+  archive: Boolean
+  resources: [resourcesInput]
+  training_skills: [contractSkillsInput]
+  templates: contractTemplateInput
+  suppliers: [Int]
+  supplier_id: Int
+  file_urls: fileUrlsInput
+  contract_skills: [Int]
+  skip: Int
+  take: Int
+}
+
+type ContractResources {
+  id: ID
+  contract_id: Int
+  resource_name: String
+  specialization_id: Int
+  seniority_level_id: Int
+  rate_amount: Float
+  employees_required: Int
+  contract: Contract
+}
+
+type ContractsForClient {
+  client_id: Int
+  client: Client
+  contracts: [Contract]
+  count: Int
+  summary: ContractsForClientSummary
+}
+
+type ContractsForClientSummary {
+  confirmed: Int
+  unconfirmed: Int
+}
+
+input contractSkillsInput {
+  id: Int
+  contract_id: Int
+  skill_id: Int
+  skill_name: String
+}
+
+enum ContractStatus {
+  Confirmed
+  Approver_Pending
+  Client_Pending
+  Pending_Action
+  Declined
+  Draft
+}
+
+type ContractTemplate {
+  id: ID
+  contract_id: Int
+  statement_of_work: String
+  project_fees: String
+  introduction: String
+  working_terms: String
+  feature_implementation: String
+  agreement_note: String
+  duration_of_service: String
+  resource_and_changes: String
+  terms_of_payment: String
+  party_authorization: String
+  approver_signature: String
+  client_signature: String
+  annex: String
+  engagement_of_resource: String
+  solution: String
+  resource_and_charges: String
+}
+
+input contractTemplateInput {
+  id: Int
+  contract_id: Int
+  statement_of_work: String
+  project_fees: String
+  introduction: String
+  working_terms: String
+  feature_implementation: String
+  agreement_note: String
+  duration_of_service: String
+  resource_and_changes: String
+  terms_of_payment: String
+  party_authorization: String
+  approver_signature: String
+  client_signature: String
+  annex: String
+  engagement_of_resource: String
+  solution: String
+  resource_and_charges: String
+}
+
+type ContractTrainingSkills {
+  id: ID
+  contract_id: Int
+  skill_id: Int
+  skill_name: String
+  contract: Contract
+}
+
+enum ContractType {
+  Client
+  Supplier
+}
+
+type ContractWIthCount {
+  contracts: [Contract]
+  count: Int
+}
+
+input createAccessLevelInput {
+  name: String!
+  description: String
+  assigned_employees: [ID]
+  access_type: ID!
+  created_by: ID!
+  permissions: JSON!
+}
+
+input createAccessLevelTypeInput {
+  name: String!
+  description: String
+  created_by: ID!
+}
+
+input createAppraisalInput {
+  user_id: ID
+  goals: String
+  strengths: String
+}
+
+input CreateAreasOfImprovementInput {
+  user_id: Int
+  goals: String
+  strength: String
+  created_by: Int
+}
+
+input CreateAssessmentCycleInput {
+  assessment_cycle_name: String!
+  assessment_status: Boolean
+  assessment_description: String
+  timelines: String
+  assessment_type: [[CreateAssessmentTypeInput]]
+  user_group: [[CreateUserGroupInput]]
+  created_by: Int
+}
+
+input CreateAssessmentTypeInput {
+  id: Int
+  assessment_cycle_id: Int
+  assessment_type_name: String
+  questionnaire_group_id: String
+  user_list: String
+  checked: Boolean
+  peers: String
+}
+
+input CreateBatchHolidaysInput {
+  title: String!
+  start_day: String!
+  country: String!
+}
+
+input CreateCapApproverInput {
+  """The user id of the person creating cap approver"""
+  created_by: Int!
+
+  """The id of the cap approver"""
+  user_id: Int!
+
+  """The least threshold amount"""
+  lower_limit: Float!
+
+  """The highest threshold amount"""
+  upper_limit: Float!
+
+  """currency of the threshold amount"""
+  currency_id: Int!
+
+  """The description of the cap approver"""
+  description: String
+}
+
+type CreateCapApproverResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Approver List"""
+  data: CapApprover
+}
+
+input CreateCareerDevelopmentPlanInput {
+  course_name: String
+  start_date: String
+  end_date: String
+  status: String
+  user_id: Int
+  created_by: Int
+}
+
+input createCategoryInput {
+  category_name: String!
+  description: String
+  created_by: Int
+  project_based: Boolean
+}
+
+input CreateCdcAssessmentInput {
+  assessment_name: String
+  description: String
+  project_based: Boolean
+  timeline: cdc_assessment_timeline_id_input
+  department: [cdc_assessment_department_id_input]
+  position: [cdc_assessment_position_id_input]
+  skills: [cdc_assessment_skills_id_input]
+  questionnaire: cdc_assessment_questionnaire_id_input
+  created_by: Int
+}
+
+input CreateCdcTimelinesInput {
+  timeline_name: String
+  description: String
+  assessment_date: String
+  timeline_type: Boolean
+  created_by: Int
+  created_at: String
+}
+
+input CreateCompetenciesInput {
+  competency_name: String!
+  competency_description: String
+  competency_status: Boolean
+  criteria: String
+  justify_minimum_value: Int
+  justify_maximum_value: Int
+  created_by: Int
+}
+
+input CreateDepartmentInput {
+  department_name: String!
+  description: String
+  parent_department: String
+  user_id: Int
+  codename: String!
+}
+
+input createDevelopmentPlanInput {
+  user_id: ID
+  course_name: String
+  start_date: DateTime
+  end_date: DateTime
+  status: String
+}
+
+input CreateDocumentsInput {
+  folder_name: String!
+  created_by: ID!
+}
+
+input CreateEducationInformationInput {
+  user_id: ID!
+  institution_name: String!
+  start_date: String!
+  end_date: String
+  qualification: String!
+  major_specialization: String!
+}
+
+input createEmployeeAccessLevelInput {
+  name: String!
+  description: String
+  assigned_employees: [ID]
+  created_by: ID!
+  permissions: JSON!
+}
+
+input CreateEmployeeAddressInput {
+  user_id: Int!
+  postal_address: String
+  street_address: String
+  city: String
+  province_state: String
+  digital_address: String
+  country: String
+}
+
+input createEmployeeBackPayInput {
+  amount: Float
+  paid_date: String
+  user_id: Int
+  comment: String
+  reason: String
+}
+
+input CreateEmployeeBankDetailsInput {
+  user_id: ID!
+  bank_name: String!
+  branch: String!
+  account_name: String!
+  account_number: String!
+  sort_code: String!
+}
+
+input createEmployeeBenefitInput {
+  user_id: Int
+  name_of_benefit: String
+  amount: String
+  date: DateTime
+}
+
+input CreateEmployeeBioInput {
+  user_id: Int!
+  title: String
+  dob: String
+  gender: String
+  nationality: String
+  marital_status: String
+  place_of_birth: String
+  first_name: String
+  last_name: String
+  other_name: String
+  full_name: String
+  short_bio: String
+  created_by: ID!
+  profile_image: String
+}
+
+input CreateEmployeeContactInput {
+  user_id: ID
+  work_email: String
+  personal_email: String
+  phone_number_1: String
+  created_by: ID
+}
+
+input CreateEmployeeEmergencyContactInput {
+  user_id: ID!
+  name: String!
+  relationship: String!
+  phone_number: String!
+  postal_address: String
+  digital_address: String
+  country_of_residence: String
+  country_initial: String
+  state_region: String
+  state_region_initial: String
+  city_of_residence: String
+  email: String
+}
+
+input CreateEmployeeFamilyContactInput {
+  user_id: ID!
+  name_of_contact: String!
+  relationship: String!
+  phone_number: String!
+  email: String
+  country: String
+  country_initial: String
+  state_region: String
+  state_region_initial: String
+  city_of_residence: String
+  postal_address: String
+  digital_address: String
+  next_of_kin: Boolean
+}
+
+input CreateEmployeeIdentificationInput {
+  user_id: ID!
+  type: String!
+  identification_number: String!
+}
+
+input CreateEmployeeInfoInput {
+  user_id: Int
+  department_id: Int!
+  employee_id: String!
+  position_id: Int!
+  location_id: Int
+  effective_date: String
+  employee_type_id: Int
+  bios_id: Int
+  starting_date: String
+  manager_id: Int!
+  created_by: ID!
+  active: Boolean
+  end_date: String
+  payroll_id: String
+  specialization_id: ID
+  secondary_specialization_id: Int
+  cdc_advisor_id: ID
+  organization_id: Int
+  organization_name: String
+  office_id: Int
+  office_name: String
+  generate_new_employee_id: Boolean
+  id_prefix: String
+}
+
+input CreateEmployeeSalaryInput {
+  user_id: Int!
+  salary_name: String
+  reason: String!
+  salary_amount: Float
+  effective_date: String
+  pay_type: String
+  pay_schedule: String
+  pay_rate: String
+  comments: String
+  created_by: ID
+  active: Boolean
+  end_date: String
+  ssnit_contributor: Boolean
+  tax_relief: Float
+}
+
+input CreateEmployeeSkillsInput {
+  user_id: ID!
+  skill_level: String
+  proof: String
+  skill_id: ID!
+  specialization_id: ID!
+  skill_name: String!
+}
+
+input CreateEmployeeStatusInput {
+  id: ID
+  user_id: Int!
+  employee_type_id: Int!
+  comment: String
+  effective_date: String!
+  created_by: Int!
+  active: Boolean
+}
+
+input CreateEmployeeTypeInput {
+  id: ID
+  name: String
+  description: String
+}
+
+input CreateHolidayInput {
+  title: String!
+  description: String
+  start_day: String!
+  end_day: String
+  country: String!
+}
+
+input createIdPrefixInput {
+  prefix_name: String!
+  prefix_description: String!
+}
+
+input CreateInvoiceAgentConfigInput {
+  title: String!
+  contract_type: ContractType!
+  description: String
+  assigned_billing_organizations: [AssignedBillingOrganizationInput!]!
+  assigned_invoice_agent_ids: [Int!]!
+  created_by: Int!
+}
+
+input CreateInvoiceInput {
+  project_id: ID!
+  project_name: String!
+  project_number: Int!
+  client_id: ID!
+  terms: String!
+  default_currency: CurrencyEnum!
+  converted_currency: CurrencyEnum!
+  conversion_rate: Float!
+  start_date: String!
+  end_date: String!
+  discount: Float!
+  sub_total: Float!
+  balance: Float!
+  resources: [ResourceInput!]
+  adjustments: [InvoiceAdjustmentInput!]
+  hidden_columns: [InvoiceColumnEnum!]
+  address1: String
+  address2: String
+  address3: String
+  language: InvoiceLanguageEnum!
+}
+
+input CreateLeavePolicyInput {
+  title: String!
+  description: String
+  leave_type_id: ID!
+  max_accrual: String!
+  carry_over: String!
+  carry_over_expiry: String!
+  can_negate: Boolean!
+  is_archived: Boolean
+  position_id: [ID]!
+  user_id: ID
+}
+
+input CreateLeaveTypeInput {
+  title: String!
+  description: String
+  organization_id: ID!
+  leave_policy: [ID]
+}
+
+type CreateLoanApprovalStructureResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Approver List"""
+  data: [Approver]
+}
+
+type CreateLoanFormResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Approver List"""
+  data: LoanForms
+}
+
+type CreateLoanRequestResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Newly created loan details"""
+  loan: Loan
+}
+
+type CreateLoanTypeResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Newly created loan details"""
+  data: LoanType
+}
+
+input CreateLocationInput {
+  branch_name: String
+  country_name: String
+  state_region: String
+  town: String
+  country_initials: String
+  state_region_initials: String
+}
+
+input createManagerCommentInput {
+  manager_id: ID
+  title: String
+  comment: String
+  user_id: ID
+}
+
+input createManagerCommentInputs {
+  title: String
+  comment: FormattedText
+  user_id: Int
+  manager_id: Int
+}
+
+input createNewEmployeeInput {
+  user_id: Int!
+  gender: String
+  nationality: String
+  first_name: String!
+  last_name: String!
+  other_name: String
+  work_email: String!
+  personal_email: String
+  department_id: Int!
+  employee_id: String!
+  position_id: Int!
+  location_id: Int
+  organization_id: Int
+  organization_name: String
+  office_id: Int
+  office_name: String
+  employee_type_id: Int!
+  starting_date: String!
+  manager_id: Int
+  active: Boolean
+  payroll_id: String
+  salary_amount: Float
+  created_by: ID
+  specialization_id: ID
+  access_level_id: Int
+  end_date: String
+}
+
+input createNewPasswordInput {
+  email: String!
+  password: String!
+  old_password: String!
+}
+
+input createNoteInput {
+  title: String
+  body: String
+  user_id: ID!
+  created_by: ID!
+}
+
+input createOnboardingPacketInput {
+  user_id: Int!
+  personal_email: String!
+  reporting_date: String!
+  reporting_time: String!
+  contact_person_id: Int!
+  manager_id: Int!
+  packet_current_step: Int
+  packet_last_step: Int
+  additional_info: String
+  created_by: Int!
+  office_id: Int!
+  organization_id: Int!
+}
+
+input CreatePerformanceImprovementPlanInput {
+  user_id: Int
+  employee_id: Int
+  pip_name: String
+  areas_of_concern: String
+  observation: String
+  improvement_goals: [improvementGoalsInput]
+  activity_goals: [activityGoalInput]
+  resources: [resourcesInputs]
+  expectations: [expectationsInput]
+  management_support: [managementSupportInput]
+  progress_check_points: [progressCheckPointsInput]
+  follow_up: [followUpInput]
+  employee_signature: [SignPIPInput]
+  manager_signature: [SignPIPInput]
+  draft: Boolean
+  deleted: Boolean
+  created_at: String
+}
+
+input CreatePermissionInput {
+  id: ID!
+  permission_name: String!
+}
+
+input CreatePositionInput {
+  position_name: String!
+  department_id: Int
+  description: String
+}
+
+input CreateProcurementAccessLevelInput {
+  """name of access level"""
+  name: String!
+
+  """description of access level"""
+  description: String
+
+  """the id of the user creating"""
+  created_by: Int
+
+  """ list of permissions"""
+  permissions: JSON!
+
+  """list of assigned user_ids"""
+  assigned_users: [Int]
+}
+
+type CreateProcurementAccessLevelResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation is successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """access level data"""
+  data: ProcurementAccessLevel
+}
+
+input CreateProcurementProformaInvoiceInput {
+  """invoice url"""
+  invoice_url: String
+
+  """invoice file name"""
+  invoice_name: String
+
+  """request id"""
+  requisition_id: Int
+
+  """supplier id"""
+  supplier_id: Int
+}
+
+type CreateProcurementProformaInvoiceResponse implements MutationResponse {
+  """status code"""
+  code: Int!
+
+  """boolean to check success"""
+  success: Boolean!
+
+  """returned message"""
+  message: String!
+
+  """returned data"""
+  data: ProcurementProformaInvoice
+}
+
+input CreateProcurementPurchaseOrderInput {
+  """the supplier id"""
+  supplier_id: Int!
+
+  """the requested item name"""
+  item_requested: String!
+
+  """generated quick books ref no"""
+  ref_no: String
+
+  """request id"""
+  requisition_id: Int
+}
+
+input CreateProcurementSummaryReportInput {
+  """selected proforma invoice id"""
+  proforma_invoice_id: Int
+
+  """summary report url"""
+  report_url: String
+
+  """summary report file name"""
+  report_name: String
+
+  """request id"""
+  requisition_id: Int
+}
+
+type CreateProcurementSummaryReportResponse implements MutationResponse {
+  """status code"""
+  code: Int!
+
+  """boolean to check success"""
+  success: Boolean!
+
+  """returned message"""
+  message: String!
+
+  """returned data"""
+  data: ProcurementSummaryReport
+}
+
+type CreateProcurmentPurchaseOrderResponse implements MutationResponse {
+  """status code"""
+  code: Int!
+
+  """boolean to check success"""
+  success: Boolean!
+
+  """returned message"""
+  message: String!
+
+  """returned data"""
+  data: ProcurementPurchaseOrder
+}
+
+input CreateQuestionInfoInput {
+  questionnaire_title: String!
+  questionnaire_description: String
+  competency_based: Boolean
+  questions: [[CreateQuestionsGroupInput]]
+  created_by: Int
+}
+
+input CreateQuestionsGroupInput {
+  questionnaire_group_id: Int
+  questionnaire_id: String
+  competency_id: Int
+  question: String
+  question_id: String
+  required_field: Boolean
+  options_type: String
+  minimum_score: String
+  maximum_score: String
+}
+
+input createSeniorityLevelInput {
+  name: String!
+  position_ids: [ID]
+  created_by: ID
+}
+
+input CreateSocialMediaHandleInput {
+  user_id: ID!
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
+}
+
+input createSongInput {
+  song_name: String
+  song_url: String
+  created_by: Int
+}
+
+input createTaskInput {
+  user_id: Int
+  task_name: String
+  category_id: Int
+  project_id: Int
+  start_time: String
+  duration: String
+  date: String
+}
+
+input createTimeInput {
+  user_id: Int
+  task_name: String
+  project_id: Int
+  category_id: Int
+  start_time: String
+  end_time: String
+  date: String
+}
+
+input CreateUserDocumentInput {
+  folder_name: String
+  user_id: ID
+}
+
+input CreateUserFolderFile {
+  file_name: String
+  file_url: String
+  document_id: ID
+  created_by: ID
+}
+
+input CreateUserGroupInput {
+  assessment_cycle_id: Int
+  department_id: [InputPerformance_department_list]
+  employee_type_id: [InputPerformance_employee_list]
+  position_id: [InputPerformance_position_list]
+  location_id: [InputPerformance_location_list]
+}
+
+type Currency {
+  """Autogenerated id"""
+  id: Int!
+
+  """The shorthand of the currency, eg USD"""
+  type: String!
+
+  """The timestamp the currency was added"""
+  created_at: String
+
+  """The timestamp the currency was updated"""
+  updated_at: String
+}
+
+enum CurrencyEnum {
+  EUR
+  USD
+  GHS
+  RWF
+}
+
+input CurrencyRateInput {
+  currency: CurrencyEnum!
+  rate: Float!
+}
+
+type CurrentAssessmentDate {
+  cdc_date: String
+  competency_list: [String]
+  employee_evaluation: [Float]
+  manager_evaluation: [Float]
+}
+
+type CurrentAssessmentResult {
+  competency_list: [String]
+  employee_evaluation: [Float]
+  manager_evaluation: [Float]
+}
+
+input DateInput {
+  """The start date of the loan"""
+  start_date: String
+
+  """The end date of the loan"""
+  end_date: String
+}
+
+scalar DateTime
+
+enum DayRange {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+type DaysUsedOnType {
+  leave_type: LeaveType
+  days_off: Float
+}
+
+input deactivateArmsUserInput {
+  user_id: Int
+  position: ID
+  department: String
+  user_type: String
+  comment: String
+  rehire_date: DateTime
+}
+
+input deactivateBioUserInput {
+  user_id: ID!
+  deleted: Boolean
+  delete_reason: String
+  delete_comment: String
+  deleted_date: String
+}
+
+input deactivateUserInput {
+  id: ID!
+  deleted_date: DateTime!
+  delete_reason: String
+  delete_comment: String
+}
+
+input deleteAppraisalInput {
+  user_id: String
+}
+
+input deleteCategoryInput {
+  id: Int
+  deleted_by: Int
+}
+
+input deleteCompanyFileInput {
+  id: ID!
+  deleted_by: ID
+  delete_for_users: Boolean
+}
+
+input DeleteDepartmentInput {
+  id: ID!
+}
+
+input DeleteEducationInformationInput {
+  id: ID!
+  user_id: ID!
+}
+
+input DeleteEmployeeAddressInput {
+  id: Int!
+}
+
+input DeleteEmployeeBankDetailsInput {
+  user_id: ID!
+}
+
+input DeleteEmployeeBioInput {
+  id: ID!
+}
+
+input DeleteEmployeeContactInput {
+  id: ID!
+}
+
+input DeleteEmployeeEmergencyContactInput {
+  id: ID!
+  user_id: ID!
+}
+
+input DeleteEmployeeFamilyContactInput {
+  id: ID!
+  user_id: ID!
+}
+
+input deleteEmployeeIdentificationInput {
+  id: ID!
+  user_id: ID!
+}
+
+input DeleteEmployeeInfoInput {
+  id: ID!
+  user_id: ID!
+}
+
+input DeleteEmployeeSalaryInput {
+  id: ID!
+  user_id: ID!
+}
+
+input DeleteEmployeeSkillsInput {
+  id: ID!
+  user_id: ID!
+}
+
+input DeleteEmployeeStatusInput {
+  id: ID
+  user_id: ID!
+}
+
+input DeleteEmployeeTypeInput {
+  id: ID!
+}
+
+input DeleteIdPrefixInput {
+  id: ID!
+}
+
+type DeleteLoanResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+}
+
+input DeleteLocationInput {
+  id: ID!
+}
+
+input deleteManagerCommentInput {
+  manager_id: ID
+  title: String
+  comment: String
+  user_id: String
+}
+
+input deleteNoteInput {
+  user_id: ID!
+  id: ID!
+}
+
+input DeletePermissionInput {
+  id: ID!
+}
+
+input DeletePositionInput {
+  id: ID!
+}
+
+type DeleteProcurementAccessLevelResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation is successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+}
+
+type DeleteProcurementProformaInvoiceResponse implements MutationResponse {
+  """status code"""
+  code: Int!
+
+  """boolean to check success"""
+  success: Boolean!
+
+  """returned message"""
+  message: String!
+}
+
+type DeleteProcurementSummaryReportResponse implements MutationResponse {
+  """status code"""
+  code: Int!
+
+  """boolean to check success"""
+  success: Boolean!
+
+  """returned message"""
+  message: String!
+}
+
+type DeleteProcurmentPurchaseOrderResponse implements MutationResponse {
+  """status code"""
+  code: Int!
+
+  """boolean to check success"""
+  success: Boolean!
+
+  """returned message"""
+  message: String!
+}
+
+input DeleteSocialMediaHandleInput {
+  id: ID!
+}
+
+input deleteUserFileInput {
+  id: ID!
+  user_id: ID!
+  deleted_by: ID!
+}
+
+type Department {
+  id: ID
+  department_name: String!
+  description: String
+  parent_department: String
+  codename: String
+  user_id: ID
+  user: User
+  delete_comment: String
+  delete_reason: String
+  deleted: Boolean
+  deleted_at: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input DepartmentInput {
+  id: ID!
+}
+
+type detailTeamsheet {
+  user_role: String
+  detail: [Teamsheet]
+}
+
+type DevelopmentPlanResponse implements ResponseObject {
+  code: Int!
+  success: Boolean
+  message: String!
+}
+
+input DisapproveRequisitionRequestInput {
+  """The id of the user disapproving the request"""
+  user_id: Int!
+
+  """The id of the request"""
+  requisition_id: Int!
+
+  """comment"""
+  comment: String!
+
+  """signature"""
+  signature: String
+}
+
+type Documents {
+  id: ID!
+  folder_name: String
+  created_by: ID
+  updated_by: ID
+  createdBy: User
+  updatedBy: User
+  updated_at: DateTime
+  created_at: DateTime
+  deleted_by: ID
+  deleted: Boolean
+  deleted_at: DateTime
+  user_id: Int
+  user: User
+  folders_files: [FolderFile]
+}
+
+"""
+Type for drafted holidays received from HolidayAPI, to be saved by users
+"""
+type DraftHoliday {
+  title: String!
+  start_day: String!
+  country: String!
+}
+
+input editLeaveApproversInput {
+  id: ID!
+  organization_id: ID!
+  user_id: ID!
+  description: String
+}
+
+type EducationInformation {
+  id: ID!
+  user_id: ID!
+  institution_name: String!
+  start_date: DateTime!
+  end_date: DateTime
+  qualification: String!
+  major_specialization: String!
+  user: User
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input EducationInformationInput {
+  user_id: ID!
+}
+
+scalar EmailAddress
+
+type EmailDetails {
+  """The id of the user"""
+  user_id: Int!
+
+  """User details"""
+  user: User
+}
+
+input EmailInput {
+  email: String!
+}
+
+input employee_details {
+  user_id: Int
+  employee_id: Int
+}
+
+type Employee_dues_for_Assessment {
+  total_cdc_assessment: Int
+  total_employees_promoted: Int
+  total_employees_in_roll: Int
+  get_past_cdc: [get__cdc_assessment]
+  get_upcoming_cdc: [get__cdc_assessment]
+}
+
+enum employee_status {
+  Upcoming
+  Past
+  Ongoing
+}
+
+type EmployeeAccessLevel {
+  id: ID
+  name: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  deleted: Boolean
+  created_by: ID
+  updated_by: ID
+  deleted_by: ID
+  createdBy: EmployeeBio
+  updatedBy: EmployeeBio
+  permissions: JSON
+  assigned_employees: [EmployeeBio]
+}
+
+type EmployeeAddress {
+  id: ID!
+  user_id: Int!
+  postal_address: String
+  street_address: String
+  city: String
+  province_state: String
+  digital_address: String
+  country: String
+  user: User
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type EmployeeAppraisal {
+  id: ID
+  user_id: Int
+  goals: String
+  strength: String
+  created_at: String
+  updated_at: String
+  encrypted_id: String
+}
+
+type EmployeeAssessment {
+  id: Int
+  user_id: Int
+  position_name: String
+  name: String
+  assessment_date: String
+  email: String
+  date: String
+  percentage: String
+  end_date: String
+  status: Boolean
+  peer_selection: [PeerSelectionForUser]
+  assessment_type_question_groups: [AssessmentTypeQuestionGroup]
+}
+
+type employeeAssessmentPeerResultData {
+  full_name: String
+  position_name: String
+  profile_image: String
+  average_score: Float
+  responses: [Responses]
+  justify_competencies: [justifyCompetencies]
+}
+
+type employeeAssessmentResultData {
+  average_score: Float
+  responses: [Responses]
+  employee_justify_competencies: [justifyCompetencies]
+}
+
+type EmployeeBankDetails {
+  id: ID!
+  user_id: ID!
+  bank_name: String!
+  branch: String!
+  account_name: String!
+  account_number: String!
+  sort_code: String!
+  user: User
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type EmployeeBenefit {
+  id: ID
+  user_id: Int
+  name_of_benefit: String
+  amount: String
+  date: String
+  created_at: String
+  updated_at: String
+  page: Int
+}
+
+type EmployeeBenefitResponse implements ResponseObject {
+  code: Int!
+  success: Boolean
+  message: String!
+}
+
+type EmployeeBio {
+  user_id: ID!
+  id: ID!
+  title: String
+  dob: DateTime
+  gender: String
+  nationality: String
+  marital_status: String
+  place_of_birth: String
+  first_name: String
+  last_name: String
+  other_name: String
+  full_name: String
+  short_bio: String
+  profile_image: String
+  user: User
+  created_by: ID
+  updated_by: ID
+  deleted: Boolean
+  delete_reason: String
+  delete_comment: String
+  deleted_date: DateTime
+  createdBy: User
+  updatedBy: User
+  created_at: DateTime
+  updated_at: DateTime
+  employee_skills: [EmployeeSkills]
+  employee_contacts: [EmployeeContact]
+  client_ready: Boolean
+  is_manager: Boolean
+  employee_infos: [EmployeeInfo]
+  employee_identifications: [EmployeeIdentification]
+  employee_educations: [EducationInformation]
+  employee_bank_details: [EmployeeBankDetails]
+  employee_family_contacts: [EmployeeFamilyContact]
+  employee_emergency_contacts: [EmployeeEmergencyContact]
+  employee_status: [EmployeeStatus]
+  employee_salaries: [EmployeeSalary]
+  social_media_handles: [EmployeeSalary]
+  hire_date: DateTime
+  loans: [Loan]
+}
+
+type EmployeeBonus {
+  id: ID
+  user_id: ID
+  amount: Float
+  month: Int
+  description: String
+}
+
+type EmployeeComment {
+  manager_id: ID
+  title: String
+  comment: String
+  user_id: ID
+}
+
+type EmployeeContact {
+  id: ID
+  user_id: ID
+  work_email: String
+  personal_email: String
+  phone_number_1: String
+  created_by: ID
+  postal_address: String
+  street_address: String
+  province_state: String
+  country: String
+  city: String
+  digital_address: String
+  createdBy: User
+  user: User
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type EmployeeDetails {
+  profile_image: String
+  full_name: String
+  end_date: String
+  status: Boolean
+}
+
+type EmployeeDevelopmentPlan {
+  id: ID
+  user_id: ID
+  course_name: String
+  start_date: DateTime
+  end_date: DateTime
+  status: String
+  update_at: DateTime
+  create_at: DateTime
+  encrypted_id: String
+}
+
+type EmployeeEmergencyContact {
+  id: ID!
+  user_id: ID!
+  name: String!
+  email: String
+  relationship: String!
+  phone_number: String!
+  postal_address: String
+  digital_address: String
+  country_of_residence: String
+  country_initial: String
+  state_region: String
+  state_region_initial: String
+  city_of_residence: String
+  user: User
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type EmployeeFamilyContact {
+  id: ID
+  user_id: ID!
+  name_of_contact: String!
+  relationship: String!
+  phone_number: String!
+  email: String
+  country_of_residence: String
+  country_initial: String
+  state_region: String
+  state_region_initial: String
+  city_of_residence: String
+  postal_address: String
+  digital_address: String
+  next_of_kin: Boolean
+  user: User
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input EmployeeFilters {
+  take: Int
+  skip: Int
+  location_id: ID
+  office_id: ID
+  organization_id: ID
+  position_id: ID
+  employee_type_id: ID
+  department_id: ID
+  department_ids: [Int]
+  name: String
+  bio_deleted: Boolean
+  seniority_level_id: ID
+  specialization_id: ID
+  cdc_advisor_id: ID
+  client_ready: Boolean
+  skill_ids: [Int!]
+}
+
+type EmployeeIdentification {
+  id: ID!
+  user_id: ID!
+  type: String
+  identification_number: String
+  user: User
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type EmployeeInfo {
+  user_id: ID
+  id: ID
+  department_id: ID
+  employee_id: String
+  position_id: ID
+  location_id: ID
+  starting_date: DateTime
+  manager_id: ID
+  manager: User
+  user: User
+  position: Position
+  department: Department
+  location: Location
+  effective_date: DateTime
+  createdBy: User
+  updatedBy: User
+  employee_type_id: ID
+  employee_type: EmployeeType
+  bios_id: ID
+  employee_bio: EmployeeBio
+  created_by: ID
+  updated_by: ID
+  created_at: DateTime
+  updated_at: DateTime
+  end_date: DateTime
+  active: Boolean
+  count: Int
+  payroll_id: String
+  specialization_id: ID
+  secondary_specialization_id: ID
+  specialization: Specialization
+  secondary_specialization: Specialization
+  cdc_advisor_id: ID
+  cdc_advisor: User
+  organization_id: ID
+  organization: Client
+  office_id: ID
+  office: Office
+}
+
+input EmployeeInfoFilters {
+  take: Int
+  skip: Int
+  location_id: ID
+  office_id: ID
+  organization_id: ID
+  position_id: ID
+  employee_type_id: ID
+  department_id: ID
+  name: String
+  bio_deleted: Boolean
+  seniority_level_id: ID
+  specialization_id: ID
+  cdc_advisor_id: ID
+  client_ready: Boolean
+  skill_ids: [Int!]
+}
+
+input EmployeeInfoInput {
+  user_id: ID!
+}
+
+type EmployeeInfoWithCount {
+  EmployeeInfo: [EmployeeInfo!]!
+  count: Int
+}
+
+type EmployeeManagerComment {
+  id: ID
+  user_id: Int
+  comment: String
+  created_at: String
+  updated_at: String
+  manager_id: Int
+  title: String
+  encrypted_id: String
+  manager: Manager
+}
+
+type EmployeeOnboardingPacket {
+  id: ID!
+  user_id: ID
+  personal_email: String
+  reporting_date: DateTime
+  reporting_time: String
+  reporting_location: Location
+  reporting_location_id: ID
+  contact_person_id: ID
+  contactPerson: User
+  manager_id: ID
+  manager: User
+  packet_current_step: Int
+  packet_last_step: Int
+  additional_info: String
+  created_at: DateTime
+  updated_by: ID
+  created_by: ID
+  createdBy: User
+  updatedBy: User
+  updated_at: DateTime
+  deleted_at: String
+  deleted: Boolean
+  office_id: ID
+  office: Office
+  organization_id: ID
+  organization: Client
+}
+
+input employeePerformanceDirectPeerResultViewInput {
+  user_id: Int
+  employee_id: Int
+}
+
+input employeePerformanceResultViewInput {
+  user_id: Int
+  employee_id: Int
+}
+
+input EmployeeProjectFilters {
+  take: Int
+  skip: Int
+  location_id: ID
+  office_id: ID
+  organization_id: ID
+  position_id: ID
+  employee_type_id: ID
+  department_id: ID
+  department_ids: [Int]
+  name: String
+  bio_deleted: Boolean
+  seniority_level_id: ID
+  specialization_id: ID
+  cdc_advisor_id: ID
+  client_ready: Boolean
+  skills: [EmployeeProjectSkillInput]
+}
+
+input EmployeeProjectSkillInput {
+  skill_id: Int
+  skill_level: String
+}
+
+type EmployeeSalary {
+  id: ID!
+  user_id: ID
+  salary_name: String
+  salary_amount: Float
+  effective_date: DateTime
+  pay_type: String
+  pay_schedule: String
+  pay_rate: String
+  comments: String
+  reason: String!
+  created_by: ID
+  updated_by: ID
+  createdBy: User
+  updatedBy: User
+  user: User
+  delete_comment: String
+  delete_reason: String
+  deleted: Boolean
+  deleted_at: String
+  created_at: DateTime
+  updated_at: DateTime
+  active: Boolean
+  end_date: DateTime
+  ssnit_contributor: Boolean
+  tax_relief: Float
+}
+
+type EmployeeSkills {
+  id: ID!
+  user_id: ID!
+  skill_id: ID
+  specialization_id: ID
+  skill_info: Skill
+  skill_level: String
+  proof: String
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type EmployeeStatus {
+  id: ID!
+  user_id: ID!
+  employee_type_id: ID
+  comment: String
+  effective_date: DateTime
+  created_by: ID
+  updated_by: ID
+  user: User
+  employee_type: EmployeeType
+  createdBy: User
+  updatedBy: User
+  active: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type EmployeesWithCount {
+  EmployeeBio: [EmployeeBio]
+  count: Int
+}
+
+input EmployeeTierThreeInput {
+  percentage: Float!
+  user_id: ID!
+}
+
+type EmployeeType {
+  id: ID!
+  name: String
+  description: String
+  delete_comment: String
+  delete_reason: String
+  deleted: Boolean
+  deleted_date: String
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type expectations {
+  temp_id: String
+  name: String
+}
+
+input expectationsInput {
+  temp_id: String
+  name: String
+}
+
+input exportBasicReportingInput {
+  user_id: [Int]
+  project_id: [Int]
+  category_id: [Int]
+  assessed_status: String
+  start_date: String
+  end_date: String
+}
+
+input ExportLoansInput {
+  """
+  The active status of the loan either active or inactive being filtered for
+  """
+  active_status: Boolean
+
+  """The status of the loan being filtered for"""
+  status: Int
+
+  """The type of the loan being filtered for"""
+  loan_type: Int
+
+  """The Date range of the loan being filtered for"""
+  date: DateInput
+}
+
+type file {
+  id: ID
+  file_name: String
+  project_folder_id: Int
+  project_folder: project_folder
+  file_url: String
+}
+
+type File {
+  id: ID
+  file_name: String
+  contract_folder_id: Int
+  file_url: String
+  file_type: ContractFileType
+  effective_date: String
+  contract_folder: [ContractFolder]
+}
+
+input FileInput {
+  url: String
+  name: String
+  type: String
+  fileName: String
+}
+
+input fileUrlsInput {
+  SOW: String
+  SOW_effective_date: String
+  PSA: String
+  PSA_effective_date: String
+  others: String
+  other_effective_date: String
+}
+
+input filter_month {
+  assessment_status: employee_status
+}
+
+input FilterAssessment {
+  assessment_name: String
+  deleted: BooleanUndefined
+  skip: Int
+  take: Int
+}
+
+input FilterAssessmentdate {
+  assessment_name: String
+  assessment_date: String
+  status: BooleanUndefinedAssessment
+  skip: Int
+  take: Int
+}
+
+input FilterCapApproverInput {
+  is_active: Boolean
+  skip: Int!
+  take: Int!
+}
+
+input filterData {
+  confirmation_status: Boolean
+  project_status: String
+  staffing_status: String
+  archive: Boolean
+  skip: Int
+  take: Int
+  name: String
+  client_id: Int
+  user_id: String
+  user_role: String
+}
+
+input filterDetailsPage {
+  project_id: ID
+  billability_status: String
+  confirmation_status: String
+  role: Role
+  active: Boolean
+  skip: Int
+  take: Int
+}
+
+input FilterInput {
+  """the active status to filter"""
+  is_active_status: Boolean
+
+  """the request status to filter"""
+  requisition_status_id: Int
+}
+
+input FilterInvoiceAgentConfigsInput {
+  assigned_billing_organization_ids: [Int!]
+  is_archived: Boolean!
+}
+
+input FilterLoansInput {
+  """
+  The active status of the loan either active or inactive being filtered for
+  """
+  active_status: Boolean
+
+  """The status of the loan being filtered for"""
+  status: Int
+
+  """The type of the loan being filtered for"""
+  loan_type: Int
+
+  """The Date range of the loan being filtered for"""
+  date: DateInput
+
+  """The number of records to be skipped"""
+  skip: Int!
+
+  """The number of records to be returned"""
+  take: Int!
+}
+
+type FilterLoansResponse {
+  """The total number of records """
+  count: Int
+
+  """Loans records being returned"""
+  loans: [Loan]
+}
+
+type FilterProject {
+  project: Project
+  project_staffs: [project_staffs]
+  count: Int
+  availableSlotsData: [AvailableSlot]
+  totalRequiredStaff: Int
+  totalActualStaff: Int
+}
+
+input FilterQuestions {
+  question_name: String
+  deleted: BooleanUndefined
+  skip: Int
+  take: Int
+}
+
+type FolderFile {
+  id: ID
+  file_name: String
+  file_url: String
+  document_id: ID
+  documents: Documents
+  deleted: Boolean
+  created_by: ID
+  updated_by: ID
+  deleted_by: ID
+  deleted_at: DateTime
+  updated_at: DateTime
+  created_at: DateTime
+  createdBy: User
+  updatedBy: User
+  deletedBy: User
+}
+
+type follow_up {
+  temp_id: String
+  date_scheduled: String
+  activity: String
+  conducted_by: String
+  completion_date: String
+}
+
+input followUpInput {
+  temp_id: String
+  date_scheduled: String
+  activity: String
+  conducted_by: String
+  completion_date: String
+}
+
+type ForgetPasswordPayload {
+  token: String
+}
+
+scalar FormattedText
+
+type FormStatus {
+  id: Int!
+
+  """Name of the form status"""
+  type: String
+
+  """DateTime the form status was created"""
+  created_at: String
+
+  """DateTime the form status was updated"""
+  updated_at: String
+}
+
+input generalFilesUploadInput {
+  files: [FileInput!]
+  shareWith: [Int]
+  document_id: Int!
+  created_by: Int
+}
+
+input generateInput {
+  assessment_name: String
+  assessment_details: [employee_details]
+}
+
+type GenerateUserPasswordResponse implements ResponseObject {
+  code: Int!
+  success: Boolean
+  message: String!
+  password: String!
+}
+
+type get__cdc_assessment {
+  cdc_name: String
+  employees_due: Int
+  deleted: Boolean
+}
+
+input getProjectNoteInput {
+  project_id: Int
+  skip: Int
+  take: Int
+}
+
+input GetResponsesInput {
+  employee_assessment_id: Int
+  assessment_date: String
+}
+
+input getTaskPlannerByDayInput {
+  user_id: Int
+  date: String
+}
+
+input getTaskPlannerByMonthInput {
+  user_id: Int
+  start_date: String
+  end_date: String
+}
+
+input getTaskPlannerByWeekInput {
+  user_id: Int
+  current_date: String
+}
+
+input getUsersClockByMonthInput {
+  user_id: Int
+  skip: Int
+  take: Int
+  month_number: Int
+  week: String
+}
+
+type getUserUpcomingAssessment {
+  cdc: String
+  supervisor: String
+  assessment_date: String
+  status: Boolean
+}
+
+type GlobalStaffing {
+  currentProject: [GlobalStaffingProject]
+  proposedProject: [GlobalStaffingProject]
+  availability: Int
+}
+
+input GlobalStaffingInput {
+  user_id: Int
+}
+
+type GlobalStaffingProject {
+  client_id: Int
+  end_date: String
+  role: Role
+}
+
+type Goal {
+  id: ID
+  competencies: String
+  professional_dev_goal: String
+  strategy: String
+  resources: String
+  start_date: String
+  end_date: String
+  responsibility: String
+  comment: String
+  status: Boolean
+}
+
+type Holiday {
+  id: ID!
+  title: String
+  description: String
+  start_day: DateTime
+  end_day: DateTime
+  is_archived: Boolean
+  country: String
+}
+
+type IdPrefix {
+  id: ID!
+  prefix_name: String!
+  prefix_description: String
+  delete_comment: String
+  delete_reason: String
+  deleted: Boolean
+  deleted_date: DateTime
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input ImportHolidaysInput {
+  country: String!
+  year: String!
+}
+
+type improvement_goals {
+  temp_id: String
+  name: String
+}
+
+input improvementGoalsInput {
+  temp_id: String
+  name: String
+}
+
+type IndividualsDetails {
+  logged_time: String
+  missing_hours: String
+  overtime_hours: String
+  over_schedule: String
+  days: String
+  total_hours: String
+  total_capacity: String
+  week_month: ApprovalFormat
+}
+
+input InputPerformance_department_list {
+  id: Int
+  department_name: String
+}
+
+input InputPerformance_employee_list {
+  id: Int
+  name: String
+}
+
+input InputPerformance_location_list {
+  id: Int
+  office_name: String
+}
+
+input InputPerformance_position_list {
+  id: Int
+  position_name: String
+}
+
+type internal_assessment {
+  id: ID
+  assessment_cycle: Assessment_Cycle
+  client_review_options: Boolean
+  manager_assessment: Boolean
+  client_assessment: Boolean
+  peer_assessment: Boolean
+  manager_form_id: Int
+  client_form_id: Int
+  peer_form_id: Int
+  config_id: Int
+  created_at: String
+}
+
+type Invoice {
+  id: ID!
+  terms: String!
+  default_currency: CurrencyEnum!
+  converted_currency: CurrencyEnum!
+  conversion_rate: Float!
+  start_date: String!
+  end_date: String!
+  discount: Float!
+  status: InvoiceStatusEnum!
+  sub_total: Float!
+  balance: Float!
+  paid_at: String
+  resources: [Resource!]
+  adjustments: [InvoiceAdjustment!]
+  hidden_columns: [InvoiceColumnEnum!]
+  address1: String
+  address2: String
+  address3: String
+  language: InvoiceLanguageEnum!
+  created_at: String!
+  template_color: String
+  is_sent: Boolean!
+}
+
+type InvoiceAdjustment {
+  name: String!
+  amount: Float!
+}
+
+input InvoiceAdjustmentInput {
+  name: String!
+  amount: Float!
+}
+
+type InvoiceAgentConfig {
+  id: ID!
+  title: String!
+  description: String!
+  is_archived: Boolean!
+  archived_at: String
+  created_by: Int!
+  created_at: String!
+  updated_by: Int
+  updated_at: String
+  assigned_agents: [User!]!
+  assigned_billing_organizations: [Client!]!
+  assigned_clients: [Client!]!
+  contract_type: ContractType!
+}
+
+type InvoiceAggregate {
+  amount_paid: Float!
+  balance: Float!
+  total_revenue: Float!
+}
+
+enum InvoiceClientStatus {
+  Active
+  InActive
+}
+
+enum InvoiceColumnEnum {
+  RATE_ALLOCATION
+  QUANTITY
+  TIME_SPENT
+  RATE
+  AMOUNT
+}
+
+enum InvoiceLanguageEnum {
+  BRITISH
+  GERMAN
+}
+
+input InvoiceMailRecipientInput {
+  client_email: String!
+  client_name: String!
+}
+
+enum InvoiceStatusEnum {
+  AWAITING_PAYMENT
+  PENDING_PAYMENT
+  PAYMENT_RECEIVED
+}
+
+scalar JSON
+
+type justify_competencies_response {
+  id: Int
+  competency_name: String
+  score: Float
+  comment: FormattedText
+}
+
+type justifyCompetencies {
+  id: Int
+  competency_name: String
+  score: Float
+  comment: FormattedText
+}
+
+input justifyCompetenciesInput {
+  id: Int
+  competency_name: String
+  score: Float
+  comment: FormattedText
+}
+
+type LeaveApprovers {
+  id: ID!
+  organization_id: ID
+  organization: Client
+  user_id: ID
+  user: User
+  description: String
+}
+
+type LeaveComment {
+  id: ID
+  message: String
+  user_id: ID
+  user: User
+  timestamp: DateTime
+  booked_leaves_id: ID
+  booked_leaves: BookedLeaves
+}
+
+type LeaveDay {
+  date: DateTime
+  leave_type: String
+
+  """Which leave request this leave day belongs to"""
+  leave_request: LeaveRequest
+}
+
+type LeaveHistory {
+  id: ID!
+  status: Approval
+  days_off: Float
+  carry_over_used: Float
+  leave_policy: LeavePolicy
+  leave_policy_id: Int
+  user_id: ID
+  user: User
+  manager_id: ID
+  manager: User
+  country: String
+  days: [DateTime]
+  year: Int
+  touch_point_comments: [LeaveComment]
+  employee_detail: String
+  file: String
+  first_last_days: [DateTime]
+  leave_type: String
+  manager_approved: Approval
+}
+
+input LeavePaginationInput {
+  take: Int
+  skip: Int
+}
+
+type LeavePlanner {
+  user_id: ID
+  user: User
+  project_id: [ID]
+  project: [Project]
+  days: [LeaveDay]!
+  leave_types_used: [TypesUsed]
+}
+
+type LeavePolicy {
+  id: ID!
+  title: String
+  description: String
+  leave_type_id: ID
+  leave_type: LeaveType
+  max_accrual: String
+  carry_over: String
+  carry_over_expiry: DateTime
+  can_negate: Boolean
+  is_archived: Boolean
+  position_id: ID
+  position: Position
+  user_id: ID
+  user: User
+}
+
+type LeaveRequest {
+  id: ID!
+  status: Approval
+  days_off: Float
+  carry_over_used: Float
+  leave_policy: LeavePolicy
+  leave_policy_id: Int
+  user_id: ID
+  user: User
+  manager_id: ID
+  manager_approved: Approval
+  manager: User
+  country: String
+  days: [DateTime]
+  year: Int
+  touch_point_comments: [LeaveComment]
+  employee_detail: String
+  file: String
+  first_last_days: [DateTime]
+  leave_type: String
+}
+
+type LeavesCsvResponse {
+  type_category: String
+  employee_count: Int
+  hours_lost: Float
+}
+
+"""Return type for createMany or updateMany operations"""
+type LeaveServiceBatchCreation {
+  count: Int!
+}
+
+type LeavesSmokeTestResponse {
+  uptime: String!
+  success: String!
+}
+
+type LeaveType {
+  id: ID!
+  title: String
+  description: String
+  organization_id: ID
+  organization: Client
+  is_archived: Boolean
+  is_annual_default: Boolean
+  leave_policy: [LeavePolicy]
+}
+
+input ListCapApproverInput {
+  """the number of records to skip"""
+  skip: Int!
+
+  """the number of records to return"""
+  take: Int!
+}
+
+type ListCapApproverResponse {
+  """the total number of records"""
+  count: Int
+
+  """ records being returned"""
+  data: [CapApprover!]
+}
+
+input ListLoanFormsInput {
+  """The number of records to be skipped"""
+  skip: Int!
+
+  """The number of records to be returned"""
+  take: Int!
+}
+
+type ListLoanFormsResponse {
+  """The total number of records """
+  count: Int
+
+  """Loan forms records being returned"""
+  loan_forms: [LoanForms!]
+}
+
+input ListLoanTypeInput {
+  """the number of records to skip"""
+  skip: Int!
+
+  """the number of records to return"""
+  take: Int!
+}
+
+type ListLoanTypesResponse {
+  """the total number of records"""
+  count: Int
+
+  """Loan_types records being returned"""
+  loan_types: [LoanType!]
+}
+
+input listManagersForProjectInput {
+  departments: [ID!]!
+  business_managers_position: [ID!]!
+  technical_managers_position: [ID!]!
+}
+
+type listManagersForProjectResponse {
+  business_managers: [EmployeeInfo!]
+  technical_managers: [EmployeeInfo!]
+}
+
+type listPerformanceImprovement {
+  id: Int
+  name: String
+  created_by: String
+  date_created: String
+  status: Boolean
+  draft: Boolean
+}
+
+type ListPerformanceImprovementPlans {
+  id: Int
+  name: String
+  created_by: String
+  date_created: String
+  status: Boolean
+  draft: Boolean
+  data: Performance_Improvement_Plan
+}
+
+input listPositionWithFiltersInput {
+  search: String
+  active: Boolean
+  take: Int
+  skip: Int
+}
+
+input ListProcurementAccessLevelInput {
+  """records to skip"""
+  skip: Int
+
+  """records to take"""
+  take: Int
+}
+
+type ListProcurementAccessLevelResponse {
+  """the total number of records"""
+  count: Int
+
+  """ records being returned"""
+  data: [ProcurementAccessLevel]
+}
+
+type ListRequisitionsResponse {
+  """The number of requests"""
+  count: Int
+
+  """List of requests"""
+  data: [Requisition]
+
+  """The role of the user fetching the data"""
+  role: Int
+}
+
+input listSeniorityLevelsFiltersInput {
+  search: String
+  active: Boolean
+  take: Int
+  skip: Int
+}
+
+input ListStaffRequestsInput {
+  """Boolean to check if the logged in user is an hop"""
+  is_hop: Boolean!
+
+  """User id of the manager"""
+  user_id: Int!
+
+  """record to be skiped"""
+  skip: Int
+
+  """records to be returned"""
+  take: Int
+
+  """search keyword"""
+  keyword: String
+
+  """Active status the filter is based on"""
+  is_active: Boolean
+
+  """The request status filter is based on"""
+  requisition_status_id: Int
+}
+
+input ListUserLoansInput {
+  """The number of records to be skipped"""
+  skip: Int!
+
+  """The number of records to be returned"""
+  take: Int!
+}
+
+type ListUserLoansResponse {
+  """The total number of records """
+  count: Int
+
+  """Loans records being returned"""
+  loans: [Loan!]
+}
+
+input ListUsersRequestsInput {
+  """The user id of the requester"""
+  user_id: Int
+
+  """The number of records to skip"""
+  skip: Int
+
+  """The number of records to return"""
+  take: Int
+}
+
+type Loan {
+  """The id of the user requesting for the loan"""
+  user_id: Int
+  full_name: String
+  department_prefix: String
+  id: Int!
+
+  """User info"""
+  user: User
+
+  """Employee info"""
+  user_info: EmployeeInfo
+
+  """Card details"""
+  card_type: String!
+
+  """Card details for loan application"""
+  card_number: String!
+
+  """The amount the user requested for"""
+  requested_amount: Float!
+
+  """The amount recommended by approvers"""
+  recommended_amount: Float
+
+  """Purpose for the loan"""
+  purpose: String
+
+  """The type of loan the user has requested for"""
+  loan_type: String
+
+  """ID of loan type"""
+  loan_type_id: Int
+
+  """The status of the loan request"""
+  loan_status: String
+
+  """Documents of a loan"""
+  forms: [LoanDocument]
+
+  """all approvals for this loan"""
+  approvals: [LoanApproval]
+
+  """The time the loan request was placed"""
+  created_at: String
+
+  """The time the loan request was updated"""
+  updated_at: String
+
+  """The time the loan request was rejected"""
+  rejected_at: String
+
+  """Loan reference ID"""
+  reference_id: String
+}
+
+type LoanApproval {
+  approver: ApproverDetails!
+  comment: String
+  signature: String
+  is_approved: Boolean!
+  approved_at: String
+}
+
+input LoanApprovalInput {
+  comment: String!
+  signature: String!
+}
+
+type LoanApprovalResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+  loan: Loan
+}
+
+type LoanApprover {
+  id: Int
+  approver_id: Int
+  loan_id: Int
+  is_approved: Boolean
+  recommended_amount: Float
+  comment: String
+  signature: String
+  approvers: Approver
+  created_at: String
+  updated_at: String
+}
+
+type LoanDocument {
+  """Name of the form"""
+  form_name: String
+
+  """Url of the form"""
+  form_url: String
+}
+
+type LoanForms {
+  id: Int!
+
+  """Name of the form"""
+  name: String
+
+  """Is the form active or archived"""
+  is_active: Boolean
+
+  """The url to the form"""
+  form_url: String
+
+  """The datetime the form was created"""
+  created_at: String
+
+  """The datetime the form was updated"""
+  updated_at: String
+}
+
+input LoanFormsInput {
+  """Name of the form"""
+  form_name: String
+
+  """Is the form active or archived"""
+  is_active: Boolean
+
+  """The url to the form"""
+  form_url: String
+
+  """The datetime the form was created"""
+  created_at: String
+
+  """The datetime the form was updated"""
+  updated_at: String
+}
+
+input LoanInput {
+  """The id of the user requesting for the loan"""
+  user_id: Int!
+
+  """The type of loan the user requested for"""
+  loan_type_id: Int
+
+  """The amount the user requested for"""
+  requested_amount: Float!
+
+  """Purpose for the loan"""
+  purpose: String!
+
+  """Users card for loan application"""
+  card_type: String!
+
+  """Card number"""
+  card_number: String!
+
+  """Forms associated with the loan"""
+  forms: [LoanRequestFormsInput]
+
+  """Users department Name"""
+  department: String!
+}
+
+input LoanRequestFormsInput {
+  """Form name"""
+  form_name: String
+
+  """Link to form"""
+  form_url: String
+}
+
+type LoanStatus {
+  id: Int!
+  type: String!
+}
+
+type LoanSummary {
+  """Sum of all the total loans"""
+  total_loans: LoanSummaryData!
+
+  """Sum of all newly requested loans"""
+  new_loans: LoanSummaryData!
+
+  """Sum of all approved loans"""
+  approved_loans: LoanSummaryData!
+
+  """Sum of all disapproved loans"""
+  disapproved_loans: LoanSummaryData!
+}
+
+type LoanSummaryData {
+  """The sum of the total loans"""
+  sum: Float
+
+  """Total loan count"""
+  count: Int
+}
+
+type LoanType {
+  id: Int!
+
+  """The name of the type of the loan"""
+  type: String!
+
+  """The status of the loan type"""
+  is_active: Boolean
+
+  """Forms IDs linked to the loan type"""
+  loan_type_forms: [LoanTypeForm]
+
+  """Datetime the loan type was created"""
+  created_at: String
+
+  """Datetime the loan type was updated"""
+  updated_at: String
+}
+
+type LoanTypeForm {
+  """Loan type id on loan_type_form pivot table"""
+  loan_type_id: Int!
+
+  """Form associated with a loan type"""
+  form: LoanForms
+
+  """Datetime created"""
+  created_at: String
+
+  """Datetime updated"""
+  updated_at: String
+}
+
+input LoanTypeInput {
+  """The type of loan [eg rent, car , etc]"""
+  loan_type: String!
+
+  """Forms associated with a loan type"""
+  loan_form_ids: [ID]!
+
+  """Datetime the loan type was created"""
+  created_at: String
+
+  """Datetime the loan type was updated"""
+  updated_at: String
+}
+
+type LoanTypeStatus {
+  id: Int!
+
+  """The value of the loan type status [active, inactive]"""
+  type: String
+}
+
+type Location {
+  id: ID!
+  country_name: String!
+  state_region: String
+  town: String
+  country_initials: String
+  state_region_initials: String
+  branch_name: String
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type LoginResponse {
+  success: Boolean
+  token: String
+  refresh_token: String
+  permissions: JSON
+  user: User
+}
+
+type MailContract {
+  contract_id: Int
+  approver_name: String
+  client_name: String
+  sender_name: String
+  sender_position: String
+  reciepient_mail: String
+}
+
+input mailInput {
+  contract_id: Int
+  approver_name: String
+  approver_id: Int
+  client_name: String
+  sender_name: String
+  sender_position: String
+  recipient_mail: String
+}
+
+type management_support {
+  temp_id: String
+  name: String
+}
+
+input managementSupportInput {
+  temp_id: String
+  name: String
+}
+
+type Manager {
+  id: ID
+  name: String
+  email: String
+  user_type: String
+  created_at: String
+  updated_at: String
+  user_type_id: String
+  encrypted_id: String
+  trainee_image: String
+  deactivated_reason: String
+  deactivated_date: String
+}
+
+type managerAssessmentResultData {
+  final_comment: String
+  promotion_type: String
+  average_score: Float
+  responses: [Responses]
+  manager_justify_competencies: [justifyCompetencies]
+}
+
+input ManagerCDCRecommendationInput {
+  performance_result_id: Int!
+  summary_comment: FormattedText
+  promotion_type: String
+}
+
+type ManagerProjects {
+  data: [Project]
+}
+
+type managers_comment {
+  id: Int
+  title: String
+  comment: FormattedText
+  user_id: Int
+  manager_id: Int
+  manager_name: String
+  profile_image: String
+  created_at: String
+}
+
+type ManagersCommentResponse implements ResponseObject {
+  code: Int!
+  success: Boolean
+  message: String!
+}
+
+type ManagersNote {
+  id: ID
+  title: String
+  body: String
+  user_id: ID
+  created_by: ID
+  created_at: DateTime
+  updated_at: DateTime
+  CreatedBy: User
+  deleted: Boolean
+}
+
+type Message {
+  user_id: Int
+  name: String
+  date: String
+  assessment_date: String
+  assessment_cycle_name: String
+  position_name: String
+  read: Boolean
+  email: String
+  assessment_type_question_group: [AssessmentTypeQuestionGroup]
+  question_answer: [QuestionAnswers]
+  peer_selection: [PeerSelectionForUser]
+}
+
+type MultipleClients {
+  data: [Client]
+}
+
+input MultipleClientsInput {
+  client_ids: [Int]
+}
+
+type MultipleProjects {
+  data: [Project]
+}
+
+input multipleProjectsInput {
+  project_ids: [Int]
+  confirmation_status: String
+  staff_active: Boolean
+}
+
+type Mutation {
+  _empty: String
+  createCapApprover(input: CreateCapApproverInput): CreateCapApproverResponse!
+  updateCapApprover(input: UpdateCapApproverInput): UpdateCapApproverResponse!
+  toggleCapApprover(input: ToggleCapApproverInput): UpdateCapApproverResponse!
+  createRequest(input: RequisitionInput): RequestMutationResponse!
+  updateRequest(input: UpdateRequisitionInput): RequestMutationResponse!
+  toggleArchiveForRequest(requestId: Int): ToggleArchiveForRequestResponse!
+  approveRequisition(input: ApproveRequisitionRequestInput): RequisitionApprovalResponse
+  disapproveRequisition(input: DisapproveRequisitionRequestInput): RequisitionApprovalResponse
+  createSupplier(input: SupplierInput): SupplierMutationResponse!
+  updateSupplier(input: UpdateSupplierInput): SupplierMutationResponse!
+  toggleArchiveForSupplier(input: ToggleArchiveInput): SupplierMutationResponse!
+  createProcurementProformaInvoice(input: CreateProcurementProformaInvoiceInput): CreateProcurementProformaInvoiceResponse
+  createProcurementSummaryReport(input: CreateProcurementSummaryReportInput): CreateProcurementSummaryReportResponse
+  deleteProcurementProformaInvoice(invoiceId: Int): DeleteProcurementProformaInvoiceResponse
+  deleteProcurementSummaryReport(reportId: Int, requisitionId: Int): DeleteProcurementSummaryReportResponse
+  requestProcurementProformaInvoice(requisitionId: Int): RequestProformaInvoiceResponse
+  createProcurementPurchaseOrder(input: CreateProcurementPurchaseOrderInput): CreateProcurmentPurchaseOrderResponse
+  updateProcurementPurchaseOrder(input: UpdateProcurementPurchaseOrderInput): CreateProcurmentPurchaseOrderResponse
+  deleteProcurmentPurchaseOrder(purchaseOrderId: Int): DeleteProcurmentPurchaseOrderResponse
+  createProcurementAccessLevel(input: CreateProcurementAccessLevelInput): CreateProcurementAccessLevelResponse
+  updateProcurementAccessLevel(input: UpdateProcurementAccessLevelInput): CreateProcurementAccessLevelResponse
+  deleteProcurementAccessLevel(id: Int): DeleteProcurementAccessLevelResponse
+  assignUserWithProcurementAccessLevel(user_id: Int, access_level_id: Int): CreateProcurementAccessLevelResponse
+  unassignProcurmentAccessLevel(user_id: Int): CreateProcurementAccessLevelResponse
+  createUser(data: UserCreateInput, onboardingData: onboardingPacketInput): Payload!
+  addNewUser(data: UserCreateInput, onboardingData: onboardingPacketInput): String!
+  generateUserId(data: UserCreateInput): Int!
+  forgetPassword(email: String!): User!
+  changePassword(data: changePasswordInput!): User!
+  createNewPassword(data: createNewPasswordInput!): User!
+  deactivateUser(data: deactivateUserInput): User!
+  activateUser(id: ID!): User!
+
+  """generate user password"""
+  generateUserPassword(user_id: ID!): GenerateUserPasswordResponse!
+
+  """admin update employee's account"""
+  updateEmployeeAccount(data: updateEmployeeAccountInput): User!
+  createAccessLevel(data: createAccessLevelInput): AccessLevel
+  updateAccessLevel(data: updateAccessLevelInput): AccessLevel
+  createAccessLevelType(data: createAccessLevelTypeInput): AccessLevelType
+  assignUserWithAccessLevel(id: ID!, user_id: ID!): AccessLevel
+  unassignAccessLevel(id: ID!, user_id: ID!): AccessLevel
+  addUsersToAccessLevel(data: addedUserToAccessInput): AccessLevel
+  permanentlyDeleteAccessLevel(id: ID!): AccessLevel
+  deleteAccessLevel(id: ID!): AccessLevel
+  restoreAccessLevel(id: ID!): AccessLevel
+  duplicateAccessLevel(id: ID!, name: String): AccessLevel
+  updateUser(data: updateUserInput!): User!
+  armsLogin(data: UserLoginInput): LoginResponse!
+  sendPasswordResetLink(email: String!): PasswordResponse!
+  resetPassword(data: PasswordResetInput!): PasswordResponse!
+  armsChangePassword(data: PasswordChangeInput!): PasswordResponse!
+  createManagersComment(data: createManagerCommentInput): ManagersCommentResponse!
+  updateManagersComment(data: updateManagerCommentInput): ManagersCommentResponse!
+  deleteManagersComment(id: ID!): ManagersCommentResponse!
+  createAppraisal(data: createAppraisalInput): AppraisalResponse
+  updateAppraisal(data: updateAppraisalInput): AppraisalResponse
+  deleteAppraisal(id: Int!, user_id: Int!): AppraisalResponse
+  createDevelopmentPlan(data: createDevelopmentPlanInput): DevelopmentPlanResponse
+  updateDevelopmentPlan(data: updateDevelopmentPlanInput): DevelopmentPlanResponse
+  deleteDevelopmentPlan(id: ID!): DevelopmentPlanResponse
+  createEmployeeBenefit(data: createEmployeeBenefitInput): EmployeeBenefitResponse
+  updateEmployeeBenefit(data: updateEmployeeBenefitInput): EmployeeBenefitResponse
+  deleteEmployeeBenefits(id: ID!): EmployeeBenefitResponse
+  armsCreateNewPassword(data: armsCreateNewPasswordInput): PasswordResponse
+  armsRefreshToken(token: String!): RefreshTokenResponse
+  updateUserOnboarding(user_id: ID!, complete: Boolean): User
+  dbCleaner(code: String!): String
+  createOrUpdateRate(data: [SingleRateInput]): [Rate]
+  createContract(data: ContractInput): Contract
+  updateContract(data: ContractInput): Contract
+  archiveContract(data: ContractInput): Contract
+  approveContract(data: ContractApproverInput): ContractApprover
+  disapproveContract(data: ContractApproverInput): ContractApprover
+  clientApproval(data: ContractApproverInput): ClientApprover
+  clientDisapproval(data: ContractApproverInput): ClientApprover
+  createContractComment(data: ContractCommentInput): ContractComment
+  sendContractToApprover(data: mailInput): String
+  createDocument(data: CreateDocumentsInput): Documents
+  updatedDocument(data: UpdateFolderInput): Documents
+  deleteDocument(id: ID!): Documents
+  shareFolderWithUsers(data: shareFolderInput): String
+  createUserDocuments(data: CreateUserDocumentInput): UserDocuments
+  updateUserDocuments(data: UpdateUserDocumentsInput): UserDocuments
+  deleteUserDocuments(id: ID!, user_id: ID!): UserDocuments!
+  generalFilesUpload(data: generalFilesUploadInput): [FolderFile]
+  deleteCompanyFile(data: deleteCompanyFileInput): FolderFile
+  deleteUserFile(data: deleteUserFileInput!): UserFolderFile
+  shareFileWithUsers(data: shareFileInput): String
+  uploadUserFile(data: uploadUserFileInput!): UserDocuments
+  emsDbCleaner(code: String!): String
+  createNewEmployee(data: createNewEmployeeInput): String
+  createDepartment(data: CreateDepartmentInput!): Department!
+  updateDepartment(data: UpdateDepartmentInput!): Department!
+  deleteDepartment(data: DeleteDepartmentInput!): Department!
+  createLocation(data: CreateLocationInput): Location!
+  updateLocation(data: UpdateLocationInput): Location!
+  deleteLocation(data: DeleteLocationInput!): Location!
+  createPosition(data: CreatePositionInput!): Position!
+  updatePosition(data: UpdatePositionInput!): Position!
+  deletePosition(data: DeletePositionInput!): Position
+  createEmployeeType(data: CreateEmployeeTypeInput): EmployeeType
+  deleteEmployeeType(data: DeleteEmployeeTypeInput): EmployeeType!
+  updateEmployeeType(data: UpdateEmployeeTypeInput): EmployeeType
+  createIdPrefix(data: createIdPrefixInput): IdPrefix
+  updateIdPrefix(data: UpdateIdPrefixInput): IdPrefix
+  deleteIdPrefix(data: DeleteIdPrefixInput!): IdPrefix
+  createEmployeeInfo(data: CreateEmployeeInfoInput): EmployeeInfo!
+  updateEmployeeInfo(data: UpdateEmployeeInfoInput): EmployeeInfo!
+  updateWorkInfo(data: UpdateWorkInfoInput): EmployeeInfo
+  updateEmployeeInfoByUserID(data: UpdateEmployeeInfoByUserIDInput): EmployeeInfo
+  deleteEmployeeInfo(data: DeleteEmployeeInfoInput): EmployeeInfo!
+  updateManagers: String
+  createEmployeeContact(data: CreateEmployeeContactInput): EmployeeContact!
+  updateEmployeeContact(data: UpdateEmployeeContactInput): EmployeeContact!
+  deleteEmployeeContact(data: DeleteEmployeeContactInput!): EmployeeContact!
+  createEmployeeAddress(data: CreateEmployeeAddressInput!): EmployeeAddress!
+  updateEmployeeAddress(data: UpdateEmployeeAddressInput): EmployeeAddress!
+  deleteEmployeeAddress(data: DeleteEmployeeAddressInput): EmployeeAddress!
+  createEmployeeBio(data: CreateEmployeeBioInput!): EmployeeBio!
+  updateEmployeeBio(data: UpdateEmployeeBioInput!): EmployeeBio!
+  deleteEmployeeBio(data: DeleteEmployeeBioInput!): EmployeeBio!
+  updateProfileImage(data: updateProfileImageInput): EmployeeBio
+  updateClientReady(data: updateClientReadyInput): EmployeeBio
+  copyProfileImagesToErp: String
+  createSocialMedia(data: CreateSocialMediaHandleInput): SocialMediaHandlers!
+  updateSocialMedia(data: UpdateSocialMediaHandleInput): SocialMediaHandlers!
+  deleteSocialMedia(data: DeleteSocialMediaHandleInput): SocialMediaHandlers!
+  createEducationInformation(data: CreateEducationInformationInput): EducationInformation!
+  updateEducationInformation(data: UpdateEducationInformationInput): EducationInformation!
+  deleteEducationInformation(data: DeleteEducationInformationInput): EducationInformation!
+  createEmployeeFamilyContact(data: CreateEmployeeFamilyContactInput): EmployeeFamilyContact
+  updateEmployeeFamilyContact(data: UpdateEmployeeFamilyContactInput): EmployeeFamilyContact!
+  deleteEmployeeFamilyContact(data: DeleteEmployeeFamilyContactInput): EmployeeFamilyContact!
+  createEmployeeSkills(data: CreateEmployeeSkillsInput): EmployeeSkills!
+  updateEmployeeSkills(data: UpdateEmployeeSkillsInput): EmployeeSkills!
+  deleteEmployeeSkills(data: DeleteEmployeeSkillsInput): EmployeeSkills!
+  createEmployeeEmergencyContact(data: CreateEmployeeEmergencyContactInput): EmployeeEmergencyContact!
+  updateEmployeeEmergencyContact(data: UpdateEmployeeEmergencyContactInput): EmployeeEmergencyContact!
+  deleteEmployeeEmergencyContact(data: DeleteEmployeeEmergencyContactInput): EmployeeEmergencyContact!
+  createEmployeeBankDetails(data: CreateEmployeeBankDetailsInput): EmployeeBankDetails!
+  updateEmployeeBankDetails(data: UpdateEmployeeBankDetails): EmployeeBankDetails!
+  deleteEmployeeBankDetails(data: DeleteEmployeeBankDetailsInput): EmployeeBankDetails!
+  createEmployeeIdentification(data: CreateEmployeeIdentificationInput): EmployeeIdentification!
+  updateEmployeeIdentification(data: UpdateEmployeeIdentificationInput): EmployeeIdentification!
+  createEmployeeTierThree(data: EmployeeTierThreeInput): String!
+  updateEmployeeTierThree(data: EmployeeTierThreeInput): String!
+  deleteEmployeeTierThree(data: EmployeeTierThreeInput): String!
+  deleteEmployeeIdentification(data: deleteEmployeeIdentificationInput): EmployeeIdentification!
+  createEmployeeStatus(data: CreateEmployeeStatusInput): EmployeeStatus
+  updateEmployeeStatus(data: UpdateEmployeeStatusInput): EmployeeStatus!
+  deleteEmployeeStatus(data: DeleteEmployeeStatusInput): EmployeeStatus!
+  createEmployeeSalary(data: CreateEmployeeSalaryInput): EmployeeSalary
+  updateEmployeeSalary(data: UpdateEmployeeSalaryInput): EmployeeSalary!
+  deleteEmployeeSalary(data: DeleteEmployeeSalaryInput): EmployeeSalary
+  deactivateUserOnBio(data: deactivateBioUserInput): EmployeeBio
+  activateUserOnBio(data: activateBioUserInput): EmployeeBio
+  createOnboardingPacket(data: createOnboardingPacketInput): EmployeeOnboardingPacket
+  updateOnboardingPacket(data: updateOnboardingPacketInput): EmployeeOnboardingPacket
+  deleteOnboardingPacket(user_id: ID!): EmployeeOnboardingPacket
+  restoreOnboardingPacket(user_id: ID!): EmployeeOnboardingPacket
+  deleteOnboardingPacketPermanently(user_id: ID!): EmployeeOnboardingPacket
+  saveOnboardingStepTwo(bioInput: UpdateEmployeeBioInput, educationInput: CreateEducationInformationInput, identificationInput: CreateEmployeeIdentificationInput, bankInput: CreateEmployeeBankDetailsInput, emergencyContactInput: CreateEmployeeEmergencyContactInput): String
+  saveOnboardingStepThree(short_bio: String, skillInput: [CreateEmployeeSkillsInput], user_id: ID!): String
+  createSeniorityLevel(data: createSeniorityLevelInput!): SeniorityLevel
+  updateSeniorityLevel(data: updateSeniorityLevelInput!): SeniorityLevel
+  deleteSeniorityLevel(id: ID!, deleted_by: ID): SeniorityLevel
+  restoreSeniorityLevel(id: ID!, deleted_by: ID): SeniorityLevel
+  permanentlyDeleteSeniorityLevel(id: ID!): SeniorityLevel
+  createEmployeeBackPay(data: createEmployeeBackPayInput): BackPay
+  deleteEmployeeBackPay(id: ID): BackPay
+  createManagersNote(data: createNoteInput): ManagersNote
+  updateManagersNote(data: updateNoteInput): ManagersNote
+  deleteManagersNote(data: deleteNoteInput): ManagersNote
+  unArchiveNote(data: unArchiveNoteInput): ManagersNote
+  createEmployeeAccessLevel(data: createEmployeeAccessLevelInput): EmployeeAccessLevel
+  updateEmployeeAccessLevel(data: updateEmployeeAccessLevelInput): EmployeeAccessLevel
+  assignUserWithEmployeeAccessLevel(id: ID!, user_id: Int!): EmployeeAccessLevel
+  unassignEmployeeAccessLevel(id: ID!, user_id: Int!): EmployeeAccessLevel
+  addUsersToEmployeeAccessLevel(data: addedUserToEmployeeAccessInput!): EmployeeAccessLevel
+  deleteEmployeeAccessLevel(id: ID!): EmployeeAccessLevel
+  restoreEmployeeAccessLevel(id: ID!): EmployeeAccessLevel
+  duplicateEmployeeAccessLevel(id: ID!, name: String): EmployeeAccessLevel
+  createInvoiceAgentConfig(data: CreateInvoiceAgentConfigInput!): InvoiceAgentConfig!
+  updateInvoiceAgentConfig(data: UpdateInvoiceAgentConfigInput!): InvoiceAgentConfig
+  toggleInvoiceAgentConfig(data: ToggleInvoiceAgentConfigInput!): InvoiceAgentConfig
+  createInvoice(data: CreateInvoiceInput!): Invoice!
+  updateInvoice(data: UpdateInvoiceInput!): Invoice!
+  toggleInvoicePayment(id: ID!): Invoice!
+  sendInvoice(data: SendInvoiceInput!): Boolean!
+  createLeavePolicy(data: CreateLeavePolicyInput!): [LeavePolicy!]!
+  updateLeavePolicy(data: UpdateLeavePolicyInput!): LeavePolicy!
+  deleteLeavePolicy(id: ID!): LeavePolicy!
+  archiveLeavePolicy(id: ID!, is_archived: Boolean!): LeavePolicy!
+
+  """Creates annual leave policies using list of Positions"""
+  seedPolicies: [LeavePolicy]
+  createLeaveType(data: CreateLeaveTypeInput!): LeaveType!
+  updateLeaveType(data: UpdateLeaveTypeInput!): LeaveType!
+
+  """Forcefully unassigns all leave policies and deletes leave type"""
+  deleteLeaveType(id: ID!): LeaveType!
+
+  """Forcefully unassigns all leave policies and archives leave type"""
+  archiveLeaveType(id: ID!, is_archived: Boolean!): LeaveType!
+  createHoliday(data: CreateHolidayInput!): Holiday!
+  updateHoliday(data: UpdateHolidayInput!): Holiday!
+  deleteHoliday(id: ID!): Holiday!
+
+  """Fetch holidays from HolidayAPI without saving, only for user review"""
+  importHolidays(data: ImportHolidaysInput!): [DraftHoliday]
+  archiveHoliday(id: ID!, is_archived: Boolean!): Holiday!
+
+  """
+  For use with importHoliday resolver, saves imported holidays after user selects
+  """
+  createBatchHolidays(data: [CreateBatchHolidaysInput]!): LeaveServiceBatchCreation!
+  calculateAccruedDaysByUserId(user_id: ID!): Float!
+  bookLeave(data: BookLeaveInput!): BookedLeaves!
+  updateBookedLeave(data: updateBookedLeaveInput!): BookedLeaves!
+  deleteBookedLeave(id: ID!): BookedLeaves!
+  addManagerLeaveApproval(data: addLeaveApprovalInput!): BookedLeaves!
+  addHrLeaveApproval(data: addLeaveApprovalInput!): BookedLeaves!
+  sendTouchPoint(data: TouchPointInput!): touchPointResponse!
+  addLeaveComment(data: AddLeaveCommentInput!): LeaveComment!
+  deleteLeaveComment(id: ID!): LeaveComment!
+  addOrSubtractLeaveDays(data: addOrSubtractLeaveDaysInput!): AccruedLeaves!
+  refreshUsersAccrualData: [AccruedLeaves]
+  seedOrganizations: [LeaveApprovers]!
+  setLeaveApprovers(data: setLeaveApproversInput!): [LeaveApprovers]!
+  editLeaveApprovers(data: editLeaveApproversInput!): LeaveApprovers!
+  removeLeaveApprover(approver_id: ID!): LeaveApprovers!
+
+  """Mutation to approve a loan"""
+  approveLoan(loanId: ID!, input: LoanApprovalInput!): LoanApprovalResponse!
+
+  """Mutation to disapprove a loan"""
+  disapproveLoan(loanId: ID!, input: LoanApprovalInput!): LoanApprovalResponse!
+
+  """Create loan approver structure"""
+  createLoanApprovalStructure(input: [ApproversInput]): CreateLoanApprovalStructureResponse!
+
+  """Recommend a loan amount"""
+  recommendLoan(user_id: Int!, loan_id: ID!, recommended_amount: Float!, input: ApproveLoanInput!): UpdateLoanResponse!
+
+  """loan requester accepts recommended amount"""
+  acceptRecommendation(loanId: ID!): RecommendationActionResponse!
+
+  """loan requester rejects recommended amount"""
+  rejectRecommendation(loanId: ID!): RecommendationActionResponse!
+
+  """Create loan form"""
+  createLoanForm(input: LoanFormsInput): CreateLoanFormResponse!
+
+  """Update loan form"""
+  updateLoanForm(loanFormId: Int!, input: UpdateLoanFormsInput): CreateLoanFormResponse!
+
+  """Archive and Unarchive a loan form"""
+  toggleLoanFormActiveStatus(loanFormId: Int!): CreateLoanFormResponse!
+
+  """User requesting for a loan"""
+  createLoanRequest(input: LoanInput): CreateLoanRequestResponse!
+
+  """Update loan request"""
+  updateLoanRequest(loanId: ID!, input: UpdateLoanInput!): UpdateLoanResponse!
+
+  """remove a loan request form the database"""
+  hardDeleteLoan(userId: ID!, loanId: ID!): DeleteLoanResponse!
+
+  """soft delete a loan"""
+  softDeleteLoan(loanId: ID!): DeleteLoanResponse!
+
+  """Create loan type"""
+  createLoanType(input: LoanTypeInput): CreateLoanTypeResponse!
+
+  """Update loan type"""
+  updateLoanType(loanTypeId: Int!, input: UpdateLoanTypeInput): CreateLoanTypeResponse!
+
+  """Archive and Unarchive a loan type"""
+  toggleLoanTypeActiveStatus(loanTypeId: Int!): CreateLoanTypeResponse!
+  CreateCompetencies(input: CreateCompetenciesInput): Competencies
+  UpdateCompetencies(input: UpdateCompetenciesInput): Competencies
+  ActivateCompetencies(id: Int!): Competencies
+  DeactivateCompetencies(id: Int!): Competencies
+  CreateAssessmentCycle(input: CreateAssessmentCycleInput): AssessmentCycle
+  CreateAssessmentType(input: [CreateAssessmentTypeInput]): AssessmentType
+  CreateUserGroup(input: [CreateUserGroupInput]): [UserGroup]
+  UpdateAssessmentCycle(input: UpdateAssessmentCycleInput): AssessmentCycle
+  ActivateAssessmentCycle(id: Int!): AssessmentCycle
+  DeactivateAssessmentCycle(id: Int!): AssessmentCycle
+  createUpcomingCdc(data: upcomingCdcAssessment): upcomingCdcResponse
+  CreateQuestionsInfo(input: CreateQuestionInfoInput): Questionnaire
+  CreateQuestionsGroup(input: [CreateQuestionsGroupInput]): [QuestionGroup!]!
+  UpdateQuestionInfo(input: UpdateQuestionInfoInput): Questionnaire
+  ActivateQuestionnaire(id: Int!): Questionnaire
+  DeactivateQuestionnaire(id: Int!): Questionnaire
+  UpdateCDCRecommendation(input: CDCRecommendationInput): PerformanceResult
+  ManagerCDCRecommendation(input: ManagerCDCRecommendationInput): PerformanceResult
+  CreateResponses(input: QuestionAnswersInput): QuestionAnswersSuccess
+  UpdateResponses(data: updateQuestionAnswersInput): UpdateQuestionAnswersSuccess
+  SelectPeers(input: [PeerSelectionInput]): [PeerSelectionForUser]
+  ReadAssessmentNotification(id: Int!): Read
+  GenerateReport(data: generateInput): ReportStatus
+  createAreasOfImprovement(input: CreateAreasOfImprovementInput): AreasOfImprovement
+  updateAreasOfImprovement(input: UpdateAreasOfImprovementInput): AreasOfImprovement
+  archiveAreasOfImprovement(input: ArchiveAreasOfImprovementInput): AreasOfImprovement
+  unarchiveAreasOfImprovement(id: Int!): AreasOfImprovement
+  CreateCareerDevelopmentPlan(data: CreateCareerDevelopmentPlanInput): CareerDevelopmentPlan
+  UpdateCareerDevelopmentPlan(data: UpdateCareerDevelopmentPlanInput): CareerDevelopmentPlan
+  ActivateCareerDevelopmentPlan(id: Int!): CareerDevelopmentPlan
+  DeactivateCareerDevelopmentPlan(id: Int!): CareerDevelopmentPlan
+  CreatePerformanceImprovementPlan(data: CreatePerformanceImprovementPlanInput): Performance_Improvement_Plan
+  UpdatePerformanceStatus(data: UpdatePerformanceStatusInput): Performance_Improvement_Plan
+  SignPIP(data: SignPIPInput): Performance_Improvement_Plan
+  UpdatePerformanceImprovementPlan(data: UpdatePerformanceImprovementPlanInput): Performance_Improvement_Plan
+  CreateManagersComments(data: createManagerCommentInputs): managers_comment
+  UpdateManagersComments(data: updateManagerCommentInputs): managers_comment
+  CreateCdcTimelines(data: CreateCdcTimelinesInput): cdc_timelines
+  UpdateCdcTimelines(data: UpdateCdcTimelinesInput): cdc_timelines
+  ActivateTimelines(id: Int!): cdc_timelines
+  DeactivateTimelines(id: Int!): cdc_timelines
+  CreateCdcAssessment(data: CreateCdcAssessmentInput): cdc_assessment_types
+  UpdateCdcAssessment(data: UpdateCdcAssessmentInput): cdc_assessment_types
+  ActivateCdCAssessment(id: Int!): cdc_assessment_types
+  DeactivateCdCAssessment(id: Int!): cdc_assessment_types
+  createSpecialization(data: AddSpecializationInput): Specialization!
+  updateSpecialization(data: UpdateSpecializationInput): Specialization!
+  archiveSpecialization(data: ArchiveInput): Specialization!
+  createClient(data: ClientInput): Client
+  updateClient(data: ClientInput): Client
+  archiveClient(data: ArchiveInput): Client
+  createOffice(data: OfficeInput): Office
+  updateOffice(data: OfficeInput): Office
+  archiveOffice(data: OfficeInput): Office
+  createSkill(data: SkillInput): Skill!
+  updateSkill(data: UpdateSkillInput): Skill!
+  archiveSkill(data: ArchiveInput): Skill!
+  createProjectConfiguaration(data: projectConfigInput): project_configuration
+  addProject(data: ProjectInput): Project!
+  updateProject(data: ProjectInput): Project!
+  archiveProject(data: ProjectInput): Project
+  confirmStaff(data: staffConfirmationInput): project_staffs
+  bulkStaffConfirm(data: bulkStaffConfirmationInput): [project_staffs]
+  removeStaff(data: removeStaffInput): project_staffs
+  addMoreStaffToProject(data: addMoreStaffToProjectInput): project_staffs
+  updateProjectStatus(data: ProjectInput): Project!
+  removeDeactivatedStaff(user_id: ID): ProjectDeactivatedStaff
+  updateProjectConfirmationStatus(data: ProjectInput): Project!
+  updateProjectStaffingStatus(data: ProjectInput): Project!
+  createProjectFolder(data: ProjectFolderInput): project_folder
+  updateProjectFolder(data: ProjectFolderInput): project_folder
+  deleteProjectFolder(id: ID!): project_folder
+  createProjectFile(data: ProjectFileInput): file
+  updateProjectFile(data: ProjectFileInput): file
+  deleteProjectFile(data: ProjectFileInput): file
+  createProjectNote(data: ProjectNoteInput): project_note
+  updateProjectNote(data: ProjectNoteInput): project_note
+  deleteProjectNote(id: ID!): project_note
+  teamsheetApproval(input: teamsheetViewDetailsInput): returnMessage!
+  remindEmail(input: remindEmailInput): returnMessage!
+  unlockClock(input: unlockClockInput): returnMessage!
+  createCategory(input: createCategoryInput): Categories
+  updateCategory(input: updateCategoryInput): Categories
+  deleteCategory(input: deleteCategoryInput): Categories
+  updateClockConfiguration(input: clockConfigurationInput): ClockConfiguration
+  updatePreference(input: updatePreferenceInput): PreferenceSettings
+  createSong(input: createSongInput): Songs
+  updateSong(input: updateSongInput): Songs
+  createTaskPlanner(input: createTaskInput): TaskPlanner
+  updateTaskPlanner(input: updateTaskPlannerInput): TaskPlanner
+  deleteTaskPlanner(id: Int!): returnMessage!
+  createTimeClock(input: [createTimeInput]): [TimeTracker]
+  updateTimeClock(input: updateTimeInput): TimeTracker
+  deleteTimeClock(id: Int!): returnMessage!
+}
+
+interface MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+}
+
+input myTeamQueryInput {
+  project_id: Int
+  date: String
+}
+
+type Office {
+  id: ID
+  organization_id: Int
+  organization: Client
+  office_name: String
+  city: String
+  website: String
+  phone_number: String
+  created_at: String
+  created_by: Int
+  created_by_user: User
+  updated_at: String
+  update_by: Int
+  updated_by_user: User
+  archive: Boolean
+  archived_at: String
+}
+
+input OfficeInput {
+  id: Int
+  organization_id: Int
+  office_name: String
+  city: String
+  website: String
+  phone_number: String
+  archive: Boolean
+  created_by: Int
+  update_by: Int
+  skip: Int
+  take: Int
+}
+
+type OfficeWithCount {
+  office: [Office]
+  count: Int
+}
+
+input onboardingPacketInput {
+  personal_email: String!
+  reporting_date: String!
+  reporting_time: String!
+  office_name: String!
+  city_name: String!
+}
+
+type OnLeaveCount {
+  leave_type: LeaveType
+  count: Int
+}
+
+enum OrderDirection {
+  A_Z
+  Z_A
+}
+
+input OrganizationRateInput {
+  organization_id: Int
+  seniority_level_id: Int
+}
+
+input Pagination {
+  take: Int
+  skip: Int
+}
+
+input paginationInput {
+  id: Int
+  skip: Int
+  take: Int
+  isOrganization: Boolean
+  confirmation_status: Confirmation_Status
+  staff_active: Boolean
+  archive: Boolean
+  name: String
+}
+
+input PaginationInput {
+  """The number of records to skip"""
+  skip: Int
+
+  """The numbe to records to return"""
+  take: Int
+}
+
+input PasswordChangeInput {
+  password: String!
+  old_password: String!
+  password_confirmation: String
+  token: String
+}
+
+input PasswordResetInput {
+  email: String!
+  password: String!
+  password_confirmation: String!
+  token: String!
+}
+
+type PasswordResponse {
+  success: Boolean
+  message: String
+}
+
+type Payload {
+  token: String
+  user: User
+}
+
+type PeerSelectionForUser {
+  employee_assessment_id: Int
+  Full_name: String
+  name: String
+  profile_image: String
+  specialization: String
+  position_name: String
+  status: Boolean
+  assessment_date: String
+  questionnaire_group_id: Int
+}
+
+input PeerSelectionInput {
+  user_id: Int
+  questionnaire_group_id: Int
+  employee_assessment_id: Int
+  assessment_cycle_id: Int
+}
+
+input peopleByProjectsInput {
+  skip: Int
+  take: Int
+  user_id: Int
+}
+
+type Performance_department_list {
+  id: Int
+  department_name: String
+}
+
+type Performance_employee_list {
+  id: Int
+  name: String
+}
+
+type Performance_Improvement_Plan {
+  id: Int
+  user_id: Int
+  employee_id: Int
+  pip_name: String
+  areas_of_concern: String
+  observation: String
+  improvement_goals: [improvement_goals]
+  activity_goals: [activity_goal]
+  resources: [resources]
+  expectations: [expectations]
+  management_support: [management_support]
+  progress_check_points: [progress_check_points]
+  employee_signature: [signature]
+  manager_signature: [signature]
+  follow_up: [follow_up]
+  draft: Boolean
+  status: Boolean
+  deleted: Boolean
+  created_at: String
+  updated_at: String
+}
+
+type Performance_location_list {
+  id: Int
+  office_name: String
+}
+
+type Performance_position_list {
+  id: Int
+  position_name: String
+}
+
+type PerformanceResult {
+  id: Int
+  assessment_report: String
+  user_id: Int
+  employee_assessment_id: Int
+  assessment_name: String
+  mwa: String
+  ewa: String
+  assessment_date: String
+  user_method_competency: Float
+  user_problem_handle: Float
+  user_social_competency: Float
+  user_leadership: Float
+  user_expertise: Float
+  manager_method_competency: Float
+  manager_problem_handle: Float
+  manager_social_competency: Float
+  manager_leadership_competency: Float
+  manager_expertise_competency: Float
+  summary_comment: FormattedText
+  promotion_type: String
+  cdc_comments: FormattedText
+  cdc_promotion_type: String
+  client_ready: Boolean
+  user_update_cdc: String
+  profile_image: String
+  user_update_cdc_date: String
+  manager_evaluation: [justify_competencies_response]
+  employee_evaluation: [justify_competencies_response]
+}
+
+type Permission {
+  id: ID!
+  permission_name: String!
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type Position {
+  id: ID
+  position_name: String!
+  description: String
+  department_id: ID
+  department: Department
+  created_at: DateTime
+  updated_at: DateTime
+  delete_comment: String
+  delete_reason: String
+  deleted: Boolean
+  deleted_at: DateTime
+  seniority_level_id: ID
+  seniority_level: SeniorityLevel
+}
+
+type PreferenceSettings {
+  id: Int!
+  user_id: Int
+  morning: Boolean
+  morning_time: String
+  afternoon: Boolean
+  afternoon_time: String
+  evening: Boolean
+  evening_time: String
+  song_name: String
+  planning_reminder: Boolean
+  lunchtime: String
+  created_at: String
+  updated_at: String
+  created_by: Int
+  updated_by: Int
+  song: Songs
+}
+
+type ProcurementAccessLevel {
+  """id of the access level"""
+  id: Int
+
+  """name of access level"""
+  name: String
+
+  """description of access level"""
+  description: String
+
+  """date of creation"""
+  created_at: String
+
+  """date of updation"""
+  updated_at: String
+
+  """date of deletion"""
+  deleted_at: String
+
+  """the id of the user creating"""
+  created_by: Int
+
+  """the id of the user updating"""
+  updated_by: Int
+
+  """ list of permissions"""
+  permissions: JSON
+
+  """list of assigned users"""
+  assigned_users: [ProcurmentUser]
+}
+
+type ProcurementProformaInvoice {
+  """proforma invoice id"""
+  id: Int
+
+  """invoice file name"""
+  invoice_name: String
+
+  """invoice file url"""
+  invoice_url: String
+
+  """request id"""
+  requisition_id: Int
+
+  """supplier id"""
+  supplier_id: Int
+
+  """boolean to indicate selected proforma"""
+  is_selected: Boolean
+
+  """invoice creation date"""
+  created_at: String
+
+  """invoice update date"""
+  updated_at: String
+}
+
+type ProcurementPurchaseOrder {
+  """purchase order id"""
+  id: Int
+
+  """generated quick books ref no"""
+  ref_no: String
+
+  """request id"""
+  requisition_id: Int
+
+  """the supplier id"""
+  supplier_id: Int
+
+  """the requested item name"""
+  item_requested: String
+
+  """Date the purchase order was created"""
+  created_at: String
+
+  """Date the purchase order was updated"""
+  updated_at: String
+}
+
+type ProcurementSummaryReport {
+  """summary report id"""
+  id: Int
+
+  """summary report file name"""
+  report_name: String
+
+  """summary report url"""
+  report_url: String
+
+  """request id"""
+  requisition_id: Int
+
+  """selected proforma invoice id"""
+  proforma_invoice_id: Int
+
+  """summary report creation date"""
+  created_at: String
+
+  """summary report update date"""
+  updated_at: String
+}
+
+type ProcurementSuppliers {
+  """Autogenerated id"""
+  id: Int!
+
+  """The name of the supplier"""
+  supplier_name: String!
+}
+
+type ProcurmentUser {
+  """id of user"""
+  id: Int
+
+  """user id of ther user"""
+  user_id: Int
+
+  """user's first name"""
+  first_name: String
+
+  """user's last name"""
+  last_name: String
+
+  """user's other name"""
+  other_name: String
+
+  """user's full name"""
+  full_name: String
+
+  """user's email address"""
+  email: String
+
+  """user's country name"""
+  country: String
+
+  """user's department_id"""
+  department_id: Int
+
+  """user's organization_id"""
+  organization_id: Int
+
+  """user's access-level_id"""
+  access_level_id: Int
+
+  """user's office_id"""
+  office_id: Int
+
+  """user's position_id"""
+  position_id: Int
+}
+
+type progress_check_points {
+  temp_id: String
+  goals: String
+  activity: String
+  check_point_date: String
+  type_of_follow_up: String
+  progress_expected: String
+  note: String
+}
+
+input progressCheckPointsInput {
+  temp_id: String
+  goals: String
+  activity: String
+  check_point_date: String
+  type_of_follow_up: String
+  progress_expected: String
+  note: String
+}
+
+type Project {
+  id: ID
+  invoices: [Invoice!]
+  invoice_aggregate: InvoiceAggregate!
+  unpaid_invoices: Int!
+  name: String
+  description: String
+  business_manager_id: Int
+  business_manager: User
+  technical_manager_id: Int
+  technical_manager: User
+  project_confirmation_status: Boolean
+  project_status: Project_Status
+  project_type: Project_Type
+  project_staffing_status: Project_Staffing_Status
+  start_date: String
+  end_date: String
+  archive: Boolean
+  created_at: String
+  updated_at: String
+  archived_at: String
+  created_by: Int!
+  updated_by: Int
+  client_id: Int!
+  contract_id: Int
+  contract: Contract
+  createdBy: User
+  updatedBy: User
+  client: Client
+  suspensionReason: String
+  terminationReason: String
+  project_requirements: [project_requirements]
+  project_staffs: [project_staffs]
+  staff_skill: [StaffSkill]
+  project_folder: [project_folder]
+  project_note: [project_note]
+  staff_count: Int
+  billed_Staff: Int
+  open_slots: Int
+  requiredStaff: Int
+}
+
+type project_configuration {
+  id: ID
+  department_id: [String]
+  departments: [Department]
+  business_manager_position_id: [String]
+  business_managers: [Position]
+  technical_manager_position_id: [String]
+  technical_managers: [Position]
+  created_at: String
+  client_assessment: client_assessment
+  internal_assessment: internal_assessment
+}
+
+enum Project_Confirmation_Status {
+  Confirmed
+  Tentative
+}
+
+type project_folder {
+  id: ID
+  folder_name: String
+  description: String
+  project_id: Int
+  project: Project
+  files: [file]
+  created_at: String
+  updated_at: String
+}
+
+type project_note {
+  id: ID
+  title: String
+  description: String
+  created_at: String
+  updated_by: String
+  project_id: Int
+  project: Project
+  created_by: Int
+}
+
+type project_requirements {
+  project_id: Int
+  project: [Project]
+  specialization_id: Int
+  specialization: Specialization
+  position_id: Int
+  position: Position
+  required_skills_id: Int
+  required_skills: [required_skills]
+  employees_required: Int
+  seniority_level_id: Int
+  id: ID
+}
+
+enum Project_Staffing_Status {
+  Not_Started
+  Awaiting_Confirmation
+  Completed
+}
+
+type project_staffs {
+  id: ID
+  project_id: Int
+  project: Project
+  staff_id: Int
+  staff: Staff
+  active: Boolean
+  project_start_date: String
+  project_end_date: String
+  billability_status: Billability_Status
+  confirmation_status: Confirmation_Status
+  role: Role
+  project_hours: Int
+  specialization_id: Int
+  specialization: Specialization
+  seniority_level_id: Int
+}
+
+enum Project_Status {
+  Not_Started
+  In_Progress
+  Completed
+  Suspended
+  Terminated
+}
+
+enum Project_Type {
+  Internal
+  External
+}
+
+type projectClocks {
+  project_name: String
+  project_id: Int
+  details: [TimeTracker]
+}
+
+input projectConfigInput {
+  department_id: [String]
+  business_manager_position_id: [String]
+  technical_manager_position_id: [String]
+  client_assessment_cycle: Assessment_Cycle
+  internal_assessment_cycle: Assessment_Cycle
+  client_review_options: Boolean
+  internal_review_options: Boolean
+  external_client_assessment: Boolean
+  internal_client_assessment: Boolean
+  external_manager_assessment: Boolean
+  internal_manager_assessment: Boolean
+  external_peer_assessment: Boolean
+  internal_peer_assessment: Boolean
+  external_manager_form_id: Int
+  internal_manager_form_id: Int
+  external_client_form_id: Int
+  internal_client_form_id: Int
+  external_peer_form_id: Int
+  internal_peer_form_id: Int
+}
+
+type ProjectDeactivatedStaff {
+  message: String
+}
+
+input ProjectFileInput {
+  id: Int
+  file_name: String
+  file_url: String
+  project_folder_id: Int
+  skip: Int
+  take: Int
+}
+
+input ProjectFolderInput {
+  id: Int
+  folder_name: String
+  description: String
+  files: [ProjectFileInput]
+  project_id: Int
+  skip: Int
+  take: Int
+}
+
+input ProjectInput {
+  id: ID
+  name: String
+  description: String
+  client_id: Int
+  contract_id: Int
+  business_manager_id: Int
+  technical_manager_id: Int
+  project_confirmation_status: Boolean
+  project_status: Project_Status
+  project_type: Project_Type
+  project_staffing_status: Project_Staffing_Status
+  created_by: Int
+  updated_by: Int
+  start_date: String
+  end_date: String
+  archive: Boolean
+  terminationReason: String
+  suspensionReason: String
+  requirements: [requirement]
+  staffs: [staff]
+  skip: Int
+  take: Int
+  confirmation_status: Confirmation_Status
+  staff_active: Boolean
+}
+
+input ProjectNoteInput {
+  id: Int
+  title: String
+  description: String
+  project_id: Int
+  created_by: Int
+  skip: Int
+  take: Int
+}
+
+input projectRequirements {
+  specialization_id: ID!
+  skill_ids: [ID]!
+}
+
+type ProjectWithCount {
+  project: [Project]
+  count: Int
+}
+
+type Query {
+  _empty: String
+  procurementHealthCheck: String
+  procurementDBCheck: String
+  listCapApprovers(input: ListCapApproverInput): ListCapApproverResponse
+  getCapApproverById(capApproverId: Int!): CapApprover
+  filterCapApprover(input: FilterCapApproverInput): ListCapApproverResponse
+  listAllCapApprovers: [CapApprover]
+  listRequests(input: PaginationInput): ListRequisitionsResponse
+  getRequest(requestId: Int): Requisition
+  filterRequest(filter: FilterInput, pagination: PaginationInput, user_id: Int): ListRequisitionsResponse
+  listRequisitionStatus: [RequisitionStatus]
+  searchRequisition(keyword: String, pagination: PaginationInput, user_id: Int): ListRequisitionsResponse
+  listStaffRequests(input: ListStaffRequestsInput): ListRequisitionsResponse
+  listUsersRequests(input: ListUsersRequestsInput): ListRequisitionsResponse
+  listCurrency: [Currency!]
+  listSuppliers(pagination: PaginationInput!): SupplierQueryResponse
+  listProcurementSuppliers: [ProcurementSuppliers]
+  getProcurementSupplier(supplierId: Int!): Supplier!
+  searchSupplier(input: SupplierSearchInput): SupplierQueryResponse
+  listProcurementProformaInvoices(requisitionId: Int): [ProcurementProformaInvoice]
+  getProcurementSummaryReport(requisitionId: Int): ProcurementSummaryReport
+  getProcurmentPurchaseOrder(requisitionId: Int): ProcurementPurchaseOrder
+  listProcurementCategories: [Category]
+  listProcurementAccessLevels(input: ListProcurementAccessLevelInput): ListProcurementAccessLevelResponse
+  getProcurmentAccessLevel(id: Int): ProcurementAccessLevel
+  searchProcurmentAccessLevels(input: SearchProcurementAccessLevelInput): ListProcurementAccessLevelResponse
+  getUserProcurementAccessLevel(user_id: Int): ProcurementAccessLevel
+  me: User
+  authSmokeTest: AuthSmokeTestResponse
+  authDBSmokeTest: AuthSmokeTestResponse
+  listActiveUsers: [User!]!
+  listInActiveUsers: [User!]!
+  listAllUsers: [User!]!
+  user(id: ID!): User
+  lastIdNumber: User
+  fetchArmsUsers: User
+  listUserByRole(role: String!): [User!]!
+  listAccessLevels: [AccessLevel]
+  listLimitedAccessLevel: [AccessLevel]
+  searchAccessLevels(search: String): [AccessLevel]
+  getAccessLevel(id: ID!): AccessLevel
+  getUserAccessLevel(user_id: ID!): AccessLevel
+  listAccessLevelTypes: [AccessLevelType]
+  getAccessLevelType(id: ID!): AccessLevelType
+  listUsersWithoutAccessLevel: [User]
+  arms_fetch: [Arms]
+  getManagersComment(user_id: Int): [EmployeeManagerComment]
+  getEmployeeAppraisal(user_id: Int): [EmployeeAppraisal]
+  getDevelopmentPlan(user_id: Int): [EmployeeDevelopmentPlan]
+  approvers: [Approvers]
+  listRates: [Rate]
+  getRate(id: ID): Rate
+  getOrganizationRate(data: OrganizationRateInput): [Rate]
+  listContracts(data: ContractInput): ContractWIthCount
+  getContract(data: ContractInput): Contract
+  getContractTemplate(data: ContractInput): [ContractTemplate]
+  listContractByClient(data: ContractInput): ContractByClient
+  listClientContract(data: ContractInput): ContractsForClient
+  listApproverContracts(data: ContractApproverInput): [ContractApprover]
+  listContractComment(data: ContractCommentInput): [ContractComment]
+  listOrganizationByContractType(data: ContractInput): [Contract]
+  listDocuments: [Documents!]!
+  searchDocument(name: String!): [Documents]
+  searchUserDocument(name: String!): [UserDocuments]
+  listUserDocuments(user_id: ID): [UserDocuments!]
+  listFolderFiles(id: ID!, search: String): [FolderFile]
+  listUserFolderFiles(id: ID!, search: String): [UserFolderFile]
+  emsSmokeTest: SmokeTestResponse
+  emsDBSmokeTest: SmokeTestResponse
+  getLocation(id: ID!): Location
+  listLocations: [Location]
+  searchLocation(name: String): [Location]
+  getDepartment(data: DepartmentInput): Department
+  listDepartments: [Department]
+  searchDepartment(name: String): [Department]
+  getPosition(id: ID!): Position
+  listPositions: [Position]
+  listPositionsForLeaves(token: String!): [Position]
+  listPositionsWithFilters(data: listPositionWithFiltersInput): [Position]
+  searchPosition(name: String): [Position]
+  getEmployeeInfo(id: ID!): [EmployeeInfo]
+  getEmployeeInfoById(id: ID!): EmployeeInfo
+  getEmployeeActiveInfo(user_id: ID!): EmployeeInfo
+  listEmployeeInfosWithFilters(data: EmployeeInfoFilters): EmployeeInfoWithCount
+  listEmployeesForProject(data: [projectRequirements], take: Int, skip: Int, search: String): [EmployeeInfoWithCount]
+  listCdcAdvisors: [EmployeeInfo]
+  getEmployeeType(id: ID!): EmployeeType
+  listEmployeeTypes: [EmployeeType]
+  searchEmployeeType(name: String): [EmployeeType]
+  getIdPrefix(id: ID!): IdPrefix
+  listIdPrefix: [IdPrefix]
+  searchIdPrefix(name: String): [IdPrefix]
+  getEmployeeContact(id: ID!): EmployeeContact
+  listEmployeeContacts: [EmployeeContact]
+  checkEmailExistence(data: EmailInput!): EmployeeContact
+  getEmployeeBio(id: ID!): EmployeeBio
+  listEmployees(data: EmployeeFilters): EmployeesWithCount
+  listEmployeesForResourceStaffing(data: EmployeeProjectFilters): EmployeesWithCount
+  listEmployeesForLeaves(data: EmployeeFilters, token: String!): EmployeesWithCount
+  getSocialMedia(id: ID!): SocialMediaHandlers
+  getEducationInformation(data: EducationInformationInput!): [EducationInformation]
+  getEducationInformationById(id: Int!): EducationInformation
+  getEmployeeSkills(user_id: ID!): [EmployeeSkills]
+  getEmployeeSkillById(id: ID!): EmployeeSkills
+  listEmployeeSkills: [EmployeeSkills]
+  getEmployeeEmergencyContact(user_id: ID!): [EmployeeEmergencyContact]
+  getEmployeeEmergencyContactById(id: Int!): EmployeeEmergencyContact
+  listEmployeeEmergencyContact: [EmployeeEmergencyContact]
+  getEmployeeFamilyContact(user_id: ID!): [EmployeeFamilyContact]
+  getEmployeeFamilyContactById(id: Int!): EmployeeFamilyContact
+  listEmployeeFamilyContact: [EmployeeFamilyContact]
+  getBankDetails(data: BankDetailsInput!): EmployeeBankDetails
+  getEmployeeIdentification(user_id: ID!): [EmployeeIdentification]
+  getEmployeeIdentificationById(id: ID!): EmployeeIdentification
+  listEmployeeIdentification: [EmployeeIdentification]
+  getEmployeeStatus(id: ID!): [EmployeeStatus]
+  getEmployeeStatusById(id: Int!): EmployeeStatus
+  listEmployeeStatus: [EmployeeStatus]
+  getEmployeeSalary(id: ID!): [EmployeeSalary]
+  getEmployeeSalaryById(id: ID!): EmployeeSalary
+  listEmployeeSalary: [EmployeeSalary]
+  activeUsers(data: Pagination): [EmployeeInfo]
+  inactiveUsers(data: Pagination): [EmployeeInfo]
+  getOnboardingPacket(user_id: ID): EmployeeOnboardingPacket
+  shareWithGroup(data: shareFileWithGroupInput!): [Int]
+  shareWithAll: [Int]
+  listSeniorityLevels: [SeniorityLevel]
+  getSeniorityLevel(id: ID!): SeniorityLevel
+  listSeniorityLevelsWithFilters(data: listSeniorityLevelsFiltersInput): [SeniorityLevel]
+  getEmployeeBenefits(user_id: Int): [EmployeeBenefit]
+  getBonusHistory(user_id: ID): [EmployeeBonus]
+  managersNotes(user_id: ID!, created_by: ID): [ManagersNote]
+  allArchiveNote(user_id: ID!, created_by: ID!): [ManagersNote]
+  listManagersForProject(data: listManagersForProjectInput!): listManagersForProjectResponse
+  getEmployeeInfoForLeaves(id: ID!, token: String!): [EmployeeInfo]!
+
+  """Get celebrations for the next 7 days after the current date"""
+  getCelebrations: [Celebration]!
+  listEmployeeAccessLevels: [EmployeeAccessLevel]
+  listLimitedEmployeeAccessLevel: [EmployeeAccessLevel]
+  searchEmployeeAccessLevels(search: String): [EmployeeAccessLevel]
+  getEmployeeAccessLevel(id: ID!): EmployeeAccessLevel
+  getUserEmployeeAccessLevel(user_id: ID!): EmployeeAccessLevel
+  listUsersWithoutEmployeeAccessLevel: [User]
+  listInvoiceAgentConfigs: [InvoiceAgentConfig!]
+  getInvoiceAgentConfig(id: ID!): InvoiceAgentConfig
+  listAssignedInvoiceOrganizations(agent_id: ID!): [AssignedInvoiceOrganization!]!
+  getAssignedInvoiceOrganization(agent_id: ID!, organization_id: ID!): AssignedInvoiceOrganization!
+  getAssignedInvoiceClient(agent_id: ID!, client_id: ID!): AssignedInvoiceClient!
+  getInvoice(id: ID!): Invoice!
+  getLeavePolicy(id: ID!): LeavePolicy
+  listLeavePolicies: [LeavePolicy]
+  getLeaveType(id: ID!): LeaveType
+  listLeaveTypes: [LeaveType]
+
+  """
+  Check for and return the number of leave polixies assigned to given leave type
+  """
+  checkForAssignedLeavePolicies(leave_type_id: ID!): Int!
+  listHolidays: [Holiday]
+  getHoliday(id: ID!): Holiday
+  leavesSmokeTest: LeavesSmokeTestResponse!
+  leavesDbSmokeTest: LeavesSmokeTestResponse!
+
+  """Get upcoming holidays in the next 60 days"""
+  getUpcomingHolidays: [Holiday]!
+  listHolidaysByCountry(country: String): [Holiday]!
+  getAccruedDaysByUserId(user_id: ID!): AccruedDaysResponse!
+  getLeaveHistoryByUserId(user_id: ID!, page: LeavePaginationInput): [LeaveHistory]!
+  getUpcomingTimeOff(user_id: ID!, page: LeavePaginationInput): [LeaveHistory]!
+  getManagerRequests(manager_id: ID!, page: LeavePaginationInput): [LeaveRequest]!
+  getEmployeeLeavePlanner(user_id: ID!): LeavePlanner!
+  listManagerLeavePlanner(manager_id: ID!): [LeavePlanner]!
+  listHrLeaveRequests(data: LeavePaginationInput): [LeaveRequest]!
+  listHrLeavesInfo(data: LeavePaginationInput): BatchLeavesInfo!
+  listCommentsById(request_id: ID!): [LeaveComment]!
+  generateLeavesCsvByDate(date: DateTime!): [LeavesCsvResponse]!
+  leaveCalculator(date: DateTime!, user_id: ID!): Float!
+  whoIsOut: WhoIsOutResponse!
+  listLeaveApprovers: [LeaveApprovers]!
+  checkForAssignedLeaveApprover(organization_id: ID!): Boolean!
+
+  """Query to get loan approval structure"""
+  getLoanApprovalStructure: [Approver!]!
+  listLoanApprovers: [Approver!]!
+
+  """Query to get details of a user"""
+  getEmailDetails(userId: Int): EmailDetails
+
+  """Query to get all the loan forms"""
+  listLoanForms(listLoanFormsInput: ListLoanFormsInput): ListLoanFormsResponse
+
+  """Preview a loan form"""
+  previewLoanForm(loanFormId: Int): LoanForms
+
+  """Query to get all active loan forms"""
+  listActiveLoanForms: [LoanForms]
+
+  """Query to get all active loan forms"""
+  activeLoanForms: [LoanForms]
+
+  """Query to get all loans"""
+  listLoans: [Loan!]
+
+  """Query to get loan summary"""
+  getLoanSummary: LoanSummary
+
+  """Query to get all loans of a particular user"""
+  listUserLoans(userId: Int!, listUserLoansInput: ListUserLoansInput): ListUserLoansResponse
+
+  """Query to get a particular loan by its Int"""
+  getLoanById(loanId: Int): Loan
+
+  """Query to get a particular loan by a particular user"""
+  getLoanByUserIdAndLoanId(userId: Int, loanId: Int): Loan
+
+  """
+  Query to get loans based on status, loanType, date range and active status
+  """
+  filterLoans(filterLoansInput: FilterLoansInput): FilterLoansResponse
+
+  """Query to export  all loans based on filtration"""
+  exportLoans(exportLoansInput: ExportLoansInput): [Loan]
+
+  """Query to get all loan types"""
+  listLoanTypes(listLoanTypeInput: ListLoanTypeInput): ListLoanTypesResponse
+
+  """Query to get a specific loan type"""
+  getLoanTypeById(loanTypeId: Int): LoanType
+
+  """Query to get all active loan types"""
+  listActiveLoanTypes: [LoanType]
+
+  """Query to get all active loan types for user"""
+  activeLoanTypes: [LoanType]
+
+  """Query to download a form"""
+  downloadForm(formId: Int): String
+  loansHealthCheck: String
+  loansAPICheck: String
+  loansDBCheck: String
+  listLoanStatus: [LoanStatus]
+  listAllCompetencies(data: AllAssessmentPagination): [Competencies]!
+  getCompetencyById(id: ID!): Competencies
+  getCompetencyByName(competency_name: String): Competencies
+  filterForActiveCompetencies(data: AssessmentPagination): [Competencies]
+  filterAllCompetencies(data: CompetencyAssessmentPagination): [Competencies]
+  listAllAssessmentCycle: [AssessmentCycle]
+  getAssessmentById(id: ID!): AssessmentCycle
+  FilterActiveAssessmentCycle(data: FilterAssessment): [AssessmentCycle]
+  FilterInactiveAssessmentCycle: [AssessmentCycle]
+  FilterByUsersUnderEachMonth(assessment_date_input: String): [UnderEachMonth]
+  FilterByUsersUnderClientAssessment(user_id: ID!): [UnderAssessment]
+  FilterByUsersUnderPeerAssessment(user_id: ID!): [PeerSelectionForUser]
+  FilterByUsersUnderDirectReportAssessment(user_id: ID!): [UnderAssessment]
+  FilterByUsersUnderSelfAssessment(user_id: ID!): [UnderAssessment]
+  FilterByUsersUnderManagerAssessment(user_id: ID!): [UnderAssessment]
+  FilterForCompletedAssessment(data: FilterAssessmentdate): [UnderAssessment]
+  AssessmentUnderEachMonth: [Message]
+  AssessmentIsDue: [Message]
+  getUpcomingAssessment(user_id: Int): UpcomingAssessment
+  checkAssessmentCompletionStatus: CompletionStatus
+  checkAssessmentAutomationStatus: CompletionStatus
+  filterAssessment(data: filter_month): [Message]
+  getEmployeeUpcomingAssessment(user_id: Int): [getUserUpcomingAssessment]
+  getEmployeesDueForAssessment: Employee_dues_for_Assessment
+  listAllQuestionnaire: [Questionnaire]!
+  getQuestionId(id: ID!): Questionnaire
+  getQuestionByName(question_title: String): Questionnaire
+  FilterActiveQuestion: [Questionnaire]
+  FilterInactiveQuestion: [Questionnaire]
+  filterAllQuestionnaires(data: FilterQuestions): [Questionnaire]
+  getPerformanceResult(user_id: ID!): [PerformanceResult]
+  getSelfAssessmentResults(user_id: ID!): [SelfResult]
+  getPerformanceResultById(id: ID!): [PerformanceResult]
+  getCDCDecision(performance_id: ID): PerformanceResult
+  getEmployeePerformanceResultView(data: employeePerformanceResultViewInput): assessmentResultView
+  getEmployeeDirectPeerPerformanceResultView(data: employeePerformanceDirectPeerResultViewInput): assessmentPeerDirectResultView
+  FilterByPeerAssignment(user_id: ID!): [UnderAssessment]
+  UserNotificationsById(id: ID!): UserNotificationForQuestion
+  areasOfImprovementsById(id: ID!): AreasOfImprovement
+  areasOfImprovementsByUserId(user_id: ID!): [AreasOfImprovement]
+  filterAllCareerDevelopmentPlan(user_id: Int): [CareerDevelopmentPlan]
+  listPerformanceImprovementPlans(user_id: Int): [ListPerformanceImprovementPlans]
+  getUserManagerComment(user_id: Int): [managers_comment]
+  CurrentAssessment(user_id: Int!): [CurrentAssessmentResult]
+  listAllAssessmentDate(user_id: Int!): [CurrentAssessmentDate]
+  getCDCTimelines(data: TimelinesAssessmentPagination): [cdc_timelines]
+  getCDCAssessmentType(data: CDCAssessmentPagination): [cdc_assessment_types]
+  performanceHealthCheck: String
+  perfomanceDatabaseCheck: String
+  listSpecializations(data: ResourcePaginationInput): [Specialization!]
+  getSpecialization(data: ResourcePaginationInput): Specialization
+  listClients(data: ResourcePaginationInput): [Client!]
+  getClient(data: ResourcePaginationInput): Client
+  getParentOrganizations(data: ResourcePaginationInput): [Client]
+  selectSpecializations: [Specialization]
+  selectClients: [Client]
+  selectOrganizations: [Client]
+  listParentOrganizations(data: ResourcePaginationInput): [Client]
+  listOffices: [Office]
+  getOffice(id: ID): Office!
+  filterOffice(data: OfficeInput): OfficeWithCount
+  selectOffices: [Office]
+  listSkills(data: ResourcePaginationInput): [Skill]
+  getSkill(id: ID): Skill
+  selectSkills: [Skill]
+  getStaffSkill(data: staffSkillInput): [StaffSkill]
+  getProjectConfiguration: project_configuration
+  projects(data: paginationInput): [Project]
+  project(data: ProjectInput): Project
+  user_on_project(id: ID): [project_staffs]
+  searchProject(name: String): [Project]
+  filterProjectStatus(data: filterData): ProjectWithCount
+  filterProjectDetails(data: filterDetailsPage): [project_staffs]
+  filterProjectDetailsWithStaff(data: filterDetailsPage): FilterProject
+  selectProjects: [Project]
+  listActiveProjects: [Project]
+  listProjectFolderFiles(data: ProjectFolderInput): project_folder
+  listProjectFolders(id: ID!): [project_folder]
+  searchProjectFolderFiles(folder_id: Int, search_name: String): [file]
+  getProjectNote(project_id: Int!, id: ID!): project_note
+  listProjectNotes(data: getProjectNoteInput): [project_note]
+  filterSpecialization(data: AddSpecializationInput): SpecializationWithCount
+  filterSkill(data: SkillInput): SkillWithCount
+  filterClient(data: ClientInput): ClientWithCount
+  globalStaffing: [sortedStaff]
+  userCurrentProject(userId: ID, cdcAdvisor: ID): userCurrentProject
+  getMutipleClients(data: MultipleClientsInput): MultipleClients
+  getMultipleProjects(data: multipleProjectsInput): MultipleProjects
+  getMultipleProjectsFilter(data: multipleProjectsInput): MultipleProjects
+  getManagerProject(userId: ID): ManagerProjects
+  resourceHealthCheck: String
+  resourceDBCheck: String
+  getUserInfo(userId: Int): UserDetails
+  teamsheetQuery(input: teamsheetInput): TeamsheetReturnType
+  teamsheetViewDetailsQuery(input: teamsheetViewDetailsInput): Teamsheet
+  teamsheetViewMoreQuery(input: teamsheetViewDetailsInput): Teamsheet
+  exportTeamsheetViewMoreQuery(input: teamsheetViewDetailsInput): detailTeamsheet
+  myTeamQuery(input: myTeamQueryInput): TeamsheetReturnType
+  basicReports(input: basicReportingInput): basicReporting
+  exportBasicReports(input: exportBasicReportingInput): [TimeTracker]
+  allCategories: [Categories]
+  categoryById(id: Int!): Categories
+  listClockConfiguration: ClockConfiguration
+  allClockItEmployees(input: clockItEmployeeBioInput): AllProjectStaffs
+  getPreferenceByUserId(user_id: ID!): PreferenceSettings
+  allClockItProjects(input: clockItProjectsInput): AllClockItProjects
+  allProjectClocks(input: allProjectClocksInput): [projectClocks]
+  timeHealthCheck: String
+  timeDatabaseCheck: String
+  listSongs: [Songs]
+  getTaskPlannerById(user_id: ID!): [TaskPlanner]
+  getTaskPlannerByDay(input: getTaskPlannerByDayInput): [TaskPlanner]
+  getTaskPlannerByWeek(input: getTaskPlannerByWeekInput): [TaskPlanner]
+  getTaskPlannerByMonth(input: getTaskPlannerByMonthInput): [TaskPlanner]
+  getUsersClockByWeek(input: getUsersClockByMonthInput): [TimeFilterData]
+  getUsersClockByMonth(input: getUsersClockByMonthInput): [TimeFilterData]
+}
+
+type QuestionAnswers {
+  id: ID
+  justify_response: String
+  responses: [Response]
+  answered_by: Int
+  answered_at: String
+  assessment_name: String
+  assessment_date: String
+  questionnaire_group_id: Int
+}
+
+input QuestionAnswersInput {
+  responses: [[ResponsesInput]]
+  justify_competencies: [justifyCompetenciesInput]
+  questionnaire_group_id: Int
+  assessment_name: String
+  employee_assessment_id: Int
+  assessment_date: String
+  answered_by: Int
+  justify_response: String
+  summary_comment: String
+  promotion_type: String
+}
+
+type QuestionAnswersSuccess {
+  success: String
+}
+
+type QuestionGroup {
+  id: ID
+  question: String
+  required_field: Boolean
+  questionnaire_id: String
+  questionnaire_group_id: Int
+  question_id: String
+  competency_id: Int
+  options_type: String
+  minimum_score: String
+  maximum_score: String
+  deleted: Boolean
+  updated_at: String
+  created_at: String
+  created_by: Int
+  updated_by: Int
+  deleted_at: String
+}
+
+type Questionnaire {
+  id: ID
+  questionnaire_title: String
+  questionnaire_description: String
+  questions: [QuestionGroup]
+  competency: [Competencies]
+  responses: [QuestionAnswers]
+  competency_based: Boolean
+  updated_at: String
+  created_at: String
+  created_by: ID
+  deleted: Boolean
+  updated_by: ID
+  deleted_at: String
+}
+
+type Rate {
+  id: ID
+  organization_id: Int
+  organization: Client
+  seniority_level_id: Int
+  seniority_level: SeniorityLevel
+  rate_per_hour: Float
+  rate_per_month: Float
+  rate_specialization: [RateSpecialization]
+}
+
+type RateSpecialization {
+  id: ID
+  rate_id: Int
+  specialization_id: Int
+  specialization: Specialization
+  rate_per_hour: Float
+  rate_per_month: Float
+  rate: Rate
+}
+
+input RateSpecializationInput {
+  id: ID
+  specialization_id: Int
+  rate_per_hour: Float
+  rate_per_month: Float
+}
+
+enum RateTypeEnum {
+  Hour
+  Month
+  Project
+}
+
+type Read {
+  message: String
+}
+
+type RecommendationActionResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+}
+
+type RefreshTokenResponse {
+  access_token: String
+  refresh_token: String
+}
+
+input registryInput {
+  user_id: Int
+  employee_id: String
+  full_name: String
+  position: String
+  department: String
+  specialization: String
+  location: String
+  employee_type: String
+  employee_status: String
+}
+
+input remindEmailInput {
+  user_id: Int
+  name: String
+  email: String
+}
+
+input removeStaffInput {
+  id: Int
+  employee_name: String
+  employee_email: String
+}
+
+type ReportStatus {
+  message: String
+}
+
+type RequestMutationResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Record of the request"""
+  data: Requisition
+}
+
+type RequestProformaInvoiceResponse implements MutationResponse {
+  """status code"""
+  code: Int!
+
+  """boolean to check success"""
+  success: Boolean!
+
+  """returned message"""
+  message: String!
+}
+
+type required_skills {
+  project_requirements__id: Int
+  project_requirements: project_requirements
+  skill_id: [Int]
+  skill: Skill
+  skill_level: String
+  id: ID
+}
+
+input requirement {
+  specialization_id: Int
+  position_id: Int
+  skill_ids: [Int]
+  employees_required: Int
+  seniority_level_id: Int
+}
+
+type Requisition {
+  """Autogenerated Id"""
+  id: Int!
+
+  """The ID of the requester"""
+  user_id: Int!
+
+  """Other information about the user"""
+  user_info: EmployeeInfo!
+
+  """Generated reference id for each request"""
+  reference_id: String
+
+  """Name of the item being requested for"""
+  item_name: String
+
+  """Quantity of the item"""
+  quantity: Float
+
+  """Justification for the request"""
+  justification: String
+
+  """Is it a draft or a request?"""
+  is_draft: Boolean
+
+  """The currency the item is priced in"""
+  currency: String
+
+  """The unit price of the item"""
+  unit_price: String
+
+  """The specifications of the item to be purchased"""
+  item_specification: String
+
+  """The domain for the request, Department or Project"""
+  request_type: String
+
+  """The current status of the request"""
+  request_status: String
+
+  """The priority of the requisition"""
+  priority: String
+
+  """Total cost of the requisition"""
+  total_cost: String
+
+  """The average response time of an approver"""
+  average_response_time: String
+
+  """Department or project name"""
+  dept_or_proj: String
+
+  """Documents related to the request"""
+  attachments: [Attachment]
+
+  """The category of the item"""
+  category: String
+
+  """The category id"""
+  category_id: Int
+
+  """The list of the approvers of the request"""
+  approvals: [RequisitionApproval!]
+
+  """The timestamp of request creation"""
+  created_at: String
+
+  """the user id of the cap-approver supposed to approve the request"""
+  cap_approver_user_id: Int
+}
+
+type RequisitionApproval {
+  approver: RequisitionApproverDetails
+  requisition_id: Int
+  comment: String!
+  signature: String
+  is_approved: Boolean!
+  approved_at: String!
+  order: Int
+}
+
+type RequisitionApprovalResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Record of the request"""
+  data: Requisition
+}
+
+type RequisitionApproverDetails {
+  """Approver id"""
+  user_id: Int
+
+  """approver user details"""
+  user_info: EmployeeBio!
+
+  """approver user info"""
+  user: User!
+}
+
+input RequisitionInput {
+  """The user id of the requester"""
+  user_id: Int!
+
+  """The name of the item being requested for"""
+  item_name: String!
+
+  """The quantity of the item"""
+  quantity: Float
+
+  """Save as a request or a draft"""
+  is_draft: Boolean
+
+  """The id of the currency the item is priced in"""
+  currency_id: Int
+
+  """The unit price of the item"""
+  unit_price: Float
+
+  """The specifications of the item"""
+  item_specification: String
+
+  """Justification for the request"""
+  justification: String
+
+  """The type of the request"""
+  request_type_id: Int
+
+  """The department name"""
+  department_name: String
+
+  """The project name"""
+  project_name: String
+
+  """The user id of the first approver"""
+  approver_user_id: Int
+
+  """The first name of the first approver"""
+  approver_first_name: String
+
+  """The last name of the first approver"""
+  approver_last_name: String
+
+  """The email of the first approver"""
+  approver_email: String
+
+  """The priority of the request"""
+  priority: String
+
+  """The category of the request"""
+  category_id: Int
+
+  """Documents attached to a request"""
+  attachments: [AttachmentInput]
+
+  """The user_id of the requester"""
+  created_by: Int
+}
+
+type RequisitionStatus {
+  """Autogenerated id"""
+  id: Int!
+
+  """Status"""
+  status: String!
+}
+
+input ResetPasswordInput {
+  email: EmailAddress!
+}
+
+type ResetPasswordPayload {
+  email: EmailAddress!
+}
+
+type Resource {
+  id: ID!
+  name: String!
+  time_spent: Float!
+  rate_type: RateTypeEnum!
+  rate: Float!
+  quantity: Int!
+  amount: Float!
+}
+
+input ResourceInput {
+  name: String!
+  time_spent: Float!
+  rate_type: RateTypeEnum!
+  rate: Float!
+  quantity: Int!
+  amount: Float!
+}
+
+input ResourcePaginationInput {
+  id: Int
+  skip: Int
+  take: Int
+  isOrganization: Boolean
+  confirmation_status: Confirmation_Status
+  staff_active: Boolean
+  archive: Boolean
+  name: String
+}
+
+type resources {
+  temp_id: String
+  name: String
+}
+
+input resourcesInput {
+  id: Int
+  contract_id: Int
+  resource_name: String
+  specialization_id: Int
+  seniority_level_id: Int
+  rate_amount: Float
+  employees_required: Int
+}
+
+input resourcesInputs {
+  temp_id: String
+  name: String
+}
+
+type Response {
+  question_id: Int
+  competency_id: Int
+  response_data: String
+}
+
+interface ResponseData {
+  code: Int
+  success: Boolean
+  message: String
+}
+
+interface ResponseObject {
+  code: Int!
+  success: Boolean
+  message: String!
+}
+
+type Responses {
+  response_data: String
+  question: String
+  question_id: Int
+  competency_id: Int
+  required_field: Boolean
+  options_type: String
+}
+
+input ResponsesInput {
+  response_data: String
+  question_id: Int
+  competency_id: Int
+  required_field: Boolean
+  options_type: String
+}
+
+type returnMessage {
+  message: String
+}
+
+enum Role {
+  Team_Lead
+  Member
+  Backup
+}
+
+type S3Object {
+  ETag: String
+  Location: String!
+  key: String
+  Bucket: String
+}
+
+input SearchProcurementAccessLevelInput {
+  """seach term"""
+  keyword: String
+
+  """records to skip"""
+  skip: Int
+
+  """records to take"""
+  take: Int
+}
+
+input searchUserInput {
+  name: String!
+  take: Int!
+  skip: Int!
+}
+
+type SelfResult {
+  user_method_competency: Float
+  user_problem_handle: Float
+  user_social_competency: Float
+  user_Leadership: Float
+  user_Expertise: Float
+}
+
+input SendInvoiceInput {
+  recipients: [InvoiceMailRecipientInput!]!
+  pdf_url: String!
+  invoice_id: ID!
+  template_color: String!
+}
+
+type Seniority_level {
+  id: ID
+  level: SeniorityLevel
+  staff_count: Int
+  required_staff: Int
+}
+
+type SeniorityLevel {
+  id: ID
+  name: String
+  positions: [Position]
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  deleted: Boolean
+  created_by: ID
+  updated_by: ID
+  deleted_by: ID
+  createdBy: User
+  updatedBy: User
+}
+
+input setLeaveApproversInput {
+  organization_id: ID!
+  user_ids: [ID]!
+  description: String
+}
+
+input shareFileInput {
+  file_id: ID!
+  shareWith: [Int]
+}
+
+input shareFileWithGroupInput {
+  office: [Int]!
+  department: [Int]!
+  position: [Int]!
+}
+
+input shareFolderInput {
+  folder_id: ID!
+  shareWith: [ID]
+}
+
+type signature {
+  id: Int
+  name: String
+  signature: String
+  date_signed: String
+}
+
+input SignPIPInput {
+  id: Int
+  name: String
+  signature: String
+  date_signed: String
+}
+
+input SingleRateInput {
+  id: ID
+  organization_id: Int
+  seniority_level_id: Int
+  rate_per_hour: Float
+  rate_per_month: Float
+  rate_specialization: [RateSpecializationInput]
+}
+
+type Skill {
+  id: ID
+  name: String
+  validator_id: Int
+  validator: User
+  archive: Boolean
+  created_at: String
+  updated_at: String
+  archived_at: String
+  created_by: Int!
+  updated_by: Int
+  created_by_user: User
+  updated_by_user: User
+  specializations: [Specialization]
+  required_skills: [required_skills]
+  staff_skill: [StaffSkill]
+}
+
+input SkillInput {
+  name: String
+  validator_id: Int
+  created_by: Int
+  specialization_ids: [Int]
+  archive: Boolean
+  skip: Int
+  take: Int
+}
+
+type SkillWithCount {
+  skill: [Skill]
+  count: Int
+}
+
+type SmokeTestResponse {
+  uptime: String!
+  success: String!
+}
+
+type SocialMediaHandlers {
+  id: ID!
+  user_id: ID!
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
+  user: User
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type Songs {
+  id: Int
+  song_name: String
+  song_url: String
+  created_at: String
+  updated_at: String
+  created_by: Int
+  updated_by: Int
+}
+
+type sortedProject {
+  primaryProject: [project_staffs]
+  secondaryProject: [project_staffs]
+}
+
+type sortedStaff {
+  user_id: Int
+  utilizationPercentage: Int
+  availabilityPercentage: Int
+  twoMonthsAvailability: Boolean
+  billability: Boolean
+  currentProjects: sortedProject
+  proposedProjects: [project_staffs]
+  previousProjects: [project_staffs]
+}
+
+type Specialization {
+  id: ID
+  name: String
+  archive: Boolean
+  created_at: String
+  updated_at: String
+  archived_at: String
+  created_by: ID
+  updated_by: ID
+  created_by_user: User
+  updated_by_user: User
+  skills: [Skill]
+  project_requirements: [project_requirements]
+}
+
+type SpecializationWithCount {
+  specialization: [Specialization]
+  count: Int
+}
+
+input staff {
+  user_id: Int
+  skill_ids: [Int]
+  specialization_id: Int
+  seniority_level_id: Int
+}
+
+type Staff {
+  user_id: ID
+  employee: EmployeeInfo
+  staff_projects: [project_staffs]
+}
+
+input staffConfirmationInput {
+  id: Int
+  billability_status: Billability_Status
+  confirmation_status: Confirmation_Status
+  role: Role
+  project_hours: Int
+  project_start_date: String
+  project_end_date: String
+  employee_email: String
+  employee_name: String
+  technical_manager_name: String
+  business_manager_name: String
+}
+
+type StaffSkill {
+  id: ID
+  project_id: Int
+  project: Project
+  skill_id: Int
+  skills: Skill
+  staff_id: Int
+}
+
+input staffSkillInput {
+  id: Int
+  project_id: Int
+  project_staff_id: Int
+  skill_id: Int
+  staff_id: Int
+}
+
+type Subscription {
+  counter: String
+}
+
+type SummaryDetails {
+  week_type: String
+  logged_time: String
+  missing_hours: String
+  overtime_hours: String
+  over_schedule: String
+  total_capacity: String
+  total_hours: String
+}
+
+type Supplier {
+  """Autogenerated id"""
+  id: Int!
+
+  """The name of the supplier"""
+  supplier_name: String!
+
+  """The phone number of the supplier"""
+  phone_number: String!
+
+  """The email of the supplier"""
+  supplier_email: String!
+
+  """The name of the contact person"""
+  contact_person: String!
+
+  """The street address of the supplier"""
+  street_address: String!
+
+  """Business registration number"""
+  business_reg_no: String
+
+  """The Tax Identification Number of the business"""
+  business_tin_no: String
+
+  """Is the business exempted from taxes?"""
+  is_tax_exempt: Boolean!
+
+  """Business description"""
+  business_description: String
+
+  """Number of branches the supplier has"""
+  no_of_branches: Int
+
+  """The bank account name of the supplier"""
+  business_acc_name: String
+
+  """The bank branch of the supplier"""
+  bank_branch: String
+
+  """The swift code of the supplier's bank"""
+  swift_code: String
+
+  """The bank account number of the supplier"""
+  bank_acct_no: String
+
+  """Is the supplier archived?"""
+  is_archived: Boolean!
+
+  """Documents related to a supplier"""
+  documents: [SupplierDocuments]
+
+  """Category of the supplier"""
+  category: String
+
+  """The autogenerated id of the category"""
+  category_id: Int
+
+  """The timestamp for the supplier creation"""
+  created_at: String!
+
+  """The user id of the user that created the supplier"""
+  created_by: Int!
+
+  """The timestamp for when a supplier is updated"""
+  updated_at: String
+
+  """The user id of the user that updatyed the supplier"""
+  updated_by: Int
+}
+
+type SupplierDocuments {
+  """The document name"""
+  document_name: String
+
+  """The link to the document"""
+  document_url: String
+
+  """The type of the document, eg taxClearance"""
+  document_type: String
+}
+
+input SupplierDocumentsInput {
+  """The document name"""
+  document_name: String
+
+  """The link to the document"""
+  document_url: String
+
+  """The type of the document, eg taxClearance"""
+  document_type: String
+}
+
+input SupplierInput {
+  """The name of the supplier"""
+  supplier_name: String!
+
+  """The phone number of the supplier"""
+  phone_number: String!
+
+  """The email of the supplier"""
+  supplier_email: String!
+
+  """The name of the contact person"""
+  contact_person: String!
+
+  """The street address of the supplier"""
+  street_address: String!
+
+  """Business registration number"""
+  business_reg_no: String
+
+  """The Tax Identification Number of the business"""
+  business_tin_no: String
+
+  """Is the business exempted from taxes?"""
+  is_tax_exempt: Boolean!
+
+  """Business description"""
+  business_description: String
+
+  """Number of branches the supplier has"""
+  no_of_branches: Int
+
+  """The bank account name of the supplier"""
+  business_acc_name: String
+
+  """The bank branch of the supplier"""
+  bank_branch: String
+
+  """The swift code of the supplier's bank"""
+  swift_code: String
+
+  """The bank account number of the supplier"""
+  bank_acct_no: String
+
+  """Is the supplier archived"""
+  is_archived: Boolean!
+
+  """The autogenerated id of the category"""
+  category_id: Int
+
+  """The user id of the user creating the supplier"""
+  created_by: Int!
+
+  """Documents related to a supplier"""
+  documents: [SupplierDocumentsInput]
+}
+
+type SupplierMutationResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Record of the request"""
+  data: Supplier
+}
+
+type SupplierQueryResponse {
+  """The number of requests"""
+  count: Int
+
+  """List of suppliers"""
+  data: [Supplier]
+}
+
+input SupplierSearchInput {
+  """search keyword"""
+  keyword: String
+
+  """record to be skiped"""
+  skip: Int!
+
+  """records to be returned"""
+  take: Int!
+}
+
+type TaskPlanner {
+  id: Int
+  user_id: Int
+  task_name: String
+  category_id: Int
+  project_id: Int
+  project_name: String
+  start_time: String
+  end_time: String
+  duration: String
+  is_checked: Boolean
+  date: String
+  created_at: String
+  updated_at: String
+  created_by: Int
+  updated_by: Int
+  overtime: String
+  missing: String
+  daily_duration: String
+  weekly_duration: String
+  total_duration: String
+  working_hours: String
+  message: String
+  user_role: String
+  category: Categories
+  project: ClockItProjects
+  details: [ApprovalFormat]
+}
+
+type Teamsheet {
+  id: Int
+  approve_status: String
+  assessed_by: TimeTracker
+  assessed_at: String
+  is_validated: Boolean
+  is_locked: Boolean
+  validated_by: Int
+  validated_at: String
+  total_capacity: String
+  logged_hours: String
+  approved_hours: String
+  user: TimeTracker
+  user_role: String
+  details: IndividualsDetails
+  clock_data: [TeamsheetTypeReturn]
+  all_clocks: [TimeFilterData]
+}
+
+input teamsheetInput {
+  project_id: Int
+  month_number: Int!
+  overtime_filter: String
+}
+
+type TeamsheetLogsType {
+  days: String
+  project_logs: [TaskPlanner]
+  non_project_logs: [ApprovalFormat]
+}
+
+type TeamsheetReturnType {
+  projects: [ApprovalFormat]
+  user_role: String
+  week: String
+  summary: [SummaryDetails]
+  individuals: [TimeTracker]
+}
+
+type TeamsheetTypeReturn {
+  week: String
+  day: String
+  total_week_capacity: String
+  total_hours: String
+  hours: IndividualsDetails
+  status: Teamsheet
+  category_name: String
+  view_details: TeamsheetLogsType
+}
+
+input teamsheetViewDetailsInput {
+  user_id: Int
+  week: String
+  month_number: Int
+  take: Int
+  skip: Int
+  assessed_by: Int
+  validated_by: Int
+  approve_status: String
+  user_ids: [Int]
+  project_name: [String]
+  category_name: [String]
+}
+
+type TimeFilter {
+  date: String
+  daily_duration: String
+  working_hours: Int
+  time_logs: [TimeTracker]
+}
+
+type TimeFilterData {
+  week_type: String
+  weekly_duration: String
+  page_count: Int
+  clock_data: [TimeFilter]
+}
+
+input TimelinesAssessmentPagination {
+  assessment_timeline_name: String
+  deleted: BooleanUndefined
+  skip: Int
+  take: Int
+}
+
+type TimeTracker {
+  id: Int
+  user_id: Int
+  task_name: String
+  project_id: Int
+  category_id: Int
+  duration: String
+  start_time: String
+  end_time: String
+  date: String
+  created_at: String
+  updated_at: String
+  created_by: Int
+  updated_by: Int
+  overtime: String
+  missing: String
+  over_schedule: String
+  daily_duration: String
+  weekly_duration: String
+  total_duration: String
+  working_hours: String
+  message: String
+  time_range: String
+  employee_bio: ClockItEmployeeBio
+  employee_contact: EmployeeContact
+  employee_info: EmployeeInfo
+  teamsheet: Teamsheet
+  category: Categories
+  project: ClockItProjects
+  details: [TeamsheetTypeReturn]
+  total_capacity: String
+  total_logged_time: String
+  missing_hours: String
+  overtime_hours: String
+  assessed_at: String
+  assessed_by: ClockItEmployeeBio
+  is_validated: String
+  billability_status: String
+  approve_status: String
+  week_count: Int
+  view_details: TeamsheetLogsType
+}
+
+type ToggleArchiveForRequestResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+}
+
+input ToggleArchiveInput {
+  """The id of the supplier to be archived or unarchived"""
+  supplier_id: Int!
+
+  """The current archived status"""
+  archived_status: Boolean!
+}
+
+input ToggleCapApproverInput {
+  """The id of the cap approver record"""
+  cap_approver_id: Int!
+
+  """The user id of the hop"""
+  hop_id: Int!
+}
+
+input ToggleInvoiceAgentConfigInput {
+  id: ID!
+  updated_by: Int!
+}
+
+input TouchPointInput {
+  user_id: ID!
+  comments: String
+}
+
+type touchPointResponse {
+  user_id: ID
+  user: User
+  success: Boolean
+}
+
+type TypesUsed {
+  leave_type: LeaveType
+  days_used: Float
+}
+
+input unArchiveNoteInput {
+  user_id: ID!
+  id: ID!
+}
+
+type UnderAssessment {
+  id: Int
+  name: String
+  user_id: Int
+  instructions: String
+  assessment_date: String
+  assessment_cycle_id: Int
+  end_date: String
+  employee_assessment_id: Int
+  assessment_cycle_name: String
+  user_question_id: Int
+  profile_image: String
+  status: Boolean
+  total_competency: Int
+  total_questions: Int
+  estimated_duration: Int
+  position_name: String
+  peer_selection: [PeerSelectionForUser]
+  assessment_type_question_group: [UnderEachAssessment]
+}
+
+type UnderEachAssessment {
+  assessment_name: String
+  questionnaire_group_id: Int
+  date: String
+  peer: String
+  user_list: String
+  status: Boolean
+  employees: [EmployeeDetails]
+}
+
+type UnderEachMonth {
+  id: Int
+  name: String
+  position_name: String
+  manager_name: String
+  current_projects: String
+  starting_date: String
+  staff_weighted_average: Float
+  manager_weighted_average: Float
+  manager_comment: FormattedText
+  Manager_recommendation: String
+  cdc_comment: FormattedText
+  cdc_recommendation: String
+  stage_of_review: String
+  profile_image: String
+  user_id: ID
+  count_direct_emp: Int
+  percentage_count_peers: Int
+  percentage_count_direct_emp: Int
+  percentage_count_self_emp: Int
+  percentage_count_manager_emp: Int
+  count_manager_emp: Int
+  count_self_emp: Int
+  count_peers: Int
+  status: Boolean
+  percentage: Int
+  peer_selection: [PeerSelectionForUser]
+  assessment_type_question_group: JSON
+}
+
+input unlockClockInput {
+  user_id: Int
+  date: String
+  is_locked: Boolean
+}
+
+type UpcomingAssessment {
+  end_date: String
+}
+
+input upcomingCdcAssessment {
+  timelines: String
+  assessment_type: [assessment_group_type]
+  manager_id: Int
+  department_id: Int
+  user_id: Int
+}
+
+type upcomingCdcResponse {
+  success: String
+}
+
+input updateAccessLevelInput {
+  id: ID!
+  name: String
+  description: String
+  access_type: ID
+  updated_by: ID!
+  assigned_employees: [ID]
+  permissions: JSON
+}
+
+input updateAppraisalInput {
+  id: ID
+  user_id: ID
+  goals: String
+  strengths: String
+}
+
+input UpdateApproversInput {
+  user_id: Int
+  updated_at: String
+}
+
+input UpdateAreasOfImprovementInput {
+  id: Int
+  user_id: Int
+  goals: String
+  strength: String
+  updated_by: Int
+}
+
+input UpdateAssessmentCycleInput {
+  id: Int!
+  assessment_cycle_name: String!
+  assessment_status: Boolean
+  assessment_description: String
+  timelines: String
+  assessment_type: [[UpdateAssessmentTypeInput]]
+  user_group: [UpdateUserGroupInput]
+  updated_by: Int
+}
+
+input UpdateAssessmentTypeInput {
+  id: Int
+  assessment_cycle_id: Int
+  assessment_type_name: String
+  user_list: String
+  questionnaire_group_id: String
+  peers: String
+  checked: Boolean
+  updated_by: String
+}
+
+input updateBookedLeaveInput {
+  id: ID!
+  user_id: ID!
+  leave_type_id: ID!
+  dates: [DateTime]!
+  duration: Float!
+  comments: String
+  employee_detail: String
+  file: String
+  created_by: ID!
+  manager_id: ID
+}
+
+input UpdateCapApproverInput {
+  """The id of the cap approver record"""
+  id: Int!
+
+  """The id of the user updating the record"""
+  updated_by: Int!
+
+  """The user id of the cap approver"""
+  user_id: Int!
+
+  """The id of the cap approver"""
+  lower_limit: Float!
+
+  """The highest threshold amount"""
+  upper_limit: Float!
+
+  """currency of the threshold amount"""
+  currency_id: Int!
+
+  """The description of the cap approver"""
+  description: String
+}
+
+type UpdateCapApproverResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Approver List"""
+  data: CapApprover
+}
+
+input UpdateCareerDevelopmentPlanInput {
+  id: Int!
+  course_name: String
+  start_date: String
+  end_date: String
+  status: String
+  user_id: Int
+  updated_by: Int
+}
+
+input updateCategoryInput {
+  id: Int!
+  category_name: String!
+  description: String
+  updated_by: Int
+  project_based: Boolean
+}
+
+input UpdateCdcAssessmentInput {
+  id: Int!
+  assessment_name: String
+  description: String
+  project_based: Boolean
+  timeline: cdc_assessment_timeline_id_input
+  department: [cdc_assessment_department_id_input]
+  position: [cdc_assessment_position_id_input]
+  skills: [cdc_assessment_skills_id_input]
+  questionnaire: cdc_assessment_questionnaire_id_input
+  updated_by: Int
+}
+
+input UpdateCdcTimelinesInput {
+  id: Int!
+  timeline_name: String
+  description: String
+  assessment_date: String
+  timeline_type: Boolean
+  updated_by: Int
+  updated_at: String
+}
+
+input updateClientReadyInput {
+  user_id: Int!
+  client_ready: Boolean!
+}
+
+input UpdateCompetenciesInput {
+  id: Int!
+  competency_name: String!
+  competency_description: String
+  competency_status: Boolean
+  criteria: String
+  justify_minimum_value: Int
+  justify_maximum_value: Int
+  updated_by: Int
+}
+
+input UpdateDepartmentInput {
+  id: ID!
+  department_name: String
+  description: String
+  parent_department: String
+  user_id: Int
+  codename: String!
+}
+
+input updateDevelopmentPlanInput {
+  user_id: Int
+  course_name: String
+  start_date: DateTime
+  end_date: DateTime
+  status: String
+}
+
+input UpdateDocumentsInput {
+  folder_name: String!
+  updated_by: ID!
+}
+
+input UpdateEducationInformationInput {
+  id: ID!
+  user_id: ID!
+  institution_name: String!
+  start_date: String!
+  end_date: String
+  qualification: String!
+  major_specialization: String!
+}
+
+input updateEmployeeAccessLevelInput {
+  id: ID!
+  name: String
+  description: String
+  updated_by: ID!
+  assigned_employees: [ID]
+  permissions: JSON
+}
+
+input updateEmployeeAccountInput {
+  user_id: ID!
+  email: String!
+  password: String
+}
+
+input UpdateEmployeeAddressInput {
+  id: Int!
+  postal_address: String
+  street_address: String
+  city: String
+  province_state: String
+  digital_address: String
+  country: String
+}
+
+input UpdateEmployeeBankDetails {
+  id: ID
+  user_id: ID!
+  bank_name: String
+  branch: String
+  account_name: String
+  account_number: String
+  sort_code: String
+}
+
+input updateEmployeeBenefitInput {
+  id: Int
+  name_of_benefit: String
+  amount: String
+  date: DateTime
+}
+
+input UpdateEmployeeBioInput {
+  id: Int!
+  user_id: Int!
+  title: String
+  dob: String
+  gender: String
+  nationality: String
+  marital_status: String
+  place_of_birth: String
+  first_name: String
+  last_name: String
+  other_name: String
+  full_name: String
+  short_bio: String
+  profile_image: String
+  updated_by: ID
+}
+
+input UpdateEmployeeContactInput {
+  id: Int
+  user_id: ID!
+  work_email: String
+  personal_email: String
+  phone_number_1: String
+  updated_by: ID
+  postal_address: String
+  street_address: String
+  digital_address: String
+}
+
+input UpdateEmployeeEmergencyContactInput {
+  id: ID!
+  user_id: ID!
+  name: String!
+  relationship: String!
+  phone_number: String!
+  postal_address: String
+  digital_address: String
+  country_of_residence: String
+  country_initial: String
+  state_region: String
+  state_region_initial: String
+  city_of_residence: String
+  email: String
+}
+
+input UpdateEmployeeFamilyContactInput {
+  id: ID!
+  user_id: ID!
+  name_of_contact: String!
+  relationship: String
+  phone_number: String
+  email: String
+  country: String
+  country_initial: String
+  state_region: String
+  state_region_initial: String
+  city_of_residence: String
+  postal_address: String
+  digital_address: String
+  next_of_kin: Boolean
+}
+
+input UpdateEmployeeIdentificationInput {
+  id: ID!
+  type: String
+  identification_number: String
+  user_id: ID!
+}
+
+input UpdateEmployeeInfoByUserIDInput {
+  user_id: Int!
+  department_id: Int
+  location_id: Int
+  employee_id: String
+  position_id: Int
+  starting_date: String
+  manager_id: Int
+  employee_type_id: Int
+  updated_by: ID!
+  end_date: String
+  payroll_id: String
+  specialization_id: ID
+  cdc_advisor_id: ID
+  organization_id: Int
+  organization_name: String
+  office_id: Int
+  office_name: String
+}
+
+input UpdateEmployeeInfoInput {
+  id: ID!
+  user_id: Int!
+  department_id: Int!
+  location_id: Int
+  employee_id: String
+  position_id: Int!
+  effective_date: String
+  starting_date: String
+  manager_id: Int!
+  employee_type_id: Int
+  updated_by: ID!
+  active: Boolean
+  end_date: String
+  payroll_id: String
+  specialization_id: Int
+  secondary_specialization_id: Int
+  cdc_advisor_id: ID
+  organization_id: Int
+  organization_name: String
+  office_id: Int
+  office_name: String
+  generate_new_employee_id: Boolean
+  id_prefix: String
+}
+
+input UpdateEmployeeSalaryInput {
+  id: ID!
+  user_id: Int!
+  salary_name: String
+  salary_amount: Float
+  effective_date: String
+  pay_type: String
+  pay_schedule: String
+  pay_rate: String
+  reason: String!
+  comments: String
+  updated_by: ID
+  active: Boolean
+  end_date: String
+  ssnit_contributor: Boolean
+  tax_relief: Float
+}
+
+input UpdateEmployeeSkillsInput {
+  id: ID!
+  user_id: ID!
+  skill_id: ID!
+  skill_level: String
+  skill_name: String!
+  proof: String
+  specialization_id: ID!
+}
+
+input UpdateEmployeeStatusInput {
+  id: ID!
+  user_id: Int!
+  employee_type_id: Int
+  comment: String
+  effective_date: String
+  updated_by: Int
+  active: Boolean
+}
+
+input UpdateEmployeeTypeInput {
+  id: ID!
+  name: String
+  description: String
+}
+
+input UpdateFolderInput {
+  id: ID!
+  folder_name: String
+  updated_by: ID
+}
+
+input UpdateHolidayInput {
+  id: ID!
+  title: String
+  description: String
+  start_day: String
+  end_day: String
+  country: String
+}
+
+input UpdateIdPrefixInput {
+  id: ID!
+  prefix_name: String!
+  prefix_description: String!
+}
+
+input UpdateInvoiceAgentConfigInput {
+  id: ID!
+  title: String!
+  description: String!
+  contract_type: ContractType!
+  assigned_billing_organizations: [AssignedBillingOrganizationInput!]!
+  assigned_invoice_agent_ids: [Int!]!
+  updated_by: Int!
+}
+
+input UpdateInvoiceInput {
+  id: ID!
+  terms: String!
+  default_currency: CurrencyEnum!
+  converted_currency: CurrencyEnum!
+  conversion_rate: Float!
+  start_date: String!
+  end_date: String!
+  discount: Float!
+  sub_total: Float!
+  balance: Float!
+  resources: [ResourceInput!]
+  adjustments: [InvoiceAdjustmentInput!]
+  hidden_columns: [InvoiceColumnEnum!]
+  address1: String
+  address2: String
+  address3: String
+  language: InvoiceLanguageEnum!
+}
+
+input UpdateLeavePolicyInput {
+  id: ID!
+  title: String
+  description: String
+  leave_type_id: ID
+  max_accrual: String
+  carry_over: String
+  carry_over_expiry: String
+  can_negate: Boolean
+  is_archived: Boolean
+  position_id: ID
+  user_id: ID
+}
+
+input UpdateLeaveTypeInput {
+  id: ID!
+  title: String!
+  description: String
+  organization_id: String!
+  leave_policy: [ID]
+}
+
+input UpdateLoanApproverInput {
+  approver_id: Int
+  loan_id: Int
+  is_approved: Boolean
+  comment: String
+  signature: String
+  updated_at: String
+}
+
+input UpdateLoanFormInput {
+  form_name: String
+  form_url: String
+}
+
+input UpdateLoanFormsInput {
+  """Name of the form"""
+  form_name: String
+
+  """Is the form active or archived"""
+  is_active: Boolean
+
+  """The url to the form"""
+  form_url: String
+
+  """The datetime the form was created"""
+  created_at: String
+
+  """The datetime the form was updated"""
+  updated_at: String
+}
+
+input UpdateLoanInput {
+  """The type of loan the user requested for"""
+  loan_type_id: Int
+
+  """The updated amount the user requested for"""
+  requested_amount: Float
+
+  """The updated purpose for the loan"""
+  purpose: String
+
+  """The updated Int card for verification"""
+  card_id: Int
+
+  """updated loan forms"""
+  forms: [UpdateLoanFormInput!]
+}
+
+type UpdateLoanResponse implements MutationResponse {
+  """Similar to HTTP status code, represents the status of the mutation"""
+  code: Int!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+
+  """Human-readable message for the UI"""
+  message: String!
+  loan: Loan
+}
+
+input UpdateLoanTypeInput {
+  """The type of loan [eg rent, car , etc]"""
+  loan_type: String!
+
+  """Forms associated with a loan type"""
+  loan_form_ids: [ID]!
+
+  """Datetime the loan type was created"""
+  created_at: String
+
+  """Datetime the loan type was updated"""
+  updated_at: String
+}
+
+input UpdateLocationInput {
+  id: ID!
+  branch_name: String
+  country_name: String
+  country_initials: String
+  state_region: String
+  state_region_initials: String
+  town: String
+}
+
+input updateManagerCommentInput {
+  id: ID
+  manager_id: ID
+  title: String
+  comment: String
+}
+
+input updateManagerCommentInputs {
+  id: Int!
+  title: String
+  comment: FormattedText
+  user_id: Int
+  manager_id: Int
+}
+
+input updateNoteInput {
+  id: ID!
+  user_id: ID!
+  title: String
+  body: String
+}
+
+input updateOnboardingPacketInput {
+  user_id: Int!
+  personal_email: String
+  reporting_date: String
+  reporting_time: String
+  contact_person_id: Int
+  manager_id: Int
+  packet_current_step: Int
+  packet_last_step: Int
+  additional_info: String
+  updated_by: Int
+  office_id: Int
+  organization_id: Int
+}
+
+input UpdatePerformanceImprovementPlanInput {
+  id: Int
+  user_id: Int
+  employee_id: Int
+  pip_name: String
+  areas_of_concern: String
+  observation: String
+  improvement_goals: [improvementGoalsInput]
+  activity_goals: [activityGoalInput]
+  resources: [resourcesInputs]
+  expectations: [expectationsInput]
+  management_support: [managementSupportInput]
+  progress_check_points: [progressCheckPointsInput]
+  follow_up: [followUpInput]
+  employee_signature: [SignPIPInput]
+  manager_signature: [SignPIPInput]
+  draft: Boolean
+  deleted: Boolean
+  updated_at: String
+}
+
+input UpdatePerformanceStatusInput {
+  id: Int
+  status: Boolean
+}
+
+input UpdatePermissionInput {
+  permission_name: String
+}
+
+input UpdatePositionInput {
+  id: ID!
+  position_name: String
+  department_id: Int
+  description: String
+}
+
+input updatePreferenceInput {
+  id: Int
+  user_id: Int
+  morning: Boolean
+  afternoon: Boolean
+  evening: Boolean
+  song_name: String
+  planning_reminder: Boolean
+  lunchtime: String
+}
+
+input UpdateProcurementAccessLevelInput {
+  """access level id"""
+  id: Int!
+
+  """name of access level"""
+  name: String
+
+  """description of access level"""
+  description: String
+
+  """the id of the user updating"""
+  updated_by: Int!
+
+  """ list of permissions"""
+  permissions: JSON
+
+  """list of assigned user_ids"""
+  assigned_users: [Int]
+}
+
+input UpdateProcurementPurchaseOrderInput {
+  """Id of the purchase order to edit"""
+  purchase_order_id: Int!
+
+  """the supplier id"""
+  supplier_id: Int
+
+  """the requested item name"""
+  item_requested: String
+
+  """generated quick books ref no"""
+  ref_no: String!
+
+  """request id"""
+  requisition_id: Int
+}
+
+input updateProfileImageInput {
+  user_id: Int!
+  profile_image: String
+}
+
+input updateQuestionAnswersInput {
+  user_id: Int
+  assessment_date: String
+  justify_competencies: [justifyCompetenciesInput]
+  employee_assessment_id: Int
+}
+
+type UpdateQuestionAnswersSuccess {
+  success: String
+}
+
+input UpdateQuestionInfoInput {
+  id: Int!
+  questionnaire_title: String
+  questionnaire_description: String
+  competency_based: Boolean
+  questions: [[UpdateQuestionsGroupInput]]
+  updated_by: Int
+}
+
+input UpdateQuestionsGroupInput {
+  id: Int
+  questionnaire_group_id: Int
+  questionnaire_id: String
+  question_id: String
+  competency_id: Int
+  question: String
+  required_field: Boolean
+  options_type: String
+  minimum_score: String
+  maximum_score: String
+  updated_by: Int
+  deleted: Boolean
+}
+
+input UpdateRequisitionInput {
+  """The autogenerated id of the request"""
+  id: Int!
+
+  """The name of the item"""
+  item_name: String
+
+  """The quantity of the item"""
+  quantity: Float
+
+  """A draft or a request"""
+  is_draft: Boolean
+
+  """The currency the item is priced in"""
+  currency_id: Int
+
+  """The unit price of the item"""
+  unit_price: Float
+
+  """The specifications of the item"""
+  item_specification: String
+
+  """The justification of the request"""
+  justification: String
+
+  """The type of the request, Department or Project"""
+  request_type_id: Int
+
+  """The name of the department"""
+  department_name: String
+
+  """The name of the project"""
+  project_name: String
+
+  """The user id of the first approver"""
+  approver_user_id: Int
+
+  """The first name of the first approver"""
+  approver_first_name: String
+
+  """The second name of the first approver"""
+  approver_last_name: String
+
+  """The email address of the first approver"""
+  approver_email: String
+
+  """The priority of the request"""
+  priority: String
+
+  """The category of the item"""
+  category_id: Int
+
+  """The documents of attached to a request"""
+  attachments: [AttachmentInput]
+
+  """The user id of the updater"""
+  updated_by: Int
+}
+
+input updateSeniorityLevelInput {
+  id: ID!
+  name: String!
+  updated_by: ID
+  position_ids: [ID]
+}
+
+input UpdateSkillInput {
+  id: ID!
+  name: String
+  validator_id: Int
+  updated_by: Int
+  specialization_ids: [Int]
+}
+
+input UpdateSocialMediaHandleInput {
+  id: ID!
+  user_id: ID!
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
+}
+
+input updateSongInput {
+  id: Int!
+  song_name: String
+  song_url: String
+  updated_by: Int
+}
+
+input UpdateSpecializationInput {
+  id: ID!
+  name: String!
+  updated_by: Int!
+}
+
+input UpdateSupplierInput {
+  """The id of the supplier to be updated"""
+  supplier_id: Int!
+
+  """The name of the supplier"""
+  supplier_name: String
+
+  """The email of the supplier"""
+  supplier_email: String!
+
+  """The phone number of the supplier"""
+  phone_number: String
+
+  """The name of the contact person"""
+  contact_person: String
+
+  """The street address of the supplier"""
+  street_address: String
+
+  """Business registration number"""
+  business_reg_no: String
+
+  """The Tax Identification Number of the business"""
+  business_tin_no: String
+
+  """Is the business exempted from taxes?"""
+  is_tax_exempt: Boolean
+
+  """Business description"""
+  business_description: String
+
+  """Number of branches the supplier has"""
+  no_of_branches: Int
+
+  """The bank account name of the supplier"""
+  business_acc_name: String
+
+  """The bank branch of the supplier"""
+  bank_branch: String
+
+  """The swift code of the supplier's bank"""
+  swift_code: String
+
+  """The bank account number of the supplier"""
+  bank_acct_no: String
+
+  """Is the supplier archived?"""
+  is_archived: Boolean
+
+  """The autogenerated id of the category"""
+  category_id: Int
+
+  """The user id of the user that updatyed the supplier"""
+  updated_by: Int!
+
+  """Documents related to a supplier"""
+  documents: [SupplierDocumentsInput]
+}
+
+input updateTaskPlannerInput {
+  id: Int!
+  user_id: Int
+  task_name: String
+  category_id: Int
+  project_id: Int
+  is_checked: Boolean
+  start_time: String
+  duration: String
+  date: String
+}
+
+input updateTimeInput {
+  id: Int!
+  user_id: Int
+  task_name: String
+  project_id: Int
+  category_id: Int
+  start_time: String
+  end_time: String
+  date: String
+}
+
+input UpdateUserDocumentInput {
+  id: ID!
+  folder_name: String
+  updated_by: Int
+}
+
+input UpdateUserDocumentsInput {
+  id: ID
+  folder_name: String!
+  user_id: Int!
+  updated_by: Int
+}
+
+input UpdateUserGroupInput {
+  assessment_cycle_id: Int
+  department_id: [InputPerformance_department_list]
+  employee_type_id: [InputPerformance_employee_list]
+  position_id: [InputPerformance_position_list]
+  location_id: [InputPerformance_location_list]
+}
+
+input updateUserInput {
+  id: ID!
+  email: EmailAddress
+  first_name: String
+  last_name: String
+  other_name: String
+}
+
+input UpdateWorkInfoInput {
+  user_id: Int!
+  employee_id: String!
+  specialization_id: Int!
+  updated_by: Int!
+  starting_date: String!
+  client_ready: Boolean
+  secondary_specialization_id: Int
+  organization_id: Int
+  office_id: Int
+  is_manager: Boolean
+  payroll_id: String
+}
+
+scalar Upload
+
+input uploadUserFileInput {
+  files: [FileInput!]
+  document_id: Int!
+  user_id: ID!
+  created_by: ID!
+}
+
+type User {
+  id: ID
+  first_name: String
+  last_name: String
+  other_name: String
+  email: EmailAddress
+  personal_email: EmailAddress
+  role: String
+  password: String
+  access_level: AccessLevel
+  permission: [String]
+  deleted: Boolean
+  deleted_date: DateTime
+  delete_reason: String
+  delete_comment: String
+  employee_info: EmployeeInfo
+  access_level_id: ID
+  onboarding_pending: Boolean
+}
+
+type userBio {
+  profile_image: String
+  user_id: Int
+  full_name: String
+}
+
+input UserCreateInput {
+  email: EmailAddress!
+  personal_email: EmailAddress!
+  first_name: String!
+  last_name: String!
+  other_name: String
+  access_level_id: ID
+}
+
+type userCurrentProject {
+  staff: Staff
+  availableHours: Int
+  currentProjects: [project_staffs]
+  previousProjects: [project_staffs]
+  proposedProjects: [project_staffs]
+}
+
+type UserDetails {
+  user_id: Int
+  user: User
+}
+
+type UserDocuments {
+  id: ID!
+  folder_name: String
+  user_id: Int
+  updated_by: ID
+  createdBy: User
+  updatedBy: User
+  updated_at: DateTime
+  created_at: DateTime
+  deleted_by: ID
+  deleted: Boolean
+  deleted_at: DateTime
+  users_files: [UserFolderFile]
+}
+
+input UserFilterByNames {
+  name: String
+}
+
+type UserFolderFile {
+  id: ID
+  file_name: String
+  file_url: String
+  user_document_id: ID
+  users_document: UserDocuments
+  deleted: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+  created_by: ID
+  updated_by: ID
+  deleted_by: ID
+  createdBy: User
+  updatedBy: User
+  deletedBy: User
+}
+
+type UserGroup {
+  id: Int
+  assessment_cycle_id: Int
+  department_id: [Performance_department_list]
+  employee_type_id: [Performance_employee_list]
+  position_id: [Performance_position_list]
+  location_id: [Performance_location_list]
+}
+
+input UserInputId {
+  id: ID!
+}
+
+input UserLoginInput {
+  email: EmailAddress!
+  password: String!
+}
+
+type UserNotificationForQuestion {
+  user_id: Int
+  date: String
+  assessment_date: String
+  assessment_cycle_name: String
+  assessment_type_question_group: [AssessmentTypeQuestionGroup]
+}
+
+type UserOut {
+  user_id: ID
+  user: User
+}
+
+type WhoIsOutResponse {
+  today: [UserOut]!
+  tomorrow: [UserOut]!
+  is_friday: Boolean
+}
