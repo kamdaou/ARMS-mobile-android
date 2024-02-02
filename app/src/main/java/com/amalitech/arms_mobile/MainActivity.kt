@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+
 //import com.amalitech.Mutation
 //import com.apollographql.apollo3.ApolloClient
 
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun AppPreview() {
-        MainApp()
+    MainApp()
 }
 
 @Composable

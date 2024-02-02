@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.amalitech.arms_mobile.ui.views.home.HomeScreen
 import com.amalitech.arms_mobile.ui.views.home.HomeScreenRoute
 
 
@@ -19,7 +20,7 @@ fun AppNavigation(
         modifier = modifier,
     ) {
         composable(route = HomeScreenRoute.path) {
-
+            HomeScreen()
         }
     }
 }
