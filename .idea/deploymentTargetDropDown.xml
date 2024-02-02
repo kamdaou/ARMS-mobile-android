@@ -40,18 +40,8 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-02-01T23:24:10.025528200Z" />
-          <multipleDevicesSelectedInDropDown value="true" />
+          <timeTargetWasSelectedWithDropDown value="2024-02-02T19:01:40.177877900Z" />
           <runningDeviceTargetsSelectedWithDialog>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\JoshuaTetteh\.android\avd\Emulator.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
             <Target>
               <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
