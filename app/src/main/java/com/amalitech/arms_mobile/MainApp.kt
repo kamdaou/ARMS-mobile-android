@@ -7,19 +7,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.amalitech.arms_mobile.ui.theme.ARMSMobileTheme
 
 
 @Composable
 fun MainApp() {
+    val navigator: NavHostController = rememberNavController()
+
     ARMSMobileTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Box {
-                Text(text = "Start Here")
-            }
-        }
+        AppNavigation(navController = navigator)
     }
 }

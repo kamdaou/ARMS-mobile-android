@@ -51,7 +51,6 @@ android {
 }
 
 dependencies {
-
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
     implementation("io.github.cdimascio:dotenv-kotlin:5.0.0")
     implementation("androidx.core:core-ktx:1.12.0")
