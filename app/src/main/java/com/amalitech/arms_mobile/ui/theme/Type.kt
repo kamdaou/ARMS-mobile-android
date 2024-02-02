@@ -1,6 +1,7 @@
 package com.amalitech.arms_mobile.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -33,13 +34,32 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 20.sp,
     ),
+    titleSmall = TextStyle(
+        fontFamily = Satoshi,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        lineHeight = 22.sp,
+    ),
     bodyLarge = TextStyle(
         fontFamily = Satoshi,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
-    )
+    ),
+    labelSmall = TextStyle(
+        fontFamily = Satoshi,
+        fontWeight = FontWeight.Normal,
+        fontSize = 9.sp,
+        lineHeight = 16.sp,
+    ),
+    labelLarge = TextStyle(
+        fontFamily = Satoshi,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 12.sp,
+        color = Color(0xff8F95B2)
+    ),
 
     /* Other default text styles to override
     titleLarge = TextStyle(
