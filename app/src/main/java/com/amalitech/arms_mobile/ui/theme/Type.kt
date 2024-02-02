@@ -16,8 +16,12 @@ val Satoshi = FontFamily(
     Font(R.font.satoshi_bold, FontWeight.Bold),
     Font(R.font.satoshi_black, FontWeight.Black),
     Font(R.font.satoshi_medium, FontWeight.Medium),
-    Font(R.font.satoshi_light, FontWeight.Normal),
     Font(R.font.satoshi_medium, FontWeight.SemiBold),
+)
+val SFProDisplay = FontFamily(
+    Font(R.font.sfprodisplay_regular),
+    Font(R.font.sfprodisplay_bold, FontWeight.Bold),
+    Font(R.font.sfprodisplay_medium, FontWeight.Medium),
 )
 
 // Set of Material typography styles to start with
@@ -28,17 +32,17 @@ val Typography = Typography(
         fontSize = 24.sp,
         lineHeight = 32.5.sp,
     ),
-    titleMedium = TextStyle(
-        fontFamily = Satoshi,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 20.sp,
-    ),
     titleSmall = TextStyle(
         fontFamily = Satoshi,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
         lineHeight = 22.sp,
+    ),
+    titleMedium = TextStyle(
+        fontFamily = Satoshi,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
     ),
     bodyLarge = TextStyle(
         fontFamily = Satoshi,
@@ -60,21 +64,4 @@ val Typography = Typography(
         lineHeight = 12.sp,
         color = Color(0xff8F95B2)
     ),
-
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
 )
