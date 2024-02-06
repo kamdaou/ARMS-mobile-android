@@ -19,6 +19,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+//        buildConfigField("String", "API_URL", gradleLocalProperties(rootDir).getProperty("API_URL"))
     }
 
     buildTypes {
@@ -28,6 +29,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+//            buildConfigField("String", "API_URL", "https://arms-microapi.amalitech-dev.net/")
+            debug {
+                applicationIdSuffix = ".debug"
+                versionNameSuffix = "-debug"
+//                buildConfigField("String", "API_URL", "https://arms-microapi.amalitech-dev.net/")
+            }
         }
     }
     compileOptions {
@@ -39,6 +46,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -53,7 +61,8 @@ android {
 dependencies {
 
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
-    implementation("io.github.cdimascio:dotenv-kotlin:5.0.0")
+    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
