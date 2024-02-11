@@ -50,3 +50,6 @@ outTmp/
 /kotlin-native/dist
 kotlin-ide/
 .kotlin/
+.env
+app/debug/
+app/release/

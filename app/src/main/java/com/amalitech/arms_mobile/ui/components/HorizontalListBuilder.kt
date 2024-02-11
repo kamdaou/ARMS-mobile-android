@@ -1,4 +1,4 @@
-package com.amalitech.arms_mobile.ui.views.home
+package com.amalitech.arms_mobile.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
