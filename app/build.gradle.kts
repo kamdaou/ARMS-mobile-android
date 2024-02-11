@@ -1,8 +1,17 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.apollographql.apollo3") version "3.8.2"
+    id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
+
+val environsFile: File? = rootProject.file(".env")
+val environsProperties = Properties()
+environsProperties.load(environsFile?.let { FileInputStream(it) })
 
 android {
     namespace = "com.amalitech.arms_mobile"
@@ -19,6 +28,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "GRAPHQL_URL", environsProperties["graphql.url"] as String? ?: "\"\"")
     }
 
     buildTypes {
@@ -39,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -52,7 +64,6 @@ android {
 
 dependencies {
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
-    implementation("io.github.cdimascio:dotenv-kotlin:5.0.0")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
@@ -61,7 +72,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("com.github.dotenv-org:dotenv-vault-kotlin:0.0.2")
     implementation("io.coil-kt:coil-compose:2.5.0")
     testImplementation("junit:junit:4.13.2")
@@ -71,6 +82,12 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-android-compiler:2.50")
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 apollo {
