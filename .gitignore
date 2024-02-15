@@ -1,6 +1,6 @@
 .gradle
-env.properties
-keystore.properties
+/env.properties
+/keystore.properties
 /local.properties
 /.idea/caches
 /.idea/libraries
