@@ -1,7 +1,7 @@
-package com.amalitech.arms_mobile.core.interfaces
+package com.amalitech.arms_mobile.core.utilities
 
 interface UseCase<T, E> {
 
-    suspend fun execute(args: T? = null) : E
+    suspend operator fun invoke(args: T? = null) : E
 
 }

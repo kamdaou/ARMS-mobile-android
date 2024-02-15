@@ -1,9 +1,11 @@
-package com.amalitech.arms_mobile.domain.entities
+package com.amalitech.arms_mobile.domain.models
 
-abstract class StaffEntity(
-    open val name: String,
-    open val firstName: String? = null,
-    open val lastName: String? = null,
-    open val position: String? = null,
+data class Staff(
+    val name: String,
+    val firstName: String? = null,
+    val lastName: String? = null,
+    val position: String? = null,
+    val type: String? = null,
+    val image: String? = null,
 )
 

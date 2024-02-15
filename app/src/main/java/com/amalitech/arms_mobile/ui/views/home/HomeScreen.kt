@@ -2,6 +2,7 @@ package com.amalitech.arms_mobile.ui.views.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -19,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.amalitech.arms_mobile.R
-import com.amalitech.arms_mobile.core.interfaces.AppRoute
+import com.amalitech.arms_mobile.core.utilities.AppRoute
 import kotlinx.coroutines.launch
 
 object HomeScreenRoute : AppRoute {
@@ -86,7 +87,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             userScrollEnabled = false,
         ) {
             if (it == 0)
-                HomeScreenContent()
+                HomeScreenContent(
+                    modifier = Modifier.fillMaxHeight()
+                )
             else
                 Box(contentAlignment = Alignment.Center) {
                     Text(text = "$it")

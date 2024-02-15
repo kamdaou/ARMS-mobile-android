@@ -14,9 +14,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun injectApolloClient(): ApolloClient {
+    fun provideApolloClient(): ApolloClient {
+        val token = ""
+
         return ApolloClient.Builder()
             .serverUrl(BuildConfig.GRAPHQL_URL)
+            .addHttpHeader("Authorization", token)
             .build()
     }
+
 }

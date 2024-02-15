@@ -4,16 +4,17 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.apollographql.apollo3") version "3.8.2"
+    id("com.apollographql.apollo3") version "4.0.0-beta.4"
     id("com.google.dagger.hilt.android")
     kotlin("kapt")
 }
 
-val environsFile: File? = rootProject.file(".env")
-val environsProperties = Properties()
-environsProperties.load(environsFile?.let { FileInputStream(it) })
+val envPropertiesFile: File? = rootProject.file("env.properties")
+val envProperties = Properties()
+envProperties.load(envPropertiesFile?.let { FileInputStream(it) })
 
 android {
+
     namespace = "com.amalitech.arms_mobile"
     compileSdk = 34
 
@@ -29,7 +30,16 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "GRAPHQL_URL", environsProperties["graphql.url"] as String? ?: "\"\"")
+        buildConfigField("String", "GRAPHQL_URL", envProperties["graphql.url"]?.toString() ?: "")
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file(envProperties["storeFile"]?.toString() ?: "")
+            storePassword = envProperties["storePassword"]?.toString() ?: ""
+            keyAlias = envProperties["keyAlias"]?.toString() ?: ""
+            keyPassword = envProperties["keyPassword"]?.toString() ?: ""
+        }
     }
 
     buildTypes {
@@ -39,8 +49,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs["release"]
+        }
+
+        debug {
+            signingConfig = signingConfigs["release"]
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -63,7 +79,7 @@ android {
 }
 
 dependencies {
-    implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
+    implementation("com.apollographql.apollo3:apollo-runtime")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
@@ -84,6 +100,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-android-compiler:2.50")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 }
 
 kapt {
@@ -93,5 +111,9 @@ kapt {
 apollo {
     service("service") {
         packageName.set("com.amalitech")
+        introspection {
+            endpointUrl.set(envProperties["graphql.url"]?.toString() ?: "")
+            schemaFile.set(file("src/main/graphql/schema.graphqls"))
+        }
     }
 }

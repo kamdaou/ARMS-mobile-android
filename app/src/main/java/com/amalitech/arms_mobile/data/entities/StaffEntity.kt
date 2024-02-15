@@ -1,20 +1,21 @@
-package com.amalitech.arms_mobile.data.models
+package com.amalitech.arms_mobile.data.entities
 
 import com.amalitech.WhoIsOutQuery
-import com.amalitech.arms_mobile.domain.entities.StaffEntity
 
-data class Staff(override val name: String) : StaffEntity(name)
+data class StaffEntity(
+    val name: String
+)
 
+fun WhoIsOutQuery.Today.toStaffEntity() : StaffEntity {
+    val bio = user!!.employee_info!!.employee_bio
 
-fun WhoIsOutQuery.User.toStaff() : Staff {
-    val bio = employee_info!!.employee_bio
-
-    return Staff(name = bio!!.full_name!!)
+    return StaffEntity(name = bio!!.full_name!!)
 }
 
-fun WhoIsOutQuery.User1.toStaff() : Staff {
-    val bio = employee_info!!.employee_bio
+fun WhoIsOutQuery.Tomorrow.toStaffEntity() : StaffEntity {
+    val bio = user!!.employee_info!!.employee_bio
 
-    return Staff(name = bio!!.full_name!!)
+    return StaffEntity(name = bio!!.full_name!!)
 }
+
 

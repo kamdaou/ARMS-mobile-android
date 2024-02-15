@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ARMS-Mobile"
+rootProject.name = "ARMS-Mobile-Android"
 include(":app")
  

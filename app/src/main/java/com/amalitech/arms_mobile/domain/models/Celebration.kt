@@ -1,5 +1,5 @@
-package com.amalitech.arms_mobile.domain.entities
+package com.amalitech.arms_mobile.domain.models
 
-data class CelebrationEntity(
-    val staffEntity: StaffEntity
+data class Celebration(
+    val staff: Staff,
 )
