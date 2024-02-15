@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -29,6 +28,8 @@ import coil.compose.AsyncImage
 import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.ui.components.ErrorDisplay
 import com.amalitech.arms_mobile.ui.components.HorizontalListBuilder
+import com.amalitech.arms_mobile.ui.components.HorizontalShimmer
+import com.amalitech.arms_mobile.ui.components.ImagePlaceholder
 import com.amalitech.arms_mobile.ui.views.home.LeaveUiState
 import kotlinx.coroutines.flow.StateFlow
 
@@ -44,9 +45,7 @@ fun WhoIsOutSection(
         items = state.value.leaves,
         error = state.value.hasError,
         loading = state.value.isLoading,
-        loadingIndicator = {
-            Spacer(modifier = Modifier.height(100.dp))
-        },
+        loadingIndicator = { HorizontalShimmer() },
         emptyListBuilder = {
             Box(
                 modifier = Modifier
@@ -66,11 +65,7 @@ fun WhoIsOutSection(
             }
         },
         errorBuilder = {
-            ErrorDisplay(
-                modifier = Modifier.height(120.dp)
-            ) {
-                onReload()
-            }
+            ErrorDisplay(modifier = Modifier.height(120.dp)) { onReload() }
         }
     ) { _, item ->
         Column(
@@ -78,15 +73,19 @@ fun WhoIsOutSection(
                 .padding(all = dimensionResource(id = R.dimen.padding_small))
                 .width(160.dp)
         ) {
-            AsyncImage(
-                model = "https://ca.slack-edge.com/T017QJT2H7G-U04EMHNTCQY-09ab99ea6d80-72",
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                alignment = Alignment.TopCenter,
-                modifier = Modifier
-                    .height(120.dp)
-                    .clip(shape = RoundedCornerShape(8.dp))
-            )
+            if (item.image == null) {
+                ImagePlaceholder()
+            } else {
+                AsyncImage(
+                    model = item.image,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    alignment = Alignment.TopCenter,
+                    modifier = Modifier
+                        .height(120.dp)
+                        .clip(shape = RoundedCornerShape(8.dp))
+                )
+            }
             Box(
                 contentAlignment = Alignment.Center, modifier = Modifier
                     .padding(
@@ -98,8 +97,8 @@ fun WhoIsOutSection(
                     .background(color = Color(0xffF5F7F9))
             ) {
                 Text(
-                    text = "National Service Personnel",
-                    style = MaterialTheme.typography.labelSmall.copy(lineHeight = 0.sp),
+                    text = item.position ?: "Null",
+                    style = MaterialTheme.typography.labelLarge.copy(lineHeight = 0.sp),
                     modifier = Modifier.padding(
                         horizontal = dimensionResource(id = R.dimen.padding_small),
                         vertical = dimensionResource(id = R.dimen.padding_small).div(2),
@@ -113,12 +112,14 @@ fun WhoIsOutSection(
                     vertical = dimensionResource(id = R.dimen.padding_small).div(2),
                 ),
             )
-            item.type?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.labelLarge,
-                )
-            }
+//            Text(
+//                text = item.type ?: "",
+//                style = MaterialTheme.typography.labelLarge,
+//            )
+
         }
     }
 }
+
+
+

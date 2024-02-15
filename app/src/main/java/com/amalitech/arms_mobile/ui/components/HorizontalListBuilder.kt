@@ -51,6 +51,7 @@ fun <T> HorizontalListBuilder(
                 ),
             )
         }
+
         when {
             error -> errorBuilder()
             loading -> loadingIndicator()

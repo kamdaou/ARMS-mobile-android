@@ -22,7 +22,7 @@ fun WhoIsOutScreen() {
         title = "Who's Out (23)",
         subtitle = "List of employees who will not be in the office",
         filterBuilder = {},
-    ) { index, _ ->
+    ) { _, _ ->
         EmployeeDisplayCard(
             modifier = Modifier.padding(
                 vertical = 12.dp, horizontal = dimensionResource(id = R.dimen.padding_small)

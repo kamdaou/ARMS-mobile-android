@@ -102,6 +102,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.50")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
 }
 
 kapt {

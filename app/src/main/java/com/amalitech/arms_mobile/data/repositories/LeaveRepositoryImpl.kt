@@ -13,17 +13,21 @@ class LeaveRepositoryImpl @Inject constructor(
 ) : LeaveRepository {
 
     override suspend fun whoIsOut(): TypedResponse<WhoIsOutResponse<Staff>> {
-        return when (val response = dataSource.whoIsOut()) {
-            is TypedResponse.Success -> response.data.let {
-                TypedResponse.Success(
-                    data = Triple(
-                        it!!.first.map { e -> StaffAdapter(e) },
-                        it.second.map { e -> StaffAdapter(e) },
-                        it.third
+        try {
+            return when (val response = dataSource.whoIsOut()) {
+                is TypedResponse.Success -> response.data.let {
+                    TypedResponse.Success(
+                        data = Triple(
+                            it!!.first.map { e -> StaffAdapter(e) },
+                            it.second.map { e -> StaffAdapter(e) },
+                            it.third
+                        )
                     )
-                )
+                }
+                else -> TypedResponse.Error(message = response.message ?: "")
             }
-            else -> TypedResponse.Error(message = response.message ?: "")
+        } catch(e: Exception) {
+            return TypedResponse.Error(message = e.toString())
         }
     }
 }
