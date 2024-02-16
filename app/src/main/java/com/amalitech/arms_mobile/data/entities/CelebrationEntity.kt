@@ -4,9 +4,9 @@ import com.amalitech.GetCelebrationsQuery
 
 
 data class CelebrationEntity(
-    val userId: String,
-    val name: String,
-    val image: String,
+    val userId: String?,
+    val name: String?,
+    val image: String?,
     var birthDate: String?,
     val anniversaryDate: String?,
 )
@@ -24,7 +24,8 @@ fun GetCelebrationsQuery.GetCelebration.toCelebrationEntity(): CelebrationEntity
     }
 
     return CelebrationEntity(
-        userId = user_id?.toString() ?: "",
+//        userId = user_id?.toString() ?: "",
+        userId = null,
         name = full_name ?: "",
         image = profile_image ?: "",
         birthDate = birthDate,

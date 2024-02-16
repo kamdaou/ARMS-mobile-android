@@ -43,7 +43,10 @@ fun <T : Any> ViewAllGridView(
             .statusBarsPadding()
             .navigationBarsPadding(),
         columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_small))
+        contentPadding = PaddingValues(
+            horizontal = dimensionResource(id = R.dimen.padding_medium),
+            vertical = dimensionResource(id = R.dimen.padding_small)
+        )
     ) {
         item(span = { GridItemSpan(2) }) {
             Box(contentAlignment = Alignment.CenterStart) {
@@ -64,7 +67,7 @@ fun <T : Any> ViewAllGridView(
                     text = title,
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier
-                        .padding(top = dimensionResource(id = R.dimen.padding_small))
+                        .padding(top = dimensionResource(id = R.dimen.padding_small), end = 4.dp)
                         .padding(horizontal = dimensionResource(id = R.dimen.padding_small))
                 )
                 Text(
@@ -73,12 +76,15 @@ fun <T : Any> ViewAllGridView(
                         fontWeight = FontWeight.Normal, fontSize = 14.sp
                     ),
                     modifier = Modifier
-                        .padding(bottom = dimensionResource(id = R.dimen.padding_small))
+                        .padding(
+                            top = 4.dp,
+                            bottom = dimensionResource(id = R.dimen.padding_medium)
+                        )
                         .padding(horizontal = dimensionResource(id = R.dimen.padding_small))
                 )
             }
         }
-        if(loading) {
+        if (loading) {
             items(count = 6) { _ ->
                 loadingIndicator()
             }

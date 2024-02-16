@@ -19,6 +19,7 @@ import javax.inject.Inject
 data class WhoIsOutUiState(
     val today: List<Staff> = listOf(),
     val tomorrow: List<Staff> = listOf(),
+    val checkedList: List<String> = listOf("All", "Today", "Tomorrow"),
     val excludeTomorrow: Boolean = false,
     val isLoading: Boolean = false,
     val hasError: Boolean = false,
@@ -85,7 +86,14 @@ class WhoIsOutViewModel @Inject constructor(
         _state.update {
             it.copy(isLoading = false)
         }
+    }
 
+    fun onChecked(label: List<String>) {
+        _state.update {
+            it.copy(
+                checkedList = label
+            )
+        }
     }
 
     init {

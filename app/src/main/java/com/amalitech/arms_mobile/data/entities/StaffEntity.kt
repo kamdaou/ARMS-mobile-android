@@ -16,7 +16,7 @@ fun WhoIsOutQuery.Today.toStaffEntity(): StaffEntity {
     val bio = user?.employee_info?.employee_bio
 
     return StaffEntity(
-        id = user_id,
+        id = null,
         name = bio?.full_name,
         image = bio?.profile_image,
         position = user?.employee_info?.position?.position_name,
@@ -28,7 +28,7 @@ fun WhoIsOutQuery.Tomorrow.toStaffEntity(): StaffEntity {
     val bio = user?.employee_info?.employee_bio
 
     return StaffEntity(
-        id = user_id,
+        id = null,
         name = bio?.full_name,
         image = bio?.profile_image,
         position = user?.employee_info?.position?.position_name,
