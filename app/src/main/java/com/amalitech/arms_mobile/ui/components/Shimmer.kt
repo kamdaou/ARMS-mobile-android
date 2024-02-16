@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,11 +25,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.amalitech.arms_mobile.R
 
 @Composable
 fun Shimmer(modifier: Modifier = Modifier, shape: Dp = 16.dp) {
@@ -65,16 +61,11 @@ fun Modifier.shimmerEffect(shape: Dp = 16.dp): Modifier = composed {
 
 
 @Composable
-fun HorizontalShimmer() {
+fun HorizontalShimmer(modifier: Modifier = Modifier) {
     Row {
         repeat(2) {
             Column(
-                modifier = Modifier
-                    .padding(
-                        horizontal = dimensionResource(id = R.dimen.padding_medium),
-                        vertical = dimensionResource(id = R.dimen.padding_small)
-                    )
-                    .width(160.dp)
+                modifier = modifier
             ) {
                 Shimmer(
                     shape = 16.dp,

@@ -19,8 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavController
 import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.core.utilities.AppRoute
+import com.amalitech.arms_mobile.ui.views.celebrations.CelebrationRoute
+import com.amalitech.arms_mobile.ui.views.who_is_out.WhoIsOutRoute
 import kotlinx.coroutines.launch
 
 object HomeScreenRoute : AppRoute {
@@ -29,7 +32,7 @@ object HomeScreenRoute : AppRoute {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage = 0, pageCount = {
         4
@@ -88,7 +91,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         ) {
             if (it == 0)
                 HomeScreenContent(
-                    modifier = Modifier.fillMaxHeight()
+                    modifier = Modifier.fillMaxHeight(),
+                    expandCelebrations = {
+                        navController.navigate(CelebrationRoute.path)
+                    },
+                    expandWhoIsOut = {
+                        navController.navigate(WhoIsOutRoute.path)
+                    }
                 )
             else
                 Box(contentAlignment = Alignment.Center) {

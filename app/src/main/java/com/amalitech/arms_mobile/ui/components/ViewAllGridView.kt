@@ -30,6 +30,8 @@ fun <T : Any> ViewAllGridView(
     modifier: Modifier = Modifier,
     popAction: () -> Unit,
     key: ((item: Int) -> Any)? = null,
+    loading: Boolean = false,
+    loadingIndicator: @Composable () -> Unit,
     items: List<T>,
     title: String,
     subtitle: String,
@@ -76,16 +78,22 @@ fun <T : Any> ViewAllGridView(
                 )
             }
         }
-        item(span = { GridItemSpan(2) }) {
-            Box(
-                modifier = Modifier.padding(8.dp),
-                contentAlignment = Alignment.CenterStart,
-            ) {
-                filterBuilder()
+        if(loading) {
+            items(count = 6) { _ ->
+                loadingIndicator()
             }
-        }
-        items(items.size, key = key) { index ->
-            itemBuilder(index, items[index])
+        } else {
+            item(span = { GridItemSpan(2) }) {
+                Box(
+                    modifier = Modifier.padding(8.dp),
+                    contentAlignment = Alignment.CenterStart,
+                ) {
+                    filterBuilder()
+                }
+            }
+            items(items.size, key = key) { index ->
+                itemBuilder(index, items[index])
+            }
         }
     }
 }

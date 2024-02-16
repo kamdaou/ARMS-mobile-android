@@ -34,6 +34,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreenContent(
     modifier: Modifier = Modifier,
+    expandCelebrations: () -> Unit,
+    expandWhoIsOut: () -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val scrollState: ScrollState = rememberScrollState()
@@ -58,17 +60,25 @@ fun HomeScreenContent(
                     .padding(horizontal = dimensionResource(id = R.dimen.padding_large))
             )
             Spacer(modifier = Modifier.height(16.dp))
-            WhoIsOutSection(viewModel.leaveState, onReload = {
-                viewModel.viewModelScope.launch {
-                    viewModel.getLeaveData()
-                }
-            })
-            Spacer(modifier = Modifier.height(24.dp))
-            CelebrationSection(viewModel.celebrationState, onReload = {
-                viewModel.viewModelScope.launch {
-                    viewModel.getCelebrationData()
-                }
-            })
+            WhoIsOutSection(
+                viewModel.leaveState,
+                onReload = {
+                    viewModel.viewModelScope.launch {
+                        viewModel.getLeaveData()
+                    }
+                },
+                navigateToView = expandWhoIsOut,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            CelebrationSection(
+                viewModel.celebrationState,
+                onReload = {
+                    viewModel.viewModelScope.launch {
+                        viewModel.getCelebrationData()
+                    }
+                },
+                navigateToView = expandCelebrations,
+            )
         }
     }
 }

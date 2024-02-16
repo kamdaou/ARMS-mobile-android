@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amalitech.arms_mobile.core.utilities.TypedResponse
-import com.amalitech.arms_mobile.domain.models.Celebration
 import com.amalitech.arms_mobile.domain.models.Staff
 import com.amalitech.arms_mobile.domain.usecases.GetCelebrationUseCase
 import com.amalitech.arms_mobile.domain.usecases.GetWhoIsOutUseCase
+import com.amalitech.arms_mobile.ui.views.celebrations.CelebrationUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,13 +20,6 @@ import javax.inject.Inject
 data class HomeUiState(
 //    val whoIsOut: List<Staff> = listOf(),
 //    val celebrations: List<Celebration> = listOf(),
-    val isLoading: Boolean = false,
-    val hasError: Boolean = false,
-    val message: String = "",
-)
-
-data class CelebrationUiState(
-    val celebrations: List<Celebration> = listOf(),
     val isLoading: Boolean = false,
     val hasError: Boolean = false,
     val message: String = "",
