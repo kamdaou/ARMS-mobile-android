@@ -1,15 +1,23 @@
 package com.amalitech.arms_mobile.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -18,44 +26,42 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.ui.theme.primaryColor
-import com.amalitech.arms_mobile.ui.theme.textColor
 import kotlinx.coroutines.launch
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-fun AppBottomSheet() {
-
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalSheetM3(
-    drawableId: Int,
-    title: String, subTitle: String,
-    btnTitle: String, mainBtnTitle: String,
+fun AppModalSheet(
+    onClickAction: () -> Unit,
 ) {
     var openSheet by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState()
 
-    Button(
-        onClick = { openSheet = true },
-        colors = ButtonDefaults.buttonColors(primaryColor),
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .height(55.dp),
+            .height(55.dp)
+            .clickable {
+                openSheet = true
+            },
     ) {
-        Text(text = mainBtnTitle)
+        Image(
+            painter = painterResource(id = R.drawable.message_text),
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(text = "Help")
     }
 
     if (openSheet) {
@@ -66,11 +72,146 @@ fun ModalSheetM3(
 
         ) {
             BottomSheetContent(
-                title = title,
-                subTitle = subTitle,
-                drawableId = drawableId,
-                btnTitle = btnTitle,
                 onHideButtonClick = {
+                    scope.launch {
+                        bottomSheetState.hide()
+                    }.invokeOnCompletion {
+                        if (!bottomSheetState.isVisible) openSheet = false
+                    }
+                }, onClickAction = onClickAction
+            )
+        }
+    }
+}
+
+
+@Composable
+fun BottomSheetContent(
+    onHideButtonClick: () -> Unit,
+    onClickAction: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .padding(30.dp)
+    ) {
+        Icon(
+            tint = Color.DarkGray,
+            modifier = Modifier
+                .clickable { onHideButtonClick() }
+                .size(36.dp),
+            painter = painterResource(id = R.drawable.close_circle),
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            text = "How can we help?",
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
+        )
+        Spacer(modifier = Modifier.height(18.dp))
+        Text(
+            text = "Stacked with accessing your Amalitech account or having another issues? ",
+            style = TextStyle(
+                color = Color.Black
+            )
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        OutlinedButton(
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(55.dp),
+            onClick = onClickAction
+        )
+        {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Box(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Row {
+                        Icon(
+                            tint = Color.DarkGray,
+                            painter = painterResource(id = R.drawable.alarm),
+                            contentDescription = "alarm"
+                        )
+                        Spacer(modifier = Modifier.width(14.dp))
+                        Text(text = "Report an issue", color = Color.DarkGray)
+                    }
+                }
+                Icon(
+                    tint = Color.DarkGray,
+                    painter = painterResource(id = R.drawable.chevron_right),
+                    contentDescription = "right_chevron",
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+    }
+}
+
+
+@Composable
+fun SucessBottomSheetContent(onClick: () -> Unit) {
+    Column(
+        modifier = Modifier.padding(20.dp)
+    ) {
+        Text(
+            text = "Successful",
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Your report has been submitted successfully. You will be notified in your email with the progress. Cheers..",
+            color = Color.Gray
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(
+            colors = ButtonDefaults.buttonColors(primaryColor),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            onClick = onClick
+        ) {
+            Text(text = "Got it")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppSucessModalSheet() {
+    var openSheet by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState()
+
+    Box {
+        Button(
+            onClick = { openSheet = true },
+            colors = ButtonDefaults.buttonColors(primaryColor),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(55.dp),
+        ) {
+            Text(text = "Submit report")
+        }
+    }
+
+    if (openSheet) {
+        ModalBottomSheet(
+            sheetState = bottomSheetState,
+            onDismissRequest = { openSheet = false },
+        ) {
+            SucessBottomSheetContent(
+                onClick = {
                     scope.launch {
                         bottomSheetState.hide()
                     }.invokeOnCompletion {
@@ -79,51 +220,6 @@ fun ModalSheetM3(
                 }
             )
         }
-    }
-}
-
-@Composable
-fun BottomSheetContent(
-    onHideButtonClick: () -> Unit,
-    drawableId: Int,
-    title: String, subTitle: String,
-    btnTitle: String
-) {
-    Column(
-        modifier = Modifier
-            .padding(30.dp)
-    ) {
-        Image(
-            painter = painterResource(id = drawableId),
-            contentDescription = null
-        )
-        Spacer(modifier = Modifier.height(18.dp))
-        Text(
-            text = title,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
-            )
-        )
-        Spacer(modifier = Modifier.height(18.dp))
-        Text(
-            text = subTitle,
-            style = TextStyle(
-                color = textColor
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            colors = ButtonDefaults.buttonColors(primaryColor),
-            modifier = Modifier.fillMaxWidth(),
-            onClick = onHideButtonClick
-        )
-        {
-            Text(text = btnTitle)
-        }
-        Spacer(
-            modifier = Modifier.height(20.dp)
-        )
     }
 }
 

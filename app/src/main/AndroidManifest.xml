@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,8 +22,25 @@
             android:theme="@style/Theme.ARMSMobile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <data android:scheme="msauth"
+                    android:host="com.example.frontend_masters_tut"
+                    android:path="/dG769U6sqHhPvVQ9663Jp5VwqnE=" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.microsoft.identity.client.BrowserTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="com.amalitech.arms_mobile"
+                    android:path="/dG769U6sqHhPvVQ9663Jp5VwqnE="
+                    android:scheme="msauth" />
             </intent-filter>
         </activity>
     </application>
