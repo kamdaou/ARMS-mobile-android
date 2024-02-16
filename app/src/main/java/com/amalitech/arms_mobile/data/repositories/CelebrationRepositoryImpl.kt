@@ -11,7 +11,7 @@ class CelebrationRepositoryImpl @Inject constructor(
     private val celebrationDataSource: CelebrationDataSource
 ): CelebrationRepository {
     override suspend fun all(fetchAll: Boolean): TypedResponse<List<Celebration>> {
-        return when(val response = celebrationDataSource.celerations()) {
+        return when(val response = celebrationDataSource.celebrations()) {
             is TypedResponse.Success -> {
                 return TypedResponse.Success(
                     data = response.data?.map { CelebrationAdapter(it) }

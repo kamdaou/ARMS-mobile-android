@@ -11,7 +11,7 @@ class CelebrationDataSource@Inject constructor(
     private val apolloClient: ApolloClient,
 ) {
 
-    suspend fun celerations(): TypedResponse<List<CelebrationEntity>> {
+    suspend fun celebrations(): TypedResponse<List<CelebrationEntity>> {
         val response = apolloClient
             .query(GetCelebrationsQuery())
             .execute()
