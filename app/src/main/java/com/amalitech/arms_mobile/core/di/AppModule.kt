@@ -22,5 +22,4 @@ object AppModule {
             .addHttpHeader("Authorization", token)
             .build()
     }
-
 }
