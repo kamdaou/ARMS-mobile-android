@@ -17,7 +17,6 @@ import com.amalitech.arms_mobile.screens.HomeScreen
 import com.amalitech.arms_mobile.screens.LoginInScreen
 import com.amalitech.arms_mobile.ui.theme.ARMSMobileTheme
 import com.example.frontend_masters_tut.HelpScreen
-import com.example.frontend_masters_tut.Screen
 import java.io.File
 
 class MainActivity : ComponentActivity() {

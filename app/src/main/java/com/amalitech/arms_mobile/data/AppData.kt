@@ -1,5 +1,17 @@
 package com.amalitech.arms_mobile.data
 
+data class User(
+    val givenName: String,
+     val mail: String,
+){
+    companion object {
+        fun fromJSON(json: org.json.JSONObject) : User{
+            val givenName = json.getString("givenName")
+            val mail = json.getString("mail")
+            return User(givenName, mail)
+        }
+    }
+}
 data class AuthenticationException(
     val message: String,
     val cause: Throwable? = null
@@ -12,5 +24,5 @@ data class AuthenticationException(
     }
 }
 
-data class GraphApiResponse(val message: String)
 data class GraphApiResponseError(val message: String)
+

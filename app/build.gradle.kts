@@ -1,8 +1,8 @@
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.apollographql.apollo3") version "3.8.2"
-//    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -20,7 +20,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-//        buildConfigField("String", "API_URL", gradleLocalProperties(rootDir).getProperty("API_URL"))
     }
 
     buildTypes {
@@ -61,7 +60,6 @@ android {
 dependencies {
 
     implementation("io.opentelemetry:opentelemetry-api:1.18.0")
-//    implementation ("com.google.dagger:hilt-android:2.38.1")
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("io.opentelemetry:opentelemetry-context:1.18.0")

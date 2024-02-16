@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,12 +13,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,12 +35,11 @@ import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.TokenDataStore
 import com.amalitech.arms_mobile.composables.AppModalSheet
 import com.amalitech.arms_mobile.data.AuthenticationException
-import com.amalitech.arms_mobile.data.GraphApiResponse
 import com.amalitech.arms_mobile.data.GraphApiResponseError
-import com.android.volley.Response
+import com.amalitech.arms_mobile.data.User
 import com.android.volley.VolleyError
-import com.example.frontend_masters_tut.MicrosoftService.MSGRequestWrapper
-import com.example.frontend_masters_tut.Screen
+import com.amalitech.arms_mobile.services.MSGRequestWrapper
+import com.amalitech.arms_mobile.Screen
 import com.microsoft.aad.msal4j.IAccount
 import com.microsoft.identity.client.AuthenticationCallback
 import com.microsoft.identity.client.IAuthenticationResult
@@ -49,15 +47,16 @@ import com.microsoft.identity.client.IPublicClientApplication
 import com.microsoft.identity.client.ISingleAccountPublicClientApplication
 import com.microsoft.identity.client.PublicClientApplication
 import com.microsoft.identity.client.SignInParameters
-import com.microsoft.identity.client.SignInParameters.SignInParametersBuilder
 import com.microsoft.identity.client.exception.MsalException
-import org.json.JSONObject
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginInScreen(navController: NavHostController, dataStore: TokenDataStore) {
     var mAccount: IAccount? = null
     var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
     val context = LocalContext.current
+
+    val scope = rememberCoroutineScope()
 
     PublicClientApplication.createSingleAccountPublicClientApplication(
         LocalContext.current,
@@ -134,21 +133,30 @@ fun LoginInScreen(navController: NavHostController, dataStore: TokenDataStore) {
                             override fun onSuccess(authenticationResult: IAuthenticationResult?) {
                                 if (authenticationResult != null) {
                                     val token = authenticationResult.accessToken
-                                    suspend fun saveToken() {
+                                    scope.launch {
                                         dataStore.storeAccessToken(token)
-                                        Log.d(TAG, "TOKEN: $token")
                                     }
-                                    MSGRequestWrapper.callGraphAPIUsingVolley(
+                                    MSGRequestWrapper.callGraphAPI(
                                         context,
                                         authenticationResult.accessToken,
                                         { response ->
-                                            Log.d(TAG, "Response: $response")
-                                            displayGraphResult(response)
+                                            User.fromJSON(response)
                                         },
                                         { error ->
-                                            Log.d(TAG, "Error: $error")
                                             displayError(error)
                                         })
+                                    MSGRequestWrapper.callGraphPhotoAPI(
+                                        context,
+                                        authenticationResult.accessToken,
+                                        { response ->
+                                            scope.launch {
+                                                dataStore.storeUserPhoto(response.toString())
+                                            }
+                                        }, { error ->
+                                            Log.d(TAG, "error: $error")
+                                            displayError(error)
+                                        }
+                                    )
                                 }
                             }
 
@@ -158,28 +166,23 @@ fun LoginInScreen(navController: NavHostController, dataStore: TokenDataStore) {
                                 }
                             }
 
-                            private fun displayGraphResult(response: JSONObject?) {
-                                GraphApiResponse(response.toString())
-                            }
-
                             override fun onError(exception: MsalException?) {
                                 if (exception != null) {
                                     val exe = exception.message?.let { AuthenticationException(it) }
                                     if (exe != null) {
                                         navController.navigate(Screen.Home.route)
-                                        Log.d(TAG, "Microsoft: ${exe.message}")
                                     }
                                 }
-                                Log.d("Microsoft Error", "Error: ${exception.toString()}")
                             }
 
                             override fun onCancel() {
-                                Log.d("", "OnCancel")
+
                             }
                         })
-                    mSingleAccountApp!!.signIn(
-                        builder.build()
-                    )
+                    mSingleAccountApp!!
+                        .signIn(
+                            builder.build()
+                        )
                 }) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),

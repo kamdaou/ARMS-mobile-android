@@ -1,4 +1,4 @@
-package com.example.frontend_masters_tut
+package com.amalitech.arms_mobile
 
 sealed class Screen(val route: String){
     data object Home : Screen("home")
