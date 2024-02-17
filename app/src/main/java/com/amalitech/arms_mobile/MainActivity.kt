@@ -1,22 +1,23 @@
 package com.amalitech.arms_mobile
 
 import android.os.Bundle
-import android.service.autofill.UserData
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import com.amalitech.Mutation
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.amalitech.arms_mobile.screens.HomeScreen
+import com.amalitech.arms_mobile.screens.LoginInScreen
 import com.amalitech.arms_mobile.ui.theme.ARMSMobileTheme
-import com.apollographql.apollo3.ApolloClient
+import com.example.frontend_masters_tut.HelpScreen
+import java.io.File
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,39 +29,32 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    // Redundant Data File, Not Created YET
+                    val persistenceFile = File("context.file", "token_data.pb")
+                    val dataStore : DataStore<Preferences> = PreferenceDataStoreFactory.create {
+                        persistenceFile
+                    }
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.Login.route,
+                    ){
+                        composable(Screen.Login.route){
+                            LoginInScreen(
+                                navController = navController,
+                                dataStore = TokenDataStore(dataStore)
+                            )
+                        }
+                        composable(Screen.HelpSupport.route){
+                            HelpScreen()
+                        }
+                        composable(Screen.Home.route){
+                            HomeScreen()
+                        }
+                    }
                 }
+
             }
-
-
-            val apolloClient = ApolloClient.Builder()
-                    .serverUrl("")
-                    .build()
-//            val response = apolloClient.mutation(Mutation(data = UserData()))
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ARMSMobileTheme {
-        Greeting("Android")
-        SurveyAnswer()
-    }
-}
-
-@Composable
-fun SurveyAnswer() {
-    Row {
-        Image(painterResource(id = R.drawable.spark), contentDescription = "")
     }
 }
