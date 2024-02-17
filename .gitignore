@@ -45,6 +45,6 @@ outTmp/
 /kotlin-native/dist
 kotlin-ide/
 .kotlin/
-.env
+env.properties
 app/debug/
 app/release/

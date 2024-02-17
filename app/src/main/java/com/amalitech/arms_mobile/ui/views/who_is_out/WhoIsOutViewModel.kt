@@ -19,7 +19,7 @@ import javax.inject.Inject
 data class WhoIsOutUiState(
     val today: List<Staff> = listOf(),
     val tomorrow: List<Staff> = listOf(),
-    val checkedList: List<String> = listOf("All", "Today", "Tomorrow"),
+    val checkedList: List<String> = listOf("Today", "Tomorrow"),
     val excludeTomorrow: Boolean = false,
     val isLoading: Boolean = false,
     val hasError: Boolean = false,
@@ -36,17 +36,35 @@ class WhoIsOutViewModel @Inject constructor(
 
     private var requestHandler: Job? = null
 
-    var data: List<Staff> = listOf()
+    val filteredData: List<Staff>
         get() {
-            var data: List<Staff> = state.value.today
+            val labels = state.value.checkedList
+            val today = state.value.today
+            val tomorrow = state.value.tomorrow
 
-            if (!state.value.excludeTomorrow) {
-                data = data + state.value.tomorrow
+            if (labels.containsAll(listOf("Today", "Tomorrow"))) {
+                if (state.value.excludeTomorrow) {
+                    return today
+                }
+                return today + tomorrow
             }
 
-            return data
+            if (labels.contains("Today")) {
+                return today
+            }
+
+            if (labels.contains("Tomorrow")) {
+                return tomorrow
+            }
+
+            return emptyList()
         }
-        private set
+
+    init {
+        viewModelScope.launch {
+            getWhoIsOutData()
+        }
+    }
 
     private suspend fun getWhoIsOutData() {
         _state.update {
@@ -88,7 +106,7 @@ class WhoIsOutViewModel @Inject constructor(
         }
     }
 
-    fun onChecked(label: List<String>) {
+    fun updateCheckedList(label: List<String>) {
         _state.update {
             it.copy(
                 checkedList = label
@@ -96,9 +114,4 @@ class WhoIsOutViewModel @Inject constructor(
         }
     }
 
-    init {
-        viewModelScope.launch {
-            getWhoIsOutData()
-        }
-    }
 }

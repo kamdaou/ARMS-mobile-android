@@ -18,7 +18,7 @@ object CelebrationAdapter : AdapterInterface<CelebrationEntity, Celebration> {
                 id = entity.userId ?: currentMoment.toString()
             ),
             anniversary = entity.anniversaryDate,
-            birthday = entity.anniversaryDate
+            birthday = entity.birthDate
         )
     }
 }

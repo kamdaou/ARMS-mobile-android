@@ -39,14 +39,17 @@ fun CelebrationSection(
         items = state.value.celebrations,
         error = state.value.hasError,
         loading = state.value.isLoading,
-        onExpand = navigateToView,
-        loadingIndicator = { HorizontalShimmer(
-            modifier = Modifier.padding(
-                horizontal = dimensionResource(id = R.dimen.padding_medium),
-                vertical = dimensionResource(id = R.dimen.padding_small)
+        onExpand = if(state.value.celebrations.isNotEmpty()) navigateToView else null,
+        loadingIndicator = {
+            HorizontalShimmer(
+                modifier = Modifier
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.padding_medium),
+                        vertical = dimensionResource(id = R.dimen.padding_small)
+                    )
+                    .width(160.dp)
             )
-                .width(160.dp)
-        ) },
+        },
         emptyListBuilder = {
             Box(
                 contentAlignment = Alignment.Center,
@@ -56,7 +59,7 @@ fun CelebrationSection(
                     .padding(horizontal = 16.dp, vertical = 24.dp)
             ) {
                 Text(
-                    "No Anniversary",
+                    "No Celebrations",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = Color(0xff818181),
                         fontWeight = FontWeight.Normal,
@@ -80,10 +83,13 @@ fun CelebrationSection(
             image = item.staff.image,
             name = name.parse(),
             date = DateTimeFormatter.getParsedDate(item.anniversary ?: item.birthday ?: "")
-                ?.joinToString(" ")
                 ?: "Jan 24",
             staffType = item.staff.type ?: "Employee",
-            type = if (item.anniversary != null) "Happy Birthday" else "1st Anniversary",
+            type = if (item.anniversary == null) {
+                "Happy Birthday"
+            } else {
+                "${DateTimeFormatter.anniversary(item.anniversary)} Anniversary"
+            },
         )
 
     }

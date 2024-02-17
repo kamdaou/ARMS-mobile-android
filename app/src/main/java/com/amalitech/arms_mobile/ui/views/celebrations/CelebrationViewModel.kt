@@ -18,6 +18,7 @@ import javax.inject.Inject
 
 data class CelebrationUiState(
     val celebrations: List<Celebration> = listOf(),
+    val checkedList: List<String> = listOf("Anniversary", "Birthday"),
     val isLoading: Boolean = false,
     val hasError: Boolean = false,
     val message: String = "",
@@ -28,13 +29,34 @@ class CelebrationViewModel @Inject constructor(
     private val getCelebrationUseCase: GetCelebrationUseCase,
 ) : ViewModel() {
 
-    private val _celebrationState = MutableStateFlow(CelebrationUiState())
-    val celebrationState: StateFlow<CelebrationUiState> = _celebrationState.asStateFlow()
+    private val _state = MutableStateFlow(CelebrationUiState())
+    val state: StateFlow<CelebrationUiState> = _state.asStateFlow()
 
     private var requestHandler: Job? = null
 
+    val filteredData: List<Celebration>
+        get() = state.value.celebrations.filter { data ->
+            val labels = state.value.checkedList
+
+            if (labels.containsAll(listOf("Anniversary", "Birthday"))) {
+                data.anniversary != null || data.birthday != null
+            } else if (labels.contains("Anniversary")) {
+                data.anniversary != null
+            } else if (labels.contains("Birthday")) {
+                data.birthday != null
+            } else {
+                false
+            }
+        }
+
+    init {
+        viewModelScope.launch {
+            getCelebrationData()
+        }
+    }
+
     private suspend fun getCelebrationData() {
-        _celebrationState.update {
+        _state.update {
             it.copy(isLoading = true)
         }
         when (val response = getCelebrationUseCase()) {
@@ -45,7 +67,7 @@ class CelebrationViewModel @Inject constructor(
 
                 val celebrations = data ?: listOf()
 
-                _celebrationState.update {
+                _state.update {
                     it.copy(
                         celebrations = celebrations,
                     )
@@ -54,7 +76,7 @@ class CelebrationViewModel @Inject constructor(
             }
 
             is TypedResponse.Error -> {
-                _celebrationState.update {
+                _state.update {
                     it.copy(
                         hasError = true
                     )
@@ -62,22 +84,24 @@ class CelebrationViewModel @Inject constructor(
             }
 
             else -> {
-                _celebrationState.update {
+                _state.update {
                     it.copy(
                         hasError = true
                     )
                 }
             }
         }
-        _celebrationState.update {
+        _state.update {
             it.copy(isLoading = false)
         }
 
     }
 
-    init {
-        viewModelScope.launch {
-            getCelebrationData()
+    fun updateCheckedList(label: List<String>) {
+        _state.update {
+            it.copy(
+                checkedList = label,
+            )
         }
     }
 }

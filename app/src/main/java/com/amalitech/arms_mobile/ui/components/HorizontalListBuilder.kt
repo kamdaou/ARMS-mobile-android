@@ -22,7 +22,7 @@ fun <T> HorizontalListBuilder(
     modifier: Modifier = Modifier,
     title: String,
     items: List<T> = emptyList(),
-    onExpand: () -> Unit = {},
+    onExpand: (() -> Unit)? = {},
     error: Boolean = false,
     errorBuilder: @Composable () -> Unit,
     loading: Boolean = false,
@@ -42,11 +42,11 @@ fun <T> HorizontalListBuilder(
                 text = "View all",
                 modifier = Modifier.clickable(onClick = {
                     if (!error) {
-                        onExpand()
+                        onExpand?.invoke()
                     }
                 }),
                 style = MaterialTheme.typography.titleSmall.copy(
-                    color = Color(0xffDD5928),
+                    color = if(onExpand == null) Color(0x550a0a0a) else Color(0xffDD5928),
                     fontWeight = FontWeight.Normal,
                 ),
             )

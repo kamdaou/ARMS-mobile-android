@@ -38,14 +38,17 @@ fun WhoIsOutSection(
         items = state.value.leaves,
         error = state.value.hasError,
         loading = state.value.isLoading,
-        onExpand = navigateToView,
-        loadingIndicator = { HorizontalShimmer(
-            modifier = Modifier.padding(
-                horizontal = dimensionResource(id = R.dimen.padding_medium),
-            vertical = dimensionResource(id = R.dimen.padding_small)
+        onExpand = if(state.value.leaves.isNotEmpty()) navigateToView else null,
+        loadingIndicator = {
+            HorizontalShimmer(
+                modifier = Modifier
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.padding_medium),
+                        vertical = dimensionResource(id = R.dimen.padding_small),
+                    )
+                    .width(160.dp)
             )
-            .width(160.dp)
-        ) },
+        },
         emptyListBuilder = {
             Box(
                 modifier = Modifier
@@ -55,7 +58,7 @@ fun WhoIsOutSection(
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    "No Leaves",
+                    "No employees is on leave",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = Color(0xff818181),
                         fontWeight = FontWeight.Normal,
@@ -71,9 +74,12 @@ fun WhoIsOutSection(
         val name = StringFormatter.Name(item.name)
 
         StaffDisplayCard(
-            modifier = Modifier.padding(
-                vertical = 12.dp, horizontal = dimensionResource(id = R.dimen.padding_small)
-            ).width(180.dp),
+            modifier = Modifier
+                .padding(
+                    vertical = 12.dp,
+                    horizontal = dimensionResource(id = R.dimen.padding_small)
+                )
+                .width(180.dp),
             image = item.image,
             name = name.parse(),
             position = item.position ?: "",

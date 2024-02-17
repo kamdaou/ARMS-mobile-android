@@ -19,11 +19,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.amalitech.arms_mobile"
-        minSdk = 24
+        applicationId = "com.amalitech.arms_mobile_test"
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

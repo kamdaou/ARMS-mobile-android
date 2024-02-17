@@ -20,7 +20,7 @@ fun AppNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = WhoIsOutRoute.path,
+        startDestination = HomeScreenRoute.path,
         modifier = modifier,
     ) {
         composable(route = HomeScreenRoute.path) {

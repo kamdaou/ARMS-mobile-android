@@ -1,25 +1,12 @@
 package com.amalitech.arms_mobile.ui.views.who_is_out
 
-import android.util.Log
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -33,13 +20,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.core.utilities.AppRoute
+import com.amalitech.arms_mobile.ui.components.CheckBoxListItemData
+import com.amalitech.arms_mobile.ui.components.CheckboxListForm
+import com.amalitech.arms_mobile.ui.components.DropdownField
 import com.amalitech.arms_mobile.ui.components.HorizontalShimmer
 import com.amalitech.arms_mobile.ui.components.StaffDisplayCard
 import com.amalitech.arms_mobile.ui.components.ViewAllGridView
@@ -67,11 +58,30 @@ fun WhoIsOutScreen(
         popAction = {
             navController.popBackStack()
         },
-        items = viewModel.data,
-        key = { viewModel.data[it].id },
-        title = "Who's Out (${viewModel.data.size})",
+        itemsData = viewModel.filteredData,
+        key = { it.id },
+        title = "Who's Out (${viewModel.filteredData.size})",
         subtitle = "List of employees who will not be in the office",
         loading = state.value.isLoading,
+        emptyListBuilder = {
+            Box(
+                modifier = Modifier
+                    .height(120.dp)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 24.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    "No employees is on leave",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = Color(0xff818181),
+                        fontWeight = FontWeight.Normal,
+                        textAlign = TextAlign.Center,
+                        fontSize = 20.sp
+                    ),
+                )
+            }
+        },
         loadingIndicator = {
             HorizontalShimmer(
                 modifier = Modifier
@@ -83,40 +93,21 @@ fun WhoIsOutScreen(
             )
         },
         filterBuilder = {
-            Box(
-                modifier = Modifier
-                    .border(
-                        width = 1.dp, color = Color(0xffb0b0b0), shape = RoundedCornerShape(8.dp),
-                    )
-                    .clickable {
-                        scope
-                            .launch { sheetState.show() }
-                            .invokeOnCompletion { showBottomSheet = true }
-                    },
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(
-                        horizontal = 16.dp,
-                        vertical = 12.dp,
-                    )
-                ) {
-                    Log.d("APP:: ", state.value.checkedList.toString())
-                    Text(
-                        if (state.value.checkedList.size > 1) {
-                            "All"
-                        } else {
-                            state.value.checkedList.first()
-                        }, style = MaterialTheme.typography.bodyMedium
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Icon(
-                        painter = painterResource(id = R.drawable.arrow_bottom),
-                        contentDescription = null,
-                    )
-                }
-            }
+            val checkedList = state.value.checkedList
+            DropdownField(
+                text = if (checkedList.containsAll(listOf("Today", "Tomorrow"))) {
+                    "All"
+                } else {
+                    checkedList.first()
+                },
+                onClick = {
+                    scope
+                        .launch { sheetState.show() }
+                        .invokeOnCompletion { showBottomSheet = true }
+                },
+            )
         },
-    ) { _, item ->
+    ) { item ->
         StaffDisplayCard(
             modifier = Modifier.padding(
                 vertical = 12.dp, horizontal = dimensionResource(id = R.dimen.padding_small)
@@ -128,123 +119,73 @@ fun WhoIsOutScreen(
         )
     }
 
-//    if (showBottomSheet) {
-        AppBottomSheet(selectedValues = state.value.checkedList, onChecked = {
-            viewModel.onChecked(it)
-            showBottomSheet = false;
-        }, onDismissed = {
-            showBottomSheet = false
-        }, state = sheetState
-        )
-//    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun AppBottomSheet(
-    selectedValues: List<String>,
-    state: SheetState,
-    onChecked: (List<String>) -> Unit,
-    onDismissed: () -> Unit,
-) {
-    val scope = rememberCoroutineScope()
-    var values by remember {
-        mutableStateOf(selectedValues)
-    }
-
-    ModalBottomSheet(
-        onDismissRequest = {
-            scope.launch {
-                state.hide()
-            }.invokeOnCompletion {
-                onDismissed()
-            }
-        }, sheetState = state
-    ) {
-        Text(
-            "Select your preferred options",
-            style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
-        )
-
-        CheckBoxListItem(
-            text = "All",
-            value = values.contains("All"),
-            onChecked = {
-                values = if (it) {
-                    (values + listOf("All", "Today", "Tomorrow")).toSet().toList()
-                } else {
-                    values - "All"
-                }
-            },
-        )
-        CheckBoxListItem(
-            text = "Today",
-            value = values.contains("Today"),
-            onChecked = {
-                values = if (it) {
-                    values + "Today"
-                } else {
-                    values - "Today"
-                }
-            },
-        )
-        CheckBoxListItem(
-            text = "Tomorrow",
-            value = values.contains("Tomorrow"),
-            onChecked = {
-                values = if (it) {
-                    values + "Tomorrow"
-                } else {
-                    values - "Tomorrow"
-                }
-            },
-        )
-
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xffDD5928),
-                contentColor = Color.White,
-            ),
-            onClick = {
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = {
                 scope.launch {
-                    onChecked(values)
-                    state.hide()
+                    sheetState.hide()
+                }.invokeOnCompletion {
+                    showBottomSheet = false
                 }
-            },
+            }, sheetState = sheetState
         ) {
-            Text(
-                "Update",
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
+            CheckboxListForm(
+                selectedValues = state.value.checkedList,
+                submitButtonText = "Update",
+                submit = {
+                    if (it.isNotEmpty()) {
+                        scope.launch {
+                            viewModel.updateCheckedList(it)
+                            sheetState.hide()
+
+                        }.invokeOnCompletion {
+                            showBottomSheet = false
+                        }
+                    }
+                },
+                items = listOf(
+                    CheckBoxListItemData(
+                        text = "All",
+                        condition = { values ->
+                            values.containsAll(listOf("Today", "Tomorrow"))
+                        },
+                        onChecked = { values, value ->
+                            if (value) {
+                                (values + listOf("Today", "Tomorrow")).toSet().toList()
+                            } else {
+                                values - listOf("Today", "Tomorrow")
+                            }
+                        }
+                    ),
+                    CheckBoxListItemData(
+                        text = "Today",
+                        condition = { values ->
+                            values.contains("Today")
+                        },
+                        onChecked = { values, value ->
+                            if (value) {
+                                values + "Today"
+                            } else {
+                                values - "Today"
+                            }
+                        }
+                    ),
+                    CheckBoxListItemData(
+                        text = "Tomorrow",
+                        condition = { values ->
+                            values.contains("Tomorrow")
+                        },
+                        onChecked = { values, value ->
+                            if (value) {
+                                values + "Tomorrow"
+                            } else {
+                                values - "Tomorrow"
+                            }
+                        }
+                    )
+                )
             )
         }
     }
 }
 
-@Composable
-private fun CheckBoxListItem(
-    modifier: Modifier = Modifier,
-    text: String,
-    value: Boolean = false,
-    onChecked: (Boolean) -> Unit,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(text)
-        Checkbox(
-            checked = value, onCheckedChange = onChecked,
-            colors = CheckboxDefaults.colors(
-                checkmarkColor = Color.White, checkedColor = Color(0xffDD5928)
-            ),
-        )
-    }
-}

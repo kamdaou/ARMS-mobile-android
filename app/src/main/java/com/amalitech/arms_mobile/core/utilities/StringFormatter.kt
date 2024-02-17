@@ -7,7 +7,7 @@ object StringFormatter {
             val names = name.split(" ")
 
             val first = names.first()
-            val last = names.last()
+            val last = names[1]
 
             return first.elementAt(0).uppercase() + last.elementAt(0).uppercase()
         }

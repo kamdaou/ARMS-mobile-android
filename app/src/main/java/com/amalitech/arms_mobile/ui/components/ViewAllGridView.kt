@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,14 +30,15 @@ import com.amalitech.arms_mobile.R
 fun <T : Any> ViewAllGridView(
     modifier: Modifier = Modifier,
     popAction: () -> Unit,
-    key: ((item: Int) -> Any)? = null,
+    key: ((item: T) -> Any)? = null,
     loading: Boolean = false,
     loadingIndicator: @Composable () -> Unit,
-    items: List<T>,
+    itemsData: List<T>,
     title: String,
     subtitle: String,
+    emptyListBuilder: @Composable () -> Unit,
     filterBuilder: @Composable () -> Unit,
-    itemBuilder: @Composable (index: Int, item: T) -> Unit,
+    itemBuilder: @Composable (item: T) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = modifier
@@ -88,6 +90,10 @@ fun <T : Any> ViewAllGridView(
             items(count = 6) { _ ->
                 loadingIndicator()
             }
+        } else if (itemsData.isEmpty()) {
+            item(span = { GridItemSpan(2) }) {
+                emptyListBuilder()
+            }
         } else {
             item(span = { GridItemSpan(2) }) {
                 Box(
@@ -97,8 +103,8 @@ fun <T : Any> ViewAllGridView(
                     filterBuilder()
                 }
             }
-            items(items.size, key = key) { index ->
-                itemBuilder(index, items[index])
+            items(itemsData, key = key) {
+                itemBuilder(it)
             }
         }
     }
