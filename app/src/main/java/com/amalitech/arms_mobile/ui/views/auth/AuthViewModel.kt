@@ -2,7 +2,7 @@ package com.amalitech.arms_mobile.ui.views.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.amalitech.arms_mobile.TokenDataStore
+import com.amalitech.arms_mobile.data.datasources.TokenDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

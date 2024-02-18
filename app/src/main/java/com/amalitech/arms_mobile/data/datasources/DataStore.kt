@@ -1,4 +1,4 @@
-package com.amalitech.arms_mobile
+package com.amalitech.arms_mobile.data.datasources
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

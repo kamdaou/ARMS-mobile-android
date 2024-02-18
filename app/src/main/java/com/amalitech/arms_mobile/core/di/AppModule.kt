@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.amalitech.arms_mobile.BuildConfig
-import com.amalitech.arms_mobile.TokenDataStore
+import com.amalitech.arms_mobile.data.datasources.TokenDataStore
 import com.apollographql.apollo3.ApolloClient
 import dagger.Module
 import dagger.Provides
