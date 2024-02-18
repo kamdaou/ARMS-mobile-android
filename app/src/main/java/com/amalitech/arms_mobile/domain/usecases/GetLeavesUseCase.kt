@@ -7,7 +7,7 @@ import com.amalitech.arms_mobile.domain.models.Staff
 import com.amalitech.arms_mobile.domain.respositories.LeaveRepository
 import javax.inject.Inject
 
-class GetWhoIsOutUseCase @Inject constructor(
+class GetLeavesUseCase @Inject constructor(
     private val repository: LeaveRepository
 ) : UseCase<Unit, TypedResponse<WhoIsOutResponse<Staff>>> {
 

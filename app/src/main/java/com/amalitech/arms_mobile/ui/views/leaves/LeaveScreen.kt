@@ -1,4 +1,4 @@
-package com.amalitech.arms_mobile.ui.views.who_is_out
+package com.amalitech.arms_mobile.ui.views.leaves
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.amalitech.arms_mobile.R
-import com.amalitech.arms_mobile.core.utilities.AppRoute
 import com.amalitech.arms_mobile.ui.components.CheckBoxListItemData
 import com.amalitech.arms_mobile.ui.components.CheckboxListForm
 import com.amalitech.arms_mobile.ui.components.DropdownField
@@ -35,10 +34,6 @@ import com.amalitech.arms_mobile.ui.components.HorizontalShimmer
 import com.amalitech.arms_mobile.ui.components.StaffDisplayCard
 import com.amalitech.arms_mobile.ui.components.ViewAllGridView
 import kotlinx.coroutines.launch
-
-object WhoIsOutRoute : AppRoute {
-    override val path = "/who-is-out"
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

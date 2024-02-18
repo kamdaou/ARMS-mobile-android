@@ -21,14 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.amalitech.arms_mobile.R
-import com.amalitech.arms_mobile.core.utilities.AppRoute
-import com.amalitech.arms_mobile.ui.views.celebrations.CelebrationRoute
-import com.amalitech.arms_mobile.ui.views.who_is_out.WhoIsOutRoute
+import com.amalitech.arms_mobile.Routes
 import kotlinx.coroutines.launch
 
-object HomeScreenRoute : AppRoute {
-    override val path = "/home"
-}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -93,10 +88,10 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
                 HomeScreenContent(
                     modifier = Modifier.fillMaxHeight(),
                     expandCelebrations = {
-                        navController.navigate(CelebrationRoute.path)
+                        navController.navigate(Routes.Celebrations.route)
                     },
                     expandWhoIsOut = {
-                        navController.navigate(WhoIsOutRoute.path)
+                        navController.navigate(Routes.Leaves.route)
                     }
                 )
             else

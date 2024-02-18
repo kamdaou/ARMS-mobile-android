@@ -1,11 +1,11 @@
-package com.amalitech.arms_mobile.ui.views.who_is_out
+package com.amalitech.arms_mobile.ui.views.leaves
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amalitech.arms_mobile.core.utilities.TypedResponse
 import com.amalitech.arms_mobile.domain.models.Staff
-import com.amalitech.arms_mobile.domain.usecases.GetWhoIsOutUseCase
+import com.amalitech.arms_mobile.domain.usecases.GetLeavesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,7 @@ data class WhoIsOutUiState(
 
 @HiltViewModel
 class WhoIsOutViewModel @Inject constructor(
-    private val getWhoIsOutUseCase: GetWhoIsOutUseCase,
+    private val getLeavesUseCase: GetLeavesUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(WhoIsOutUiState())
@@ -70,7 +70,7 @@ class WhoIsOutViewModel @Inject constructor(
         _state.update {
             it.copy(isLoading = true)
         }
-        when (val response = getWhoIsOutUseCase()) {
+        when (val response = getLeavesUseCase()) {
             is TypedResponse.Success -> {
                 val data = response.data
 

@@ -90,10 +90,6 @@ fun <T : Any> ViewAllGridView(
             items(count = 6) { _ ->
                 loadingIndicator()
             }
-        } else if (itemsData.isEmpty()) {
-            item(span = { GridItemSpan(2) }) {
-                emptyListBuilder()
-            }
         } else {
             item(span = { GridItemSpan(2) }) {
                 Box(
@@ -103,8 +99,15 @@ fun <T : Any> ViewAllGridView(
                     filterBuilder()
                 }
             }
-            items(itemsData, key = key) {
-                itemBuilder(it)
+
+            if (itemsData.isEmpty()) {
+                item(span = { GridItemSpan(2) }) {
+                    emptyListBuilder()
+                }
+            } else {
+                items(itemsData, key = key) {
+                    itemBuilder(it)
+                }
             }
         }
     }

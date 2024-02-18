@@ -51,6 +51,13 @@ val Typography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
+    bodySmall = TextStyle(
+        fontFamily = SFProDisplay,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        color = Color(0xff1D1D1D)
+    ),
     labelSmall = TextStyle(
         fontFamily = Satoshi,
         fontWeight = FontWeight.Normal,

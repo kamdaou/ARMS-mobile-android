@@ -1,5 +1,6 @@
 package com.amalitech.arms_mobile.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,7 @@ fun StaffDisplayCard(
     type: String,
 ) {
     val parsedName = StringFormatter.Name(name)
+    Log.d("APP::", position)
 
     Column(
         modifier = modifier
@@ -83,9 +85,9 @@ fun StaffDisplayCard(
                 vertical = dimensionResource(id = R.dimen.padding_small).div(2),
             ),
         )
-        Text(
-            text = type,
-            style = MaterialTheme.typography.labelLarge,
-        )
+//        Text(
+//            text = type,
+//            style = MaterialTheme.typography.labelLarge,
+//        )
     }
 }

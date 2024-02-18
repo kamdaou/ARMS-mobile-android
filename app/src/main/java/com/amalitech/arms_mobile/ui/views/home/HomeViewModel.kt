@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.amalitech.arms_mobile.core.utilities.TypedResponse
 import com.amalitech.arms_mobile.domain.models.Staff
 import com.amalitech.arms_mobile.domain.usecases.GetCelebrationUseCase
-import com.amalitech.arms_mobile.domain.usecases.GetWhoIsOutUseCase
+import com.amalitech.arms_mobile.domain.usecases.GetLeavesUseCase
 import com.amalitech.arms_mobile.ui.views.celebrations.CelebrationUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -35,7 +35,7 @@ data class LeaveUiState(
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getWhoIsOutUseCase: GetWhoIsOutUseCase,
+    private val getLeavesUseCase: GetLeavesUseCase,
     private val getCelebrationUseCase: GetCelebrationUseCase,
 ) : ViewModel() {
 
@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
         _leaveState.update {
             it.copy(isLoading = true)
         }
-        when (val response = getWhoIsOutUseCase()) {
+        when (val response = getLeavesUseCase()) {
             is TypedResponse.Success -> {
                 val data = response.data
 

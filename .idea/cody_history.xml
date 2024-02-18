@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChatHistory">
+    <chats>
+      <list>
+        <chat>
+          <enhancedContext>
+            <enhancedContext>
+              <remoteRepositories>
+                <list>
+                  <remoteRepository>
+                    <remoteUrl value="github.com/Amali-Tech/arms-mobile-android" />
+                  </remoteRepository>
+                </list>
+              </remoteRepositories>
+            </enhancedContext>
+          </enhancedContext>
+          <internalId value="734a79d5-e39c-4c7d-b107-3d5c556192ed" />
+        </chat>
+        <chat>
+          <accountId value="VXNlcjoyOTYwNzg=" />
+          <internalId value="e32eaf59-9401-402e-ba0e-0065336e75ab" />
+        </chat>
+        <chat>
+          <accountId value="VXNlcjoyOTYwNzg=" />
+          <internalId value="dde343f8-2bab-4e9f-b584-ed467606966a" />
+        </chat>
+      </list>
+    </chats>
+  </component>
+</project>

@@ -38,10 +38,6 @@ import com.amalitech.arms_mobile.ui.components.StaffCelebrationCard
 import com.amalitech.arms_mobile.ui.components.ViewAllGridView
 import kotlinx.coroutines.launch
 
-object CelebrationRoute : AppRoute {
-    override val path = "/celebration"
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CelebrationScreen(

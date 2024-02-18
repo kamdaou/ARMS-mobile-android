@@ -26,7 +26,7 @@ import com.amalitech.arms_mobile.ui.views.home.LeaveUiState
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun WhoIsOutSection(
+fun LeaveSection(
     stateFlow: StateFlow<LeaveUiState>,
     onReload: () -> Unit,
     navigateToView: () -> Unit,
