@@ -18,6 +18,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,31 +34,40 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.amalitech.arms_mobile.R
+import com.amalitech.arms_mobile.Screen
 import com.amalitech.arms_mobile.TokenDataStore
 import com.amalitech.arms_mobile.composables.AppModalSheet
+import com.amalitech.arms_mobile.composables.ErrorBottomSheet
 import com.amalitech.arms_mobile.data.AuthenticationException
 import com.amalitech.arms_mobile.data.GraphApiResponseError
 import com.amalitech.arms_mobile.data.User
-import com.android.volley.VolleyError
 import com.amalitech.arms_mobile.services.MSGRequestWrapper
-import com.amalitech.arms_mobile.Screen
-import com.microsoft.aad.msal4j.IAccount
+import com.android.volley.VolleyError
+import com.microsoft.identity.client.AcquireTokenSilentParameters
 import com.microsoft.identity.client.AuthenticationCallback
+import com.microsoft.identity.client.IAccount
 import com.microsoft.identity.client.IAuthenticationResult
 import com.microsoft.identity.client.IPublicClientApplication
 import com.microsoft.identity.client.ISingleAccountPublicClientApplication
 import com.microsoft.identity.client.PublicClientApplication
 import com.microsoft.identity.client.SignInParameters
+import com.microsoft.identity.client.SilentAuthenticationCallback
 import com.microsoft.identity.client.exception.MsalException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginInScreen(navController: NavHostController, dataStore: TokenDataStore) {
+fun LoginInScreen(navController: NavHostController) {
     var mAccount: IAccount? = null
     var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
     val context = LocalContext.current
 
-    val scope = rememberCoroutineScope()
+    val tokenStore = TokenDataStore(context)
+
+    val isClicked = remember {
+        mutableStateOf(false)
+    }
 
     PublicClientApplication.createSingleAccountPublicClientApplication(
         LocalContext.current,
@@ -75,6 +86,87 @@ fun LoginInScreen(navController: NavHostController, dataStore: TokenDataStore) {
                 if (error != null) {
                     Log.d("EXCEPTION Auth", "This Fxn Run: ${error.message}")
                 }
+            }
+        })
+
+    val silentParameters = AcquireTokenSilentParameters
+        .Builder().withScopes(listOf("user.read"))
+        .forceRefresh(true)
+        .withCallback(object : SilentAuthenticationCallback {
+            override fun onSuccess(authenticationResult: IAuthenticationResult?) {
+                if (authenticationResult != null) {
+                    val acessToken = authenticationResult.accessToken
+                    CoroutineScope(Dispatchers.IO).launch {
+                        tokenStore.storeAccessToken(acessToken)
+                    }
+                    Log.d(TAG, "This is the Silent Token: ${authenticationResult.accessToken}")
+                }
+            }
+
+            override fun onError(exception: MsalException?) {
+                if (exception != null) {
+                    isClicked.value = true
+                    Log.d(TAG, "Get Silent Exception: ${exception.message} ${mAccount?.idToken}")
+                    exception.message?.let { AuthenticationException(it) }
+                }
+            }
+        })
+
+    val builder = SignInParameters
+        .builder()
+        .withActivity(context as Activity)
+        .withLoginHint("")
+        .withScope("user.read")
+        .withCallback(object : AuthenticationCallback {
+            override fun onSuccess(authenticationResult: IAuthenticationResult?) {
+                if (authenticationResult != null) {
+                    mAccount = authenticationResult.account
+                    val token = authenticationResult.accessToken
+                    CoroutineScope(Dispatchers.IO).launch {
+                        tokenStore.storeAccessToken(token)
+                    }
+                    Log.d("IToken", "Access Token: $token")
+                    Log.d(
+                        "User Name",
+                        "Access Token: ${mAccount!!.username}, ${mAccount!!.idToken}"
+                    )
+                    MSGRequestWrapper.callGraphAPI(
+                        context,
+                        authenticationResult.accessToken,
+                        { response ->
+                            User.fromJSON(response)
+                        },
+                        { error ->
+                            displayError(error)
+                        })
+                    MSGRequestWrapper.callGraphPhotoAPI(
+                        context,
+                        authenticationResult.accessToken,
+                        { response ->
+                            Log.d(TAG, "error: $response")
+                        }, { error ->
+                            Log.d(TAG, "error: $error")
+                            displayError(error)
+                        }
+                    )
+                    navController.navigate(Screen.Home.route)
+                }
+            }
+
+            private fun displayError(error: VolleyError?) {
+                if (error != null) {
+                    error.message?.let { GraphApiResponseError(it) }
+                }
+            }
+
+            override fun onError(exception: MsalException?) {
+                if (exception != null) {
+                    exception.message?.let { AuthenticationException(it) }
+                }
+            }
+
+            override fun onCancel() {
+
             }
         })
 
@@ -124,66 +216,12 @@ fun LoginInScreen(navController: NavHostController, dataStore: TokenDataStore) {
                     .height(55.dp),
                 onClick = {
                     if (mSingleAccountApp == null) return@OutlinedButton
-                    val builder = SignInParameters
-                        .builder()
-                        .withActivity(context as Activity)
-                        .withLoginHint("")
-                        .withScope("user.read")
-                        .withCallback(object : AuthenticationCallback {
-                            override fun onSuccess(authenticationResult: IAuthenticationResult?) {
-                                if (authenticationResult != null) {
-                                    val token = authenticationResult.accessToken
-                                    scope.launch {
-                                        dataStore.storeAccessToken(token)
-                                    }
-                                    MSGRequestWrapper.callGraphAPI(
-                                        context,
-                                        authenticationResult.accessToken,
-                                        { response ->
-                                            User.fromJSON(response)
-                                        },
-                                        { error ->
-                                            displayError(error)
-                                        })
-                                    MSGRequestWrapper.callGraphPhotoAPI(
-                                        context,
-                                        authenticationResult.accessToken,
-                                        { response ->
-                                            scope.launch {
-                                                dataStore.storeUserPhoto(response.toString())
-                                            }
-                                        }, { error ->
-                                            Log.d(TAG, "error: $error")
-                                            displayError(error)
-                                        }
-                                    )
-                                }
-                            }
-
-                            private fun displayError(error: VolleyError?) {
-                                if (error != null) {
-                                    error.message?.let { GraphApiResponseError(it) }
-                                }
-                            }
-
-                            override fun onError(exception: MsalException?) {
-                                if (exception != null) {
-                                    val exe = exception.message?.let { AuthenticationException(it) }
-                                    if (exe != null) {
-                                        navController.navigate(Screen.Home.route)
-                                    }
-                                }
-                            }
-
-                            override fun onCancel() {
-
-                            }
-                        })
                     mSingleAccountApp!!
-                        .signIn(
-                            builder.build()
-                        )
-                }) {
+                        .acquireTokenSilentAsync(silentParameters.build())
+                    mSingleAccountApp!!
+                        .signIn(builder.build())
+                }
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -204,7 +242,13 @@ fun LoginInScreen(navController: NavHostController, dataStore: TokenDataStore) {
                     }
                 }
             }
-
+            if (isClicked.value) {
+                ErrorBottomSheet(
+                    onClick = {
+                        mSingleAccountApp!!.signIn(builder.build())
+                    }
+                )
+            }
         }
     }
 }

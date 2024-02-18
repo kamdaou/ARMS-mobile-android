@@ -35,6 +35,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.amalitech.arms_mobile.R
+import com.amalitech.arms_mobile.data.AuthenticationException
+import com.amalitech.arms_mobile.data.BottomSheetContent
 import com.amalitech.arms_mobile.ui.theme.primaryColor
 import kotlinx.coroutines.launch
 
@@ -223,3 +225,42 @@ fun AppSucessModalSheet() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ErrorBottomSheet(onClick: () -> Unit, title: AuthenticationException? = null) {
+
+    val sheetContent = BottomSheetContent(
+        title = title?.message ?: "A Network Error Occurred",
+        drawable = R.drawable.sad_face,
+        content = "The internet connection appears to be offline." +
+                "\nPlease check your internet connecting"
+    )
+    var openSheet by remember { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState()
+
+    if (openSheet) {
+        ModalBottomSheet(
+            sheetState = bottomSheetState,
+            onDismissRequest = { openSheet = false },
+            dragHandle = {}
+
+        ) {
+            Column {
+                Image(
+                    painter = painterResource(id = sheetContent.drawable),
+                    contentDescription = "sad face",
+                    modifier = Modifier.size(26.dp)
+                )
+                Text(
+                    text = sheetContent.title,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(text = sheetContent.content)
+                Button(onClick = onClick) {
+                    Text(text = "Try Again")
+                }
+            }
+        }
+    }
+}
