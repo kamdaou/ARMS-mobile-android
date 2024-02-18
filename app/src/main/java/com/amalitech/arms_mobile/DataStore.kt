@@ -1,20 +1,27 @@
 package com.amalitech.arms_mobile
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.amalitech.arms_mobile.data.User
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 private const val ACCESS_TOKEN_KEY = "access_token"
 private const val USER_KEY = "user"
+private val Context.dataStore by preferencesDataStore(
+    name = USER_KEY
+)
 
 class TokenDataStore(
-    private val dataStore: DataStore<Preferences>
+    context: Context
 ) {
+    private val dataStore: DataStore<Preferences> = context.dataStore
 
     private val accessTokenFlow = dataStore.data.map { preferences ->
         preferences[stringPreferencesKey(ACCESS_TOKEN_KEY)] ?: ""
