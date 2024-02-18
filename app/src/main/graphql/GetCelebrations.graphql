@@ -1,0 +1,10 @@
+query GetCelebrations {
+    getCelebrations {
+        user_id
+        full_name
+        profile_image
+        position_name
+        birthday
+        anniversary
+    }
+}

@@ -1,0 +1,41 @@
+query WhoIsOut {
+    whoIsOut {
+        today {
+            user {
+                employee_info {
+                    employee_bio {
+                        profile_image
+                        full_name
+                    }
+                    position {
+                        position_name
+                    }
+                    employee_type {
+                        name
+                    }
+                }
+            }
+            user_id
+        }
+        tomorrow {
+            user {
+                employee_info {
+                    employee_bio {
+                        profile_image
+                        full_name
+                        first_name
+                        last_name
+                    }
+                    position {
+                        position_name
+                    }
+                    employee_type {
+                        name
+                    }
+                }
+            }
+            user_id
+        }
+        is_friday
+    }
+}
