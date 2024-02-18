@@ -1,9 +1,6 @@
 package com.amalitech.arms_mobile
 
 import androidx.compose.runtime.Composable
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.core.Preferences
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,8 +11,6 @@ import com.amalitech.arms_mobile.ui.views.celebrations.CelebrationScreen
 import com.amalitech.arms_mobile.ui.views.help.HelpScreen
 import com.amalitech.arms_mobile.ui.views.home.HomeScreen
 import com.amalitech.arms_mobile.ui.views.leaves.WhoIsOutScreen
-import java.io.File
-import javax.inject.Inject
 
 
 @Composable

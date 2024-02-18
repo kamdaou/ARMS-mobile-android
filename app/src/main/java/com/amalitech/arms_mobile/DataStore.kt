@@ -15,7 +15,6 @@ private const val USER_DATA = "user_data"
 class TokenDataStore(
     private val dataStore: DataStore<Preferences>
 ) {
-
     private val accessTokenFlow = dataStore.data.map { preferences ->
         preferences[stringPreferencesKey(ACCESS_TOKEN_KEY)] ?: ""
     }

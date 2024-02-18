@@ -3,7 +3,6 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url = uri("https://jitpack.io") }
     }
     resolutionStrategy {
         eachPlugin {
@@ -15,7 +14,15 @@ pluginManagement {
         }
     }
 }
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
 
-rootProject.name = "ARMS-Mobile-Android"
+rootProject.name = "ARMS-Mobile"
 include(":app")
  
