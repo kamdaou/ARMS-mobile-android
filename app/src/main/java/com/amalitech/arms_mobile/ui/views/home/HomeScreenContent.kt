@@ -2,6 +2,7 @@ package com.amalitech.arms_mobile.ui.views.home
 
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -108,7 +109,9 @@ fun AppBar(
             .padding(horizontal = dimensionResource(id = R.dimen.padding_large)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        Log.d("PHOTO-TOP", "image: $image")
         if (image != null) {
+            Log.d("PHOTO", "image: $image")
             val byteArray = Base64.decode(image, Base64.DEFAULT)
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
 

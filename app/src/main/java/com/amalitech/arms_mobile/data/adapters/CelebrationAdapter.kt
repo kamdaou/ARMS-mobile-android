@@ -8,14 +8,15 @@ import kotlinx.datetime.Clock
 
 object CelebrationAdapter : AdapterInterface<CelebrationEntity, Celebration> {
     override fun invoke(entity: CelebrationEntity): Celebration {
-        val currentMoment = Clock.System.now()
+//        val currentMoment = Clock.System.now()
 
         return Celebration(
             staff = Staff(
                 name = entity.name.toString(),
                 firstName = entity.name.toString(),
                 lastName = entity.name.toString(),
-                id = entity.userId ?: currentMoment.toString()
+                id = entity.userId ?: "",
+                image = entity.image
             ),
             anniversary = entity.anniversaryDate,
             birthday = entity.birthDate

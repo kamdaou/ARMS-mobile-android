@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.amalitech.arms_mobile.R
@@ -33,7 +34,7 @@ fun StaffCelebrationCard(
     Column(
         modifier = modifier
     ) {
-        if (image == null) {
+        if (image == null || image.trim().isEmpty()) {
             ImagePlaceholder(
                 modifier = Modifier
                     .height(120.dp)
@@ -55,6 +56,8 @@ fun StaffCelebrationCard(
         Text(
             text = parsedName.parse(),
             style = MaterialTheme.typography.titleSmall,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(
                 vertical = dimensionResource(id = R.dimen.padding_small).div(2),
             ),

@@ -64,7 +64,7 @@ class HomeViewModel @Inject constructor(
 
                 var whoIsOut = today
                 if (data?.third != true) {
-                    whoIsOut = today + tomorrow
+                    whoIsOut = (today + tomorrow).toSet().toList()
                 }
 
                 _leaveState.update {

@@ -1,5 +1,6 @@
 package com.amalitech.arms_mobile.ui.views.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amalitech.arms_mobile.data.datasources.TokenDataStore
@@ -41,16 +42,16 @@ class AuthViewModel @Inject constructor(
         dataStore.storeLoginState(loggedIn)
     }
 
-    fun storeUserData(name: String? = null, photo: String? = null) {
+    suspend fun storeUserData(name: String? = null, photo: String? = null) {
         if (name != null || photo != null) {
-            viewModelScope.launch {
+//            viewModelScope.launch {
                 if (name != null) {
                     dataStore.storeUserData(name)
                 }
                 if (photo != null) {
                     dataStore.storeUserPhoto(photo)
                 }
-            }
+//            }
         }
     }
 }

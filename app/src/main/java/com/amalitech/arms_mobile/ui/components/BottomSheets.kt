@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -75,6 +76,7 @@ fun AppModalSheet(
     if (openSheet) {
         ModalBottomSheet(
             sheetState = bottomSheetState,
+            shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp),
             onDismissRequest = { openSheet = false },
             dragHandle = {}
 
@@ -86,7 +88,7 @@ fun AppModalSheet(
                     }.invokeOnCompletion {
                         if (!bottomSheetState.isVisible) openSheet = false
                     }
-                }, onClickAction = onClickAction
+                },
             )
         }
     }
@@ -96,7 +98,7 @@ fun AppModalSheet(
 @Composable
 fun BottomSheetContent(
     onHideButtonClick: () -> Unit,
-    onClickAction: () -> Unit,
+//    onClickAction: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -127,11 +129,11 @@ fun BottomSheetContent(
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedButton(
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(6.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(55.dp),
-            onClick = onClickAction
+            onClick = {  }
         )
         {
             Row(

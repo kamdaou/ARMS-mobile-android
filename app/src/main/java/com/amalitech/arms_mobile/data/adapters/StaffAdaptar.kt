@@ -7,10 +7,10 @@ import kotlinx.datetime.Clock
 
 object StaffAdapter : AdapterInterface<StaffEntity, Staff> {
     override operator fun invoke(entity: StaffEntity): Staff {
-        val currentMoment = Clock.System.now()
+//        val currentMoment = Clock.System.now()
 
         return Staff(
-            id = entity.id ?: currentMoment.toString(),
+            id = entity.id ?: "",
             name = entity.name ?: "",
             firstName = entity.firstName ?: "",
             lastName = entity.lastName ?: "",

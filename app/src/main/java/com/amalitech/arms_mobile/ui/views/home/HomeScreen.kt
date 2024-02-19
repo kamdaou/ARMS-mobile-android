@@ -5,9 +5,13 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -29,6 +33,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.Routes
+import com.amalitech.arms_mobile.ui.components.ScreenPlaceHolder
 import kotlinx.coroutines.launch
 
 
@@ -39,24 +44,6 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
     val pagerState = rememberPagerState(initialPage = 0, pageCount = {
         4
     })
-
-    val context = LocalContext.current
-
-     object  : OnBackPressedCallback(true) {
-        private var backPressOnce = false
-        override fun handleOnBackPressed() {
-            if (backPressOnce) {
-                Toast.makeText(context, "Press Again to Quit App", Toast.LENGTH_SHORT).show()
-            } else {
-                backPressOnce = true
-                Toast.makeText(context, "Press Again to Quit App", Toast.LENGTH_SHORT).show()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    backPressOnce = false
-                }, 2000)
-            }
-        }
-    }
-
 
     val navItems: Array<Pair<Int, String>> = arrayOf(
         Pair(R.drawable.home, "Home"),
@@ -120,10 +107,7 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
                     }
                 )
             else
-                Box(contentAlignment = Alignment.Center) {
-                    Text(text = "$it")
-                }
+                ScreenPlaceHolder()
         }
     }
 }
-
