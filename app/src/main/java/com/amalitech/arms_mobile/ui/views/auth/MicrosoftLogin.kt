@@ -2,8 +2,12 @@ package com.amalitech.arms_mobile.ui.views.auth
 
 import android.app.Activity
 import android.content.ContentValues.TAG
+import android.os.Handler
+import android.os.Looper
 import android.util.Base64
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -64,8 +68,6 @@ fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = h
 
     var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
     val context = LocalContext.current
-
-    val scope = rememberCoroutineScope()
 
     val isClicked = remember {
         mutableStateOf(false)
@@ -154,7 +156,12 @@ fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = h
                             displayError(error)
                         }
                     )
-                    navController.navigate(Routes.Home.route)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.loggedInState(true)
+                    }
+                    navController.navigate(Routes.Home.route){
+                        navController.graph.startDestinationRoute?.let { popUpTo(it){inclusive=true} }
+                    }
                 }
             }
 
