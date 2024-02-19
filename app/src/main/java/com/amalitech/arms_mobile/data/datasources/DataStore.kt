@@ -2,6 +2,7 @@ package com.amalitech.arms_mobile.data.datasources
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.map
 private const val ACCESS_TOKEN_KEY = "access_token"
 private const val USER_KEY = "user"
 private const val USER_DATA = "user_data"
+private const val LOGGED_IN = "loggedIn"
 
 class TokenDataStore(
     private val dataStore: DataStore<Preferences>
@@ -26,11 +28,18 @@ class TokenDataStore(
         preferences[stringPreferencesKey(USER_DATA)] ?: ""
     }
 
-
+    private val acessLoggedIn = dataStore.data.map { preferences ->
+        preferences[booleanPreferencesKey(LOGGED_IN)] ?: false
+    }
 
     suspend fun storeAccessToken(accessToken: String) {
         dataStore.edit { preferences ->
             preferences[stringPreferencesKey(ACCESS_TOKEN_KEY)] = accessToken
+        }
+    }
+
+    suspend fun storeLoginState(loggedIn: Boolean){
+        dataStore.edit { prefs ->  prefs[booleanPreferencesKey(LOGGED_IN)] = loggedIn
         }
     }
 
@@ -46,9 +55,17 @@ class TokenDataStore(
         }
     }
 
+
+
     fun getUserData() : Flow<String> {
         return accessUserData
     }
+
+    fun getLoggedInState() : Flow<Boolean> {
+        return acessLoggedIn
+    }
+
+
 
     suspend fun clearAccessToken() {
         dataStore.edit { preferences ->

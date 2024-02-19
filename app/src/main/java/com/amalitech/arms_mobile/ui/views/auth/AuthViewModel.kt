@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val dataStore: TokenDataStore
-): ViewModel() {
+    private val dataStore: TokenDataStore,
+) : ViewModel() {
 
     val email: StateFlow<String> = dataStore.getUserData().stateIn(
         scope = viewModelScope,
@@ -27,17 +27,27 @@ class AuthViewModel @Inject constructor(
         initialValue = null
     )
 
+    var loggedIn: StateFlow<Boolean> = dataStore.getLoggedInState().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = false
+    )
+
     suspend fun storeAccessToken(token: String) {
         dataStore.storeAccessToken(token)
     }
 
+    suspend fun loggedInState(loggedIn: Boolean) {
+        dataStore.storeLoginState(loggedIn)
+    }
+
     fun storeUserData(name: String? = null, photo: String? = null) {
-        if(name != null || photo != null) {
+        if (name != null || photo != null) {
             viewModelScope.launch {
-                if(name != null) {
+                if (name != null) {
                     dataStore.storeUserData(name)
                 }
-                if(photo != null) {
+                if (photo != null) {
                     dataStore.storeUserPhoto(photo)
                 }
             }

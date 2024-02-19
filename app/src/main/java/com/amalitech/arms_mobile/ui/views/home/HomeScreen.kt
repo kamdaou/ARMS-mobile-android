@@ -1,5 +1,9 @@
 package com.amalitech.arms_mobile.ui.views.home
 
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,11 +18,14 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.Routes
@@ -32,6 +39,24 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController) {
     val pagerState = rememberPagerState(initialPage = 0, pageCount = {
         4
     })
+
+    val context = LocalContext.current
+
+     object  : OnBackPressedCallback(true) {
+        private var backPressOnce = false
+        override fun handleOnBackPressed() {
+            if (backPressOnce) {
+                Toast.makeText(context, "Press Again to Quit App", Toast.LENGTH_SHORT).show()
+            } else {
+                backPressOnce = true
+                Toast.makeText(context, "Press Again to Quit App", Toast.LENGTH_SHORT).show()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    backPressOnce = false
+                }, 2000)
+            }
+        }
+    }
+
 
     val navItems: Array<Pair<Int, String>> = arrayOf(
         Pair(R.drawable.home, "Home"),

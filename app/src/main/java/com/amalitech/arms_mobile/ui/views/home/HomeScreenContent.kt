@@ -44,7 +44,7 @@ fun HomeScreenContent(
     expandCelebrations: () -> Unit,
     expandWhoIsOut: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
-    authViewModel: AuthViewModel = hiltViewModel()
+        authViewModel: AuthViewModel = hiltViewModel()
 ) {
     val scrollState: ScrollState = rememberScrollState()
 
