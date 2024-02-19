@@ -46,7 +46,7 @@ class WhoIsOutViewModel @Inject constructor(
                 if (state.value.excludeTomorrow) {
                     return today
                 }
-                return today + tomorrow
+                return (today + tomorrow).toSet().toList()
             }
 
             if (labels.contains("Today")) {

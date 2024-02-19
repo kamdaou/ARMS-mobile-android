@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -40,7 +41,7 @@ fun StaffDisplayCard(
     Column(
         modifier = modifier
     ) {
-        if(image == null) {
+        if(image == null || image.trim().isEmpty()) {
             ImagePlaceholder(
                 modifier = Modifier
                     .height(120.dp)
@@ -80,6 +81,8 @@ fun StaffDisplayCard(
         }
         Text(
             text = parsedName.parse(),
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.titleSmall,
             modifier = Modifier.padding(
                 vertical = dimensionResource(id = R.dimen.padding_small).div(2),

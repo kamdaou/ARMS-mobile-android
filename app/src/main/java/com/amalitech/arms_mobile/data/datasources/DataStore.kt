@@ -1,5 +1,6 @@
 package com.amalitech.arms_mobile.data.datasources
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -44,6 +45,7 @@ class TokenDataStore(
     }
 
     suspend fun storeUserPhoto(photo: String) {
+        Log.d("DATASTORE-PHOTO", "Store: $photo")
         dataStore.edit { preferences ->
             preferences[stringPreferencesKey(USER_KEY)] = photo
         }

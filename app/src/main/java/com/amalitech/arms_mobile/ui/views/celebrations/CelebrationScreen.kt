@@ -57,7 +57,7 @@ fun CelebrationScreen(
         },
         loading = state.value.isLoading,
         itemsData = viewModel.filteredData,
-        key = { it.staff.id },
+//        key = { it.staff.id },
         title = "Celebrations (${viewModel.filteredData.size})",
         subtitle = "List of employees who are celebrating",
         emptyListBuilder = {

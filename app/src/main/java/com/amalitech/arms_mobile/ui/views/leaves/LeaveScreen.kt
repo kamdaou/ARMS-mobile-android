@@ -54,7 +54,7 @@ fun WhoIsOutScreen(
             navController.popBackStack()
         },
         itemsData = viewModel.filteredData,
-        key = { it.id },
+//        key = { it.id },
         title = "Who's Out (${viewModel.filteredData.size})",
         subtitle = "List of employees who will not be in the office",
         loading = state.value.isLoading,
