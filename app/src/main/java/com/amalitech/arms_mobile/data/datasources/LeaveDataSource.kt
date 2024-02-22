@@ -21,8 +21,13 @@ class LeaveDataSource @Inject constructor(
         if (!response.hasErrors()) {
             val data = response.data?.whoIsOut
 
-            val today = data?.today?.mapNotNull { it!!.toStaffEntity() } ?: emptyList()
-            val tomorrow = data?.tomorrow?.mapNotNull { it!!.toStaffEntity() } ?: emptyList()
+            val today =
+                data?.today?.filter { it != null && it.user?.employee_info?.employee_bio?.full_name != null }
+                    ?.mapNotNull { it!!.toStaffEntity() }
+                    ?: emptyList()
+            val tomorrow = data?.tomorrow?.filter { it != null && it.user?.employee_info?.employee_bio?.full_name != null }
+                ?.mapNotNull { it!!.toStaffEntity() }
+                ?: emptyList()
 
             return TypedResponse.Success(
                 data = Triple(today, tomorrow, data?.is_friday ?: false)

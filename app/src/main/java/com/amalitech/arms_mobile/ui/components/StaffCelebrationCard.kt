@@ -29,6 +29,7 @@ fun StaffCelebrationCard(
     date: String,
     staffType: String,
     type: String,
+    hasType: Boolean = true
 ) {
     val parsedName = StringFormatter.Name(name)
     Column(
@@ -66,7 +67,7 @@ fun StaffCelebrationCard(
             text = staffType,
             style = MaterialTheme.typography.labelLarge,
         )
-        Text(
+        if (hasType)Text(
             modifier = Modifier.padding(
                 vertical = dimensionResource(id = R.dimen.padding_small).div(2)
             ),

@@ -1,5 +1,7 @@
 package com.amalitech.arms_mobile.core.utilities
 
+import android.util.Log
+
 object StringFormatter {
 
     class Name(val name: String) {
