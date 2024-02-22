@@ -118,7 +118,7 @@ fun CelebrationScreen(
                 "Happy Birthday"
             } else {
                 "${DateTimeFormatter.anniversary(item.anniversary)} Anniversary"
-            },
+                   },
         )
     }
 

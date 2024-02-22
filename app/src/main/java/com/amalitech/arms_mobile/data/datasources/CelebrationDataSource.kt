@@ -33,3 +33,8 @@ class CelebrationDataSource@Inject constructor(
         )
     }
 }
+
+fun GetCelebrationsQuery.GetCelebration.filterNullProperties(): Boolean {
+    val properties =  full_name != null && position_name != null
+    return properties
+}

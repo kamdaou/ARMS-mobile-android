@@ -109,9 +109,7 @@ fun AppBar(
             .padding(horizontal = dimensionResource(id = R.dimen.padding_large)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Log.d("PHOTO-TOP", "image: $image")
         if (image != null) {
-            Log.d("PHOTO", "image: $image")
             val byteArray = Base64.decode(image, Base64.DEFAULT)
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
 

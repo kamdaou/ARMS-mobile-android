@@ -17,7 +17,7 @@ fun WhoIsOutQuery.Today.toStaffEntity(): StaffEntity {
 
     return StaffEntity(
         id = null,
-        name = bio?.full_name,
+        name = bio?.full_name ?: "JohnSon Doe",
         image = bio?.profile_image,
         position = user?.employee_info?.position?.position_name,
         type = user?.employee_info?.employee_type?.name,
@@ -29,7 +29,7 @@ fun WhoIsOutQuery.Tomorrow.toStaffEntity(): StaffEntity {
 
     return StaffEntity(
         id = null,
-        name = bio?.full_name,
+        name = bio?.full_name ?: "JohnSon Doe",
         image = bio?.profile_image,
         position = user?.employee_info?.position?.position_name,
         type = user?.employee_info?.employee_type?.name,

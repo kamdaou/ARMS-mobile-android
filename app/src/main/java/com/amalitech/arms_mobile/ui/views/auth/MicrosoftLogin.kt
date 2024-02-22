@@ -246,7 +246,7 @@ fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = h
 ////                                displayError(error)
 //                            }
 //                        )
-                        Log.d(TAG, "This is the Silent Token: ${authenticationResult.accessToken}")
+                        Log.d(TAG, authenticationResult.accessToken)
                     }
                 }
 

@@ -33,7 +33,7 @@ fun StaffDisplayCard(
     image: String?,
     name: String,
     position: String,
-    type: String,
+    type: String
 ) {
     val parsedName = StringFormatter.Name(name)
     Log.d("APP::", position)
@@ -88,9 +88,5 @@ fun StaffDisplayCard(
                 vertical = dimensionResource(id = R.dimen.padding_small).div(2),
             ),
         )
-//        Text(
-//            text = type,
-//            style = MaterialTheme.typography.labelLarge,
-//        )
     }
 }

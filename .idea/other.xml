@@ -52,6 +52,30 @@
           <option name="selected" value="true" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
+          <option name="api" value="28" />
+          <option name="brand" value="samsung" />
+          <option name="codename" value="dreamlte" />
+          <option name="id" value="dreamlte" />
+          <option name="manufacturer" value="Samsung" />
+          <option name="name" value="Galaxy S8" />
+          <option name="screenDensity" value="480" />
+          <option name="screenX" value="2220" />
+          <option name="screenY" value="1080" />
+          <option name="selected" value="true" />
+        </PersistentDeviceSelectionData>
+        <PersistentDeviceSelectionData>
+          <option name="api" value="33" />
+          <option name="brand" value="samsung" />
+          <option name="codename" value="gts8uwifi" />
+          <option name="id" value="gts8uwifi" />
+          <option name="manufacturer" value="Samsung" />
+          <option name="name" value="Galaxy Tab S8 Ultra" />
+          <option name="screenDensity" value="320" />
+          <option name="screenX" value="1848" />
+          <option name="screenY" value="2960" />
+          <option name="selected" value="true" />
+        </PersistentDeviceSelectionData>
+        <PersistentDeviceSelectionData>
           <option name="api" value="27" />
           <option name="brand" value="DOCOMO" />
           <option name="codename" value="F01L" />
@@ -96,17 +120,6 @@
           <option name="screenY" value="1080" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-          <option name="api" value="28" />
-          <option name="brand" value="samsung" />
-          <option name="codename" value="dreamlte" />
-          <option name="id" value="dreamlte" />
-          <option name="manufacturer" value="Samsung" />
-          <option name="name" value="Galaxy S8" />
-          <option name="screenDensity" value="480" />
-          <option name="screenX" value="2220" />
-          <option name="screenY" value="1080" />
-        </PersistentDeviceSelectionData>
-        <PersistentDeviceSelectionData>
           <option name="api" value="33" />
           <option name="brand" value="google" />
           <option name="codename" value="felix" />
@@ -127,17 +140,6 @@
           <option name="screenDensity" value="420" />
           <option name="screenX" value="2208" />
           <option name="screenY" value="1840" />
-        </PersistentDeviceSelectionData>
-        <PersistentDeviceSelectionData>
-          <option name="api" value="33" />
-          <option name="brand" value="samsung" />
-          <option name="codename" value="gts8uwifi" />
-          <option name="id" value="gts8uwifi" />
-          <option name="manufacturer" value="Samsung" />
-          <option name="name" value="Galaxy Tab S8 Ultra" />
-          <option name="screenDensity" value="320" />
-          <option name="screenX" value="1848" />
-          <option name="screenY" value="2960" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
           <option name="api" value="33" />
