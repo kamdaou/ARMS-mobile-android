@@ -48,3 +48,4 @@ kotlin-ide/
 env.properties
 app/debug/
 app/release/
+arms_mobile_key.jks.base64.txt
