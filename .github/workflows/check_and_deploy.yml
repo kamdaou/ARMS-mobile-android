@@ -29,9 +29,9 @@ jobs:
         with:
           releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          alias: ${{ secrets.KEYALIAS }}
+          keyStorePassword: ${{ secrets.STOREPASSWORD }}
+          keyPassword: ${{ secrets.KEYPASSWORD }}
 
       - uses: actions/upload-artifact@master
         with:
@@ -53,8 +53,6 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Set executable permission
-        run: chmod +x ./gradlew
       - name: Unit tests
         run: ./gradlew test
 
