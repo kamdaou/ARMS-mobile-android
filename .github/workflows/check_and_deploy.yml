@@ -48,6 +48,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set executable permission
+        run: chmod +x /home/runner/work/_temp/0e3eecc1-f03b-4050-92fa-4d31164de7f9.sh
       - name: Unit tests
         run: ./gradlew test
 
