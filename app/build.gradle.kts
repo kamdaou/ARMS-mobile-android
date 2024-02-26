@@ -19,7 +19,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.amalitech.arms_mobile.test"
+        applicationId = "com.amalitech.arms_mobile"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -30,15 +30,15 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "GRAPHQL_URL", envProperties["graphqlUrl"]?.toString() ?: "")
+        buildConfigField("String", "GRAPHQL_URL", envProperties["GRAPHQL_URL"]?.toString() ?: "")
     }
 
     signingConfigs {
         create("release") {
-            storeFile = file(envProperties["storeFile"]?.toString() ?: "")
-            storePassword = envProperties["storePassword"]?.toString() ?: ""
-            keyAlias = envProperties["keyAlias"]?.toString() ?: ""
-            keyPassword = envProperties["keyPassword"]?.toString() ?: ""
+            storeFile = file(envProperties["STORE_FILE"]?.toString() ?: "")
+            storePassword = envProperties["STORE_PASSWORD"]?.toString() ?: ""
+            keyAlias = envProperties["KEY_ALIAS"]?.toString() ?: ""
+            keyPassword = envProperties["KEY_PASSWORD"]?.toString() ?: ""
         }
     }
 
