@@ -36,7 +36,7 @@ import com.amalitech.arms_mobile.ui.components.OutlineBorderTextFormField
 
 @Preview(showBackground = true)
 @Composable
-fun ChoosePassword() {
+fun ChoosePasswordScreen() {
 
     Scaffold(
         modifier = Modifier
@@ -59,7 +59,6 @@ fun ChoosePassword() {
                     contentDescription = "arms logo",
                     modifier = Modifier.width(150.dp)
                 )
-
             }
             Text(
                 text = "Choose a new password",
@@ -78,9 +77,7 @@ fun ChoosePassword() {
             Text(text = "confirm password")
             OutlineBorderTextFormField("..............")
             Spacer(modifier = Modifier.height(28.dp))
-
         }
-
     }
 
 }
@@ -91,7 +88,7 @@ fun PasswordTextField() {
     OutlinedTextField(
         value = textInput,
         onValueChange = { textInput = it },
-        placeholder = { Text(text = "password")},
+        placeholder = { Text(text = "password") },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Done

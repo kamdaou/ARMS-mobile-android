@@ -2,12 +2,9 @@ package com.amalitech.arms_mobile.ui.views.auth
 
 import android.app.Activity
 import android.content.ContentValues.TAG
-import android.os.Handler
-import android.os.Looper
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,8 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -59,21 +55,18 @@ import com.microsoft.identity.client.PublicClientApplication
 import com.microsoft.identity.client.SignInParameters
 import com.microsoft.identity.client.SilentAuthenticationCallback
 import com.microsoft.identity.client.exception.MsalException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
-@OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = hiltViewModel()) {
+fun MicrosoftLoginScreen(
+    navController: NavHostController,
+    viewModel: AuthViewModel = hiltViewModel()
+) {
     var mAccount: IAccount? = null
 
     var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
     val context = LocalContext.current
 
-    val isClicked = remember {
+    val isClicked = rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -91,9 +84,6 @@ fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = h
                     override fun onAccountLoaded(activeAccount: IAccount?) {
                         mAccount = activeAccount
                         Log.d("ACTIVE USER", "The Active user: $activeAccount")
-                        if (activeAccount != null) {
-
-                        }
                     }
 
                     override fun onAccountChanged(
@@ -139,12 +129,9 @@ fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = h
                         "User Signed In: ${mAccount!!.username}",
                         Toast.LENGTH_SHORT
                     ).show()
-                    CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.storeAccessToken(token)
-                    }
-                    CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.loggedInState(true)
-                    }
+                    viewModel.storeAccessToken(token)
+                    viewModel.loggedInState(true)
+
                     navController.navigate(Routes.Home.route) {
                         navController.graph.startDestinationRoute?.let {
                             popUpTo(it) {
@@ -158,9 +145,8 @@ fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = h
                         authenticationResult.accessToken,
                         { response ->
                             val user = User.fromJSON(response)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                viewModel.storeUserData(name = user.givenName)
-                            }
+                            viewModel.storeUserData(name = user.givenName)
+
                         },
                         { error ->
                             isClicked.value = true
@@ -171,10 +157,8 @@ fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = h
                         authenticationResult.accessToken,
                         { response ->
                             Log.d(TAG, "success: $response")
-                            CoroutineScope(Dispatchers.IO).launch {
-                                val photo = Base64.encodeToString(response, Base64.DEFAULT)
-                                viewModel.storeUserData(photo = photo)
-                            }
+                            val photo = Base64.encodeToString(response, Base64.DEFAULT)
+                            viewModel.storeUserData(photo = photo)
                         }, { error ->
                             isClicked.value = true
                             Log.d(TAG, "error: $error")
@@ -211,9 +195,7 @@ fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = h
                 override fun onSuccess(authenticationResult: IAuthenticationResult?) {
                     if (authenticationResult != null) {
                         val acessToken = authenticationResult.accessToken
-                        CoroutineScope(Dispatchers.IO).launch {
-                            viewModel.storeAccessToken(acessToken)
-                        }
+                        viewModel.storeAccessToken(acessToken)
                         navController.navigate(Routes.Home.route) {
                             navController.graph.startDestinationRoute?.let {
                                 popUpTo(it) {
@@ -221,32 +203,6 @@ fun LoginInScreen(navController: NavHostController, viewModel: AuthViewModel = h
                                 }
                             }
                         }
-//                        MSGRequestWrapper.callGraphAPI(
-//                            context,
-//                            authenticationResult.accessToken,
-//                            { response ->
-//                                val user = User.fromJSON(response)
-//                                viewModel.storeUserData(name = user.givenName)
-//                            },
-//                            { error ->
-//                                isClicked.value = true
-////                                displayError(error)
-//                            })
-//                        MSGRequestWrapper.callGraphPhotoAPI(
-//                            context,
-//                            authenticationResult.accessToken,
-//                            { response ->
-//                                Log.d(TAG, "success: $response")
-//                                val photo = Base64.encodeToString(response, Base64.DEFAULT)
-////                                Log.d("PHOTO64", "Photo: $photo")
-//                                viewModel.storeUserData(photo = photo)
-//                            }, { error ->
-//                                isClicked.value = true
-//                                Log.d(TAG, "error: $error")
-////                                displayError(error)
-//                            }
-//                        )
-                        Log.d(TAG, authenticationResult.accessToken)
                     }
                 }
 

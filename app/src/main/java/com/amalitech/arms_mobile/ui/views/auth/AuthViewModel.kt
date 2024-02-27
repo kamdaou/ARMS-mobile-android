@@ -1,6 +1,5 @@
 package com.amalitech.arms_mobile.ui.views.auth
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amalitech.arms_mobile.data.datasources.TokenDataStore
@@ -28,30 +27,28 @@ class AuthViewModel @Inject constructor(
         initialValue = null
     )
 
-    var loggedIn: StateFlow<Boolean> = dataStore.getLoggedInState().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = false
-    )
-
-    suspend fun storeAccessToken(token: String) {
-        dataStore.storeAccessToken(token)
+    fun storeAccessToken(token: String) {
+        viewModelScope.launch {
+            dataStore.storeAccessToken(token)
+        }
     }
 
-    suspend fun loggedInState(loggedIn: Boolean) {
-        dataStore.storeLoginState(loggedIn)
+    fun loggedInState(loggedIn: Boolean) {
+        viewModelScope.launch {
+            dataStore.storeLoginState(loggedIn)
+        }
     }
 
-    suspend fun storeUserData(name: String? = null, photo: String? = null) {
-        if (name != null || photo != null) {
-//            viewModelScope.launch {
+    fun storeUserData(name: String? = null, photo: String? = null) {
+        viewModelScope.launch {
+            if (name != null || photo != null) {
                 if (name != null) {
-                    dataStore.storeUserData(name)
+                    launch { dataStore.storeUserData(name) }
                 }
                 if (photo != null) {
-                    dataStore.storeUserPhoto(photo)
+                    launch { dataStore.storeUserPhoto(photo) }
                 }
-//            }
+            }
         }
     }
 }

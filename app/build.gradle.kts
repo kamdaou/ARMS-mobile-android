@@ -30,15 +30,15 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "GRAPHQL_URL", envProperties["graphqlUrl"]?.toString() ?: "")
+        buildConfigField("String", "GRAPHQL_URL", envProperties["GRAPHQL_URL"]?.toString() ?: "")
     }
 
     signingConfigs {
         create("release") {
-            storeFile = file(envProperties["storeFile"]?.toString() ?: "")
-            storePassword = envProperties["storePassword"]?.toString() ?: ""
-            keyAlias = envProperties["keyAlias"]?.toString() ?: ""
-            keyPassword = envProperties["keyPassword"]?.toString() ?: ""
+            storeFile = file(envProperties["STORE_FILE"]?.toString() ?: "")
+            storePassword = envProperties["STORE_PASSWORD"]?.toString() ?: ""
+            keyAlias = envProperties["KEY_ALIAS"]?.toString() ?: ""
+            keyPassword = envProperties["KEY_PASSWORD"]?.toString() ?: ""
         }
     }
 
@@ -133,6 +133,8 @@ dependencies {
     }
     implementation("com.microsoft.graph:microsoft-graph:5.80.0")
     implementation("com.azure:azure-identity:1.10.0")
+
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
 }
 
 kapt {

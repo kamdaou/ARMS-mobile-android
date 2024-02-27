@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,22 +22,19 @@ import com.amalitech.arms_mobile.ui.components.HorizontalListBuilder
 import com.amalitech.arms_mobile.ui.components.HorizontalShimmer
 import com.amalitech.arms_mobile.ui.components.StaffDisplayCard
 import com.amalitech.arms_mobile.ui.views.home.LeaveUiState
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun LeaveSection(
-    stateFlow: StateFlow<LeaveUiState>,
+    stateFlow: LeaveUiState,
     onReload: () -> Unit,
     navigateToView: () -> Unit,
 ) {
-    val state = stateFlow.collectAsState()
-
     HorizontalListBuilder(
         title = "Who's out",
-        items = state.value.leaves,
-        error = state.value.hasError,
-        loading = state.value.isLoading,
-        onExpand = if(state.value.leaves.isNotEmpty()) navigateToView else null,
+        items = stateFlow.leaves,
+        error = stateFlow.hasError,
+        loading = stateFlow.isLoading,
+        onExpand = if (stateFlow.leaves.isNotEmpty()) navigateToView else null,
         loadingIndicator = {
             HorizontalShimmer(
                 modifier = Modifier
@@ -85,7 +81,6 @@ fun LeaveSection(
             position = item.position ?: "",
             type = item.type ?: ""
         )
-
     }
 }
 

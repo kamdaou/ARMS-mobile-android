@@ -27,11 +27,12 @@ import com.amalitech.arms_mobile.ui.components.OutlineBorderTextFormField
 
 @Preview(showBackground = true)
 @Composable
-fun ForgotPassword() {
+fun ForgotPasswordScreen() {
 
     Scaffold(
         modifier = Modifier
-            .padding(horizontal = 18.dp
+            .padding(
+                horizontal = 18.dp
             )
     ) { padding ->
         Column(
@@ -49,7 +50,6 @@ fun ForgotPassword() {
                     contentDescription = "arms logo",
                     modifier = Modifier.width(150.dp)
                 )
-
             }
             Text(
                 text = "Forgot your password",
@@ -69,8 +69,6 @@ fun ForgotPassword() {
             Text(text = "Email address")
             OutlineBorderTextFormField("hello@example.c")
             Spacer(modifier = Modifier.height(28.dp))
-
         }
-
     }
 }

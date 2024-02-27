@@ -2,7 +2,6 @@ package com.amalitech.arms_mobile.ui.views.home
 
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -21,7 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +30,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.ui.views.auth.AuthViewModel
@@ -45,19 +45,23 @@ fun HomeScreenContent(
     expandCelebrations: () -> Unit,
     expandWhoIsOut: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
-        authViewModel: AuthViewModel = hiltViewModel()
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
     val scrollState: ScrollState = rememberScrollState()
+    val photo by authViewModel.photo.collectAsStateWithLifecycle()
+    val email by authViewModel.email.collectAsStateWithLifecycle()
+    val leaveState by viewModel.leaveState.collectAsStateWithLifecycle()
+    val celebrationState by viewModel.celebrationState.collectAsStateWithLifecycle()
 
     Box(
         modifier = modifier.background(color = Color(0xffFAFAFA))
     ) {
         Column(modifier = Modifier.verticalScroll(scrollState)) {
             AppBar(
-                image = authViewModel.photo.collectAsState().value
+                image = photo
             )
             Text(
-                text = "Good day, ${authViewModel.email.collectAsState().value} 😊",
+                text = "Good day, $email 😊",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier
                     .padding(top = dimensionResource(id = R.dimen.padding_small))
@@ -72,17 +76,15 @@ fun HomeScreenContent(
             )
             Spacer(modifier = Modifier.height(16.dp))
             LeaveSection(
-                viewModel.leaveState,
+                leaveState,
                 onReload = {
-                    viewModel.viewModelScope.launch {
-                        viewModel.getLeaveData()
-                    }
+                    viewModel.getLeaveData()
                 },
                 navigateToView = expandWhoIsOut,
             )
             Spacer(modifier = Modifier.height(16.dp))
             CelebrationSection(
-                viewModel.celebrationState,
+                celebrationState,
                 onReload = {
                     viewModel.viewModelScope.launch {
                         viewModel.getCelebrationData()
@@ -99,7 +101,6 @@ fun HomeScreenContent(
 fun AppBar(
     image: String?
 ) {
-
     Row(
         modifier = Modifier
             .padding(

@@ -57,7 +57,7 @@ fun <T : Any> ViewAllGridView(
                         .padding(dimensionResource(id = R.dimen.padding_small))
                         .size(dimensionResource(id = R.dimen.padding_large))
                         .clickable { popAction() },
-                    painter = painterResource(id = R.drawable.arrow_left),
+                    painter = painterResource(id = R.drawable.arrow_back),
                     contentDescription = null,
                 )
             }

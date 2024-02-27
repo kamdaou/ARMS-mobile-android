@@ -1,16 +1,12 @@
 package com.amalitech.arms_mobile
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.amalitech.arms_mobile.data.datasources.TokenDataStore
 import com.amalitech.arms_mobile.ui.theme.ARMSMobileTheme
-import com.amalitech.arms_mobile.ui.views.auth.AuthViewModel
-import com.amalitech.arms_mobile.ui.views.auth.LoginInScreen
+import com.amalitech.arms_mobile.ui.views.auth.MicrosoftLoginScreen
 import com.amalitech.arms_mobile.ui.views.celebrations.CelebrationScreen
 import com.amalitech.arms_mobile.ui.views.help.HelpScreen
 import com.amalitech.arms_mobile.ui.views.home.HomeScreen
@@ -20,7 +16,6 @@ import com.amalitech.arms_mobile.ui.views.leaves.WhoIsOutScreen
 @Composable
 fun MainApp() {
     val navController: NavHostController = rememberNavController()
-    val authView: AuthViewModel = hiltViewModel()
 
     ARMSMobileTheme {
 
@@ -28,17 +23,18 @@ fun MainApp() {
             navController = navController,
             startDestination = Routes.Login.route,
         ) {
-            composable(Routes.Login.route){
-                LoginInScreen(
+            composable(Routes.Login.route) {
+                MicrosoftLoginScreen(
                     navController = navController,
                 )
             }
-            composable(Routes.HelpSupport.route){
+            composable(Routes.HelpSupport.route) {
                 HelpScreen()
             }
             composable(Routes.Home.route) {
                 HomeScreen(
-                    navController = navController
+                    navigateToCelebration = { navController.navigate(Routes.Celebrations.route) },
+                    navigateToLeaves = { navController.navigate(Routes.Leaves.route) }
                 )
             }
             composable(Routes.Leaves.route) {
@@ -48,7 +44,7 @@ fun MainApp() {
             }
             composable(Routes.Celebrations.route) {
                 CelebrationScreen(
-                    navController = navController
+                    popBackStack = { navController.popBackStack() }
                 )
             }
         }

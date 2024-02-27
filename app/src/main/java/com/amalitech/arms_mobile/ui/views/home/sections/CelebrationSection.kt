@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,22 +23,19 @@ import com.amalitech.arms_mobile.ui.components.HorizontalListBuilder
 import com.amalitech.arms_mobile.ui.components.HorizontalShimmer
 import com.amalitech.arms_mobile.ui.components.StaffCelebrationCard
 import com.amalitech.arms_mobile.ui.views.celebrations.CelebrationUiState
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun CelebrationSection(
-    stateFlow: StateFlow<CelebrationUiState>,
+    stateFlow: CelebrationUiState,
     onReload: () -> Unit,
     navigateToView: () -> Unit,
 ) {
-    val state = stateFlow.collectAsState()
-
     HorizontalListBuilder(
         title = "Celebrations",
-        items = state.value.celebrations,
-        error = state.value.hasError,
-        loading = state.value.isLoading,
-        onExpand = if(state.value.celebrations.isNotEmpty()) navigateToView else null,
+        items = stateFlow.celebrations,
+        error = stateFlow.hasError,
+        loading = stateFlow.isLoading,
+        onExpand = if (stateFlow.celebrations.isNotEmpty()) navigateToView else null,
         loadingIndicator = {
             HorizontalShimmer(
                 modifier = Modifier

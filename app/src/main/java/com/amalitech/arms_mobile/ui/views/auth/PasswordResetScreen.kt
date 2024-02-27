@@ -28,11 +28,12 @@ import com.amalitech.arms_mobile.R
 
 @Preview(showBackground = true)
 @Composable
-fun PasswordRest() {
+fun PasswordResetScreen() {
 
     Scaffold(
         modifier = Modifier
-            .padding(horizontal = 18.dp
+            .padding(
+                horizontal = 18.dp
             )
     ) { padding ->
         Column(
@@ -53,7 +54,10 @@ fun PasswordRest() {
                 )
 
             }
-            Image(painter = painterResource(id = R.drawable.fi_1652598), contentDescription = "logo")
+            Image(
+                painter = painterResource(id = R.drawable.fi_1652598),
+                contentDescription = "logo"
+            )
             Text(
                 text = "Password reset\ninstructions sent!",
                 style = TextStyle(
@@ -66,7 +70,7 @@ fun PasswordRest() {
                 text = "We have sent an email to" +
                         "hello@example.com that contains a link to update your password."
 
-                )
+            )
             Spacer(modifier = Modifier.height(40.dp))
 
             Row(

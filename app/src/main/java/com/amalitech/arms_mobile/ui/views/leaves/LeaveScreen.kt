@@ -10,7 +10,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.ui.components.CheckBoxListItemData
@@ -39,23 +39,21 @@ import kotlinx.coroutines.launch
 @Composable
 fun WhoIsOutScreen(
     navController: NavController,
+    viewModel: WhoIsOutViewModel = hiltViewModel()
 ) {
-    val viewModel: WhoIsOutViewModel = hiltViewModel()
-    val state = viewModel.state.collectAsState()
-
+    val state = viewModel.state.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
-
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
+    val filteredData by viewModel.filteredData.collectAsStateWithLifecycle()
 
 
     ViewAllGridView(
         popAction = {
             navController.popBackStack()
         },
-        itemsData = viewModel.filteredData,
-//        key = { it.id },
-        title = "Who's Out (${viewModel.filteredData.size})",
+        itemsData = filteredData,
+        title = "Who's Out (${filteredData.size})",
         subtitle = "List of employees who will not be in the office",
         loading = state.value.isLoading,
         emptyListBuilder = {
@@ -132,7 +130,6 @@ fun WhoIsOutScreen(
                         scope.launch {
                             viewModel.updateCheckedList(it)
                             sheetState.hide()
-
                         }.invokeOnCompletion {
                             showBottomSheet = false
                         }
@@ -183,4 +180,3 @@ fun WhoIsOutScreen(
         }
     }
 }
-

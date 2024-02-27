@@ -10,7 +10,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,9 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.amalitech.arms_mobile.R
-import com.amalitech.arms_mobile.core.utilities.AppRoute
 import com.amalitech.arms_mobile.core.utilities.DateTimeFormatter
 import com.amalitech.arms_mobile.core.utilities.StringFormatter
 import com.amalitech.arms_mobile.ui.components.CheckBoxListItemData
@@ -41,24 +39,22 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CelebrationScreen(
-    navController: NavController,
+    viewModel: CelebrationViewModel = hiltViewModel(),
+    popBackStack: () -> Unit
 ) {
-    val viewModel: CelebrationViewModel = hiltViewModel()
-    val state = viewModel.state.collectAsState()
 
+    val state = viewModel.state.collectAsStateWithLifecycle()
+    val filteredData by viewModel.filteredData.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
 
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
 
     ViewAllGridView(
-        popAction = {
-            navController.popBackStack()
-        },
+        popAction = popBackStack,
         loading = state.value.isLoading,
-        itemsData = viewModel.filteredData,
-//        key = { it.staff.id },
-        title = "Celebrations (${viewModel.filteredData.size})",
+        itemsData = filteredData,
+        title = "Celebrations (${filteredData.size})",
         subtitle = "List of employees who are celebrating",
         emptyListBuilder = {
             Box(
@@ -118,7 +114,7 @@ fun CelebrationScreen(
                 "Happy Birthday"
             } else {
                 "${DateTimeFormatter.anniversary(item.anniversary)} Anniversary"
-                   },
+            },
         )
     }
 
