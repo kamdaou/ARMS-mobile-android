@@ -15,13 +15,13 @@ object DataSourceModule {
 
     @Singleton
     @Provides
-    fun provideLeaveDataSource(apolloClient: ApolloClient) : LeaveDataSource {
+    fun provideLeaveDataSource(apolloClient: ApolloClient): LeaveDataSource {
         return LeaveDataSource(apolloClient)
     }
 
     @Singleton
     @Provides
-    fun provideCelebrationDataSource(apolloClient: ApolloClient) : CelebrationDataSource {
+    fun provideCelebrationDataSource(apolloClient: ApolloClient): CelebrationDataSource {
         return CelebrationDataSource(apolloClient)
     }
 

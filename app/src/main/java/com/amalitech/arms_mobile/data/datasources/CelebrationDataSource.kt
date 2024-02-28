@@ -1,40 +1,22 @@
 package com.amalitech.arms_mobile.data.datasources
 
 import com.amalitech.GetCelebrationsQuery
-import com.amalitech.arms_mobile.core.utilities.TypedResponse
-import com.amalitech.arms_mobile.data.entities.CelebrationEntity
-import com.amalitech.arms_mobile.data.entities.toCelebrationEntity
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.ApolloResponse
 import javax.inject.Inject
 
-class CelebrationDataSource@Inject constructor(
+class CelebrationDataSource @Inject constructor(
     private val apolloClient: ApolloClient,
 ) {
 
-    suspend fun celebrations(): TypedResponse<List<CelebrationEntity>> {
-        val response = apolloClient
+    suspend fun celebrations(): ApolloResponse<GetCelebrationsQuery.Data> {
+        return apolloClient
             .query(GetCelebrationsQuery())
             .execute()
-
-        val errors = response.errors?.first()?.message
-
-        if (!response.hasErrors()) {
-            val data = response.data?.getCelebrations
-
-            val celebrations = data?.mapNotNull { it!!.toCelebrationEntity() } ?: emptyList()
-
-            return TypedResponse.Success(
-                data = celebrations
-            )
-        }
-
-        return TypedResponse.Error(
-            message = errors ?: "Couldn't retrieve data",
-        )
     }
 }
 
 fun GetCelebrationsQuery.GetCelebration.filterNullProperties(): Boolean {
-    val properties =  full_name != null && position_name != null
+    val properties = full_name != null && position_name != null
     return properties
 }
