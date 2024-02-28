@@ -34,7 +34,7 @@ fun HomeScreen(
     val navItems: Array<Pair<Int, String>> = arrayOf(
         Pair(R.drawable.home, "Home"),
         Pair(R.drawable.clock, "Clock"),
-        Pair(R.drawable.event, "Leaves"),
+        Pair(R.drawable.calendar_tick, "Leaves"),
         Pair(R.drawable.wallet_check, "Loans"),
     )
 
