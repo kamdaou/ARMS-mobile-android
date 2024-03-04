@@ -5,12 +5,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.amalitech.arms_mobile.ui.theme.ARMSMobileTheme
 import com.amalitech.arms_mobile.ui.views.auth.MicrosoftLoginScreen
-import com.amalitech.arms_mobile.ui.views.celebrations.CelebrationScreen
 import com.amalitech.arms_mobile.ui.views.help.HelpScreen
-import com.amalitech.arms_mobile.ui.views.home.HomeScreen
-import com.amalitech.arms_mobile.ui.views.leaves.WhoIsOutScreen
+import com.amalitech.home.celebrations.CelebrationScreen
+import com.amalitech.home.home.HomeScreen
+import com.amalitech.home.leaves.WhoIsOutScreen
+import com.amalitech.ui.theme.ARMSMobileTheme
 
 
 @Composable

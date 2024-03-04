@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.amalitech.arms_mobile.R
+import com.amalitech.domain.R
 
 @Composable
 fun OutlineBorderTextFormField(text: String) {

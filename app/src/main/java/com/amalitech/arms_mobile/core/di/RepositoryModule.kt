@@ -1,9 +1,5 @@
 package com.amalitech.arms_mobile.core.di
 
-import com.amalitech.arms_mobile.data.repositories.CelebrationRepositoryImpl
-import com.amalitech.arms_mobile.data.repositories.LeaveRepositoryImpl
-import com.amalitech.arms_mobile.domain.respositories.CelebrationRepository
-import com.amalitech.arms_mobile.domain.respositories.LeaveRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,13 +16,13 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindLeaveRepository(
-        leaveRepository: LeaveRepositoryImpl
-    ): LeaveRepository
+        leaveRepository: com.amalitech.home.repositories.LeaveRepositoryImpl
+    ): com.amalitech.home.repositories.LeaveRepository
 
     @Binds
     abstract fun bindCelebrationRepository(
-        celebrationRepository: CelebrationRepositoryImpl
-    ): CelebrationRepository
+        celebrationRepository: com.amalitech.home.repositories.CelebrationRepositoryImpl
+    ): com.amalitech.home.repositories.CelebrationRepository
 }
 
 @Module

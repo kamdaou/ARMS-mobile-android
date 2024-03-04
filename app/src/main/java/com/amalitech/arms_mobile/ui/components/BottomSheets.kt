@@ -36,9 +36,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.core.utilities.AuthenticationException
-import com.amalitech.arms_mobile.ui.theme.primaryColor
+import com.amalitech.domain.R
+import com.amalitech.ui.theme.primaryColor
 import kotlinx.coroutines.launch
 
 data class BottomSheetContent(

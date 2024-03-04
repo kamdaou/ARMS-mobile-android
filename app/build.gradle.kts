@@ -4,7 +4,6 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.apollographql.apollo3)
     alias(libs.plugins.dagger.hilt.android)
     kotlin("kapt")
 }
@@ -73,7 +72,7 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtensionVersion.get()
     }
     packaging {
         resources.excludes.add("META-INF/*")
@@ -86,6 +85,11 @@ android {
 dependencies {
 
     implementation(project(":ui:home"))
+    implementation(project(":data:home"))
+    implementation(project(":domain:home"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
@@ -112,7 +116,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.volley)
     implementation(libs.legacy.support.v4)
-    implementation(libs.appolo.runtime)
     implementation(libs.opentelemetry.api)
     implementation(libs.opentelemetry.context)
     implementation(libs.androidx.datastore.preferences)
@@ -130,15 +133,4 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
-}
-
-apollo {
-    service("service") {
-        packageName.set("com.amalitech")
-        introspection {
-            endpointUrl.set(envProperties["graphqlUrl"]?.toString() ?: "")
-            schemaFile.set(file("src/main/graphql/schema.graphqls"))
-        }
-        generateKotlinModels.set(true)
-    }
 }

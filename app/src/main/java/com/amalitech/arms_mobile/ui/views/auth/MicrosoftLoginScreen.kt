@@ -35,14 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.Routes
 import com.amalitech.arms_mobile.core.utilities.AuthenticationException
 import com.amalitech.arms_mobile.core.utilities.GraphApiResponseError
 import com.amalitech.arms_mobile.core.utilities.User
-import com.amalitech.arms_mobile.data.datasources.MSGRequestWrapper
 import com.amalitech.arms_mobile.ui.components.AppModalSheet
 import com.amalitech.arms_mobile.ui.components.ErrorBottomSheet
+import com.amalitech.domain.R
 import com.android.volley.VolleyError
 import com.microsoft.identity.client.AcquireTokenSilentParameters
 import com.microsoft.identity.client.AuthenticationCallback
@@ -140,7 +139,7 @@ fun MicrosoftLoginScreen(
                         }
                     }
                     Log.d("IToken", "Access Token: $token")
-                    MSGRequestWrapper.callGraphAPI(
+                    com.amalitech.home.datasources.MSGRequestWrapper.callGraphAPI(
                         context,
                         authenticationResult.accessToken,
                         { response ->
@@ -152,7 +151,7 @@ fun MicrosoftLoginScreen(
                             isClicked.value = true
                             displayError(error)
                         })
-                    MSGRequestWrapper.callGraphPhotoAPI(
+                    com.amalitech.home.datasources.MSGRequestWrapper.callGraphPhotoAPI(
                         context,
                         authenticationResult.accessToken,
                         { response ->

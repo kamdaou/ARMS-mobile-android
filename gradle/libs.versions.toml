@@ -38,6 +38,7 @@ kotlin-jvm = "1.9.0"
 android-library = "8.2.2"
 apollo-version = "4.0.0-beta.4"
 junit-android-test = "1.1.5"
+kotlinCompilerExtensionVersion = "1.5.1"
 
 [libraries]
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
