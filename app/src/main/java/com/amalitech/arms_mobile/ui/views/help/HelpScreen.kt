@@ -18,16 +18,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.amalitech.arms_mobile.R
 import com.amalitech.arms_mobile.ui.components.AppSucessModalSheet
 import com.amalitech.arms_mobile.ui.components.OutlineBorderTextFormField
+import com.amalitech.domain.R
 
 @Composable
 fun HelpScreen() {
     Scaffold { paddingValues ->
-        Column(modifier = Modifier
-            .padding(paddingValues)
-            .padding(18.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(18.dp)
+        ) {
             Row {
                 Icon(
                     tint = Color.Gray,

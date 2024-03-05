@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ARMS-Mobile</string>
+    <string name="an_exception_occurred_please_try_again_later">An exception occurred, please try again later</string>
+    <string name="couldn_t_retrieve_data">Couldn\'t retrieve data</string>
+</resources>

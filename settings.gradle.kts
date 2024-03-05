@@ -6,8 +6,8 @@ pluginManagement {
     }
     resolutionStrategy {
         eachPlugin {
-            when (requested.id.id){
-                "Kotlinx-serialization"->{
+            when (requested.id.id) {
+                "Kotlinx-serialization" -> {
                     useModule("org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:${requested.version}")
                 }
             }
@@ -25,4 +25,13 @@ dependencyResolutionManagement {
 
 rootProject.name = "ARMS-Mobile"
 include(":app")
- 
+include(":ui")
+include(":domain")
+include(":data")
+include(":ui:home")
+include(":core")
+include(":core:ui")
+include(":core:data")
+include(":core:domain")
+include(":domain:home")
+include(":data:home")

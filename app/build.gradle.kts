@@ -2,10 +2,9 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.apollographql.apollo3") version "4.0.0-beta.4"
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.dagger.hilt.android)
     kotlin("kapt")
 }
 
@@ -30,15 +29,15 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "GRAPHQL_URL", envProperties["graphqlUrl"]?.toString() ?: "")
+        buildConfigField("String", "GRAPHQL_URL", envProperties["GRAPHQL_URL"]?.toString() ?: "")
     }
 
     signingConfigs {
         create("release") {
-            storeFile = file(envProperties["storeFile"]?.toString() ?: "")
-            storePassword = envProperties["storePassword"]?.toString() ?: ""
-            keyAlias = envProperties["keyAlias"]?.toString() ?: ""
-            keyPassword = envProperties["keyPassword"]?.toString() ?: ""
+            storeFile = file(envProperties["STORE_FILE"]?.toString() ?: "")
+            storePassword = envProperties["STORE_PASSWORD"]?.toString() ?: ""
+            keyAlias = envProperties["KEY_ALIAS"]?.toString() ?: ""
+            keyPassword = envProperties["KEY_PASSWORD"]?.toString() ?: ""
         }
     }
 
@@ -73,7 +72,7 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtensionVersion.get()
     }
     packaging {
         resources.excludes.add("META-INF/*")
@@ -85,67 +84,53 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation(project(":ui:home"))
+    implementation(project(":data:home"))
+    implementation(project(":domain:home"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
 
-    testImplementation("junit:junit:4.13.2")
+    implementation(libs.core.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
+    testImplementation(libs.junit)
 
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.02.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    androidTestImplementation("androidx.test:runner:1.5.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.ui.test.junit4)
+    androidTestImplementation(libs.runner)
+    androidTestImplementation(libs.espresso.core)
 
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
 
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    kapt(libs.hilt.android.compiler)
 
-    implementation("com.google.dagger:hilt-android:2.50")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("com.android.volley:volley:1.2.1")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.apollographql.apollo3:apollo-runtime")
-    implementation("io.opentelemetry:opentelemetry-api:1.18.0")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("io.opentelemetry:opentelemetry-context:1.18.0")
-    implementation("io.coil-kt:coil-compose:2.5.0")
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("com.google.android.datatransport:transport-runtime:3.2.0")
-    implementation("com.microsoft.identity.client:msal:4.10.0")
+    implementation(libs.bundles.hilt)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.appcompat)
+    implementation(libs.constraintlayout)
+    implementation(libs.material)
+    implementation(libs.volley)
+    implementation(libs.legacy.support.v4)
+    implementation(libs.opentelemetry.api)
+    implementation(libs.opentelemetry.context)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.transport.runtime)
+    implementation(libs.msal)
     {
         exclude(group = "io.opentelemetry")
         exclude(group = "com.microsoft.device.display")
     }
-    implementation("com.microsoft.graph:microsoft-graph:5.80.0")
-    implementation("com.azure:azure-identity:1.10.0")
+    implementation(libs.microsoft.graph)
+    implementation(libs.azure.identity)
+
+    implementation(libs.androidx.lifecycle.runtime.compose)
 }
 
 kapt {
     correctErrorTypes = true
-}
-
-apollo {
-    service("service") {
-        packageName.set("com.amalitech")
-        introspection {
-            endpointUrl.set(envProperties["graphqlUrl"]?.toString() ?: "")
-            schemaFile.set(file("src/main/graphql/schema.graphqls"))
-        }
-        generateKotlinModels.set(true)
-    }
 }
