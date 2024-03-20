@@ -18,7 +18,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.amalitech.arms_mobile.test"
+        applicationId = "com.amalitech.arms_mobile"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
